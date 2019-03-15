@@ -110,8 +110,6 @@ bray_curtis(s1, s2)
 Again, we'll use a vector called `ecofuncs_beta` to compute every dissimilarity measure in the library.
 
 ``` r
-devtools::load_all()
-#> Loading ecofuncs
 data_frame(Measure = ecofuncs_beta) %>%
   filter(!(Measure %in% "russel_rao")) %>%
   group_by(Measure) %>%
