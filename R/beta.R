@@ -14,6 +14,21 @@ dist_long <- function (data, row_key, col_key, value, distance_fcn) {
   usedist::dist_make(data_matrix, distance_fcn)
 }
 
+#' All beta-diversity measures
+#'
+#' We exclude the phylogenetic measures and functions that return multiple
+#' values.
+#' @export
+ecofuncs_beta <- c(
+  "euclidean", "rms_distance", "chord", "clark_coefficient_of_divergence",
+  "geodisc_metric", "manhattan", "mean_character_difference",
+  "modified_mean_character_difference", "canberra", "chebyshev", "correlation",
+  "cosine", "bray_curtis", "hellinger", "kulczynski", "kulczynski_cody",
+  "kulczynski_mothur", "kulczynski_scipy", "rogers_tanimoto", "russel_rao",
+  "sokal_michener", "sokal_sneath", "yule", "gower", "alt_gower", "minkowski",
+  "morisita", "cao", "millar", "morisita_horn", "jaccard", "sorenson",
+  "whittaker", "hamming")
+
 #' Euclidean distance
 #'
 #' @param x,y Numeric vectors
@@ -300,7 +315,7 @@ alt_gower <- function (x, y) {
 #' Equivalent to minkowski() function in scipy.spatial.distance.
 #' Equivalent to D_6 in Legendre & Legendre.
 #' @export
-minkowski <- function (x, y, p) {
+minkowski <- function (x, y, p = 1) {
   sum(abs(x - y) ^ p) ^ (1 / p)
 }
 

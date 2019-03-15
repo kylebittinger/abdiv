@@ -4,7 +4,7 @@
 \alias{minkowski}
 \title{Minkowski distance}
 \usage{
-minkowski(x, y, p)
+minkowski(x, y, p = 1)
 }
 \description{
 Equivalent to R's built-in dist() function with method = "minkowski".
