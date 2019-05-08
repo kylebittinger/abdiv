@@ -242,7 +242,9 @@ rogers_tanimoto <- function (x, y) {
 #'
 #' @export
 russel_rao <- function (x, y) {
-  cTT <- sum(x * y)
+  x <- x > 0
+  y <- y > 0
+  cTT <- sum(x & y)
   n <- length(x)
   (n - cTT) / n
 }

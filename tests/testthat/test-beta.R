@@ -265,7 +265,10 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
   expect_equal(rogers_tanimoto(c(1, 0, 0), c(2, 0, 0)), 0)
   expect_equal(russel_rao(c(1, 0, 0), c(0, 1, 0)), 1)
   expect_equal(russel_rao(c(1, 0, 0), c(1, 1, 0)), 2 / 3)
-  expect_equal(russel_rao(c(1, 0, 0), c(2, 0, 0)), 1 / 3)
+  # Scipy transformation gives 1 / 3 here
+  # But more resonable interpretation is that 2 of the 3 values are not
+  # present in both samples, therefore the distance should be 2 / 3
+  expect_equal(russel_rao(c(1, 0, 0), c(2, 0, 0)), 2 / 3)
   # I think Sokal-Michener is EXACTLY the same as Rogers-Tanimoto
   # The formula is definitely the same, and I think the implementation
   # in scipy is also the same.
