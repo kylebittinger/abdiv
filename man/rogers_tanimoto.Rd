@@ -6,7 +6,12 @@
 \usage{
 rogers_tanimoto(x, y)
 }
-\description{
+\arguments{
+\item{x, y}{Numeric vectors
+
 Equivalent to rogerstanimoto() function in scipy.spatial.distance.
-Equivalent to 1 - S_2 in Legendre & Legendre
+Equivalent to 1 - S_2 in Legendre & Legendre}
+}
+\description{
+Rogers-Tanimoto distance
 }

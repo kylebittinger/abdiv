@@ -6,6 +6,11 @@
 \usage{
 sokal_michener(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to... XXXXX}
+}
 \description{
 Sokal-Michener distance
 }

@@ -6,6 +6,11 @@
 \usage{
 cosine(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to cosine() function in scipy.spatial.distance.}
+}
 \description{
-Equivalent to cosine() function in scipy.spatial.distance.
+Cosine distance
 }

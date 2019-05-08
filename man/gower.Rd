@@ -6,6 +6,11 @@
 \usage{
 gower(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to vegdist() with method = "gower".}
+}
 \description{
-Equivalent to vegdist() with method = "gower".
+Gower distance
 }

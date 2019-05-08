@@ -44,12 +44,18 @@ euclidean <- function (x, y) {
 }
 
 #' Root-mean-square distance
+#'
+#' @param x,y Numeric vectors
+#'
+#' Equivalent to D_XXXX in Legendre & Legendre.
 #' @export
 rms_distance <- function (x, y) {
   sqrt(mean((y - x) ^ 2))
 }
 
 #' Chord distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to D_3 in Legendre & Legendre.
 #' @export
@@ -60,6 +66,8 @@ chord <- function (x, y) {
 }
 
 #' Clark's coefficient of divergence
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to D_11 in Legendre & Legendre.
 #' @export
@@ -72,6 +80,8 @@ clark_coefficient_of_divergence <- function (x, y) {
 
 #' Geodisc metric
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to D_4 in Legendre & Legendre.
 #' @export
 geodisc_metric <- function (x, y) {
@@ -79,6 +89,8 @@ geodisc_metric <- function (x, y) {
 }
 
 #' Manhattan or city block distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to R's built-in dist() function with method = "manhattan".
 #' Equivalent to vegdist() with method = "manhattan".
@@ -94,6 +106,8 @@ manhattan <- function (x, y) {
 
 #' Mean character difference
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to D_8 in Legendre & Legendre.
 #' For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
 #' @export
@@ -102,6 +116,8 @@ mean_character_difference <- function (x, y) {
 }
 
 #' Modified mean character difference
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to D_19 in Legendre & Legendre.
 #' For binary data, equivalent to Jaccard distance.
@@ -112,6 +128,8 @@ modified_mean_character_difference <- function (x, y) {
 }
 
 #' Canberra distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to R's built-in dist() function with method = "canberra".
 #' Equivalent to vegdist() with method = "canberra", multiplied by the number of nonzero entries.
@@ -127,6 +145,8 @@ canberra <- function (x, y) {
 
 #' Chebyshev distance
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to chebyshev() function in scipy.spatial.distance.
 #' @export
 chebyshev <- function (x, y) {
@@ -134,6 +154,8 @@ chebyshev <- function (x, y) {
 }
 
 #' Correlation distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to correlation() function in scipy.spatial.distance.
 #' @export
@@ -145,6 +167,8 @@ correlation <- function (x, y) {
 
 #' Cosine distance
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to cosine() function in scipy.spatial.distance.
 #' @export
 cosine <- function (x, y) {
@@ -152,6 +176,8 @@ cosine <- function (x, y) {
 }
 
 #' Bray-Curtis distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to vegdist() with method = "bray".
 #' Equivalent to D_14 = 1 - s_17 in Legendre & Legendre.
@@ -162,6 +188,8 @@ bray_curtis <- function (x, y) {
 
 #' Hellinger distance
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to D_17 in Legendre & Legendre.
 #' @export
 hellinger <- function (x, y) {
@@ -171,6 +199,8 @@ hellinger <- function (x, y) {
 }
 
 #' Kulczynski distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to vegdist() with method = "kulczynski".
 #' @export
@@ -183,6 +213,8 @@ kulczynski <- function (x, y) {
 
 #' Kulczynski-Cody distance
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to 1 - S_13 in Legendre & Legendre.
 #' @export
 kulczynski_cody <- function (x, y) {
@@ -194,6 +226,8 @@ kulczynski_cody <- function (x, y) {
 
 #' Kulczynski distance (Mothur implementation)
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to 1 - S_12 in Legendre & Legendre.
 #' @export
 kulczynski_mothur <- function (x, y) {
@@ -204,6 +238,9 @@ kulczynski_mothur <- function (x, y) {
 }
 
 #' Kulczynski distance (scipy implementation)
+#'
+#' @param x,y Numeric vectors
+#'
 #' @export
 kulczynski_scipy <- function (x, y) {
   n <- length(x)
@@ -224,6 +261,8 @@ scipy_coefficients <- function (x, y) {
 
 #' Rogers-Tanimoto distance
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to rogerstanimoto() function in scipy.spatial.distance.
 #' Equivalent to 1 - S_2 in Legendre & Legendre
 #'
@@ -236,6 +275,8 @@ rogers_tanimoto <- function (x, y) {
 }
 
 #' Russel-Rao distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to russelrao() function in scipy.spatial.distance.
 #' Equivalent to 1 - S_11 in Legendre & Legendre
@@ -250,6 +291,10 @@ russel_rao <- function (x, y) {
 }
 
 #' Sokal-Michener distance
+#'
+#' @param x,y Numeric vectors
+#'
+#' Equivalent to... XXXXX
 #' @export
 sokal_michener <- function (x, y) {
   with(scipy_coefficients(x, y), {
@@ -260,6 +305,8 @@ sokal_michener <- function (x, y) {
 }
 
 #' Sokal-Sneath distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to sokalsneath() function in scipy.spatial.distance.
 #' Equivalent to 1 - S_10 in Legendre & Legendre.
@@ -272,6 +319,8 @@ sokal_sneath <- function (x, y) {
 }
 
 #' Yule distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to yule() function in scipy.spatial.distance.
 #' Equivalent to 1 - S, where S is the Yule coefficient in Legendre & Legendre.
@@ -294,6 +343,8 @@ make_range_scale_fcn <- function (x, y) {
 
 #' Gower distance
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to vegdist() with method = "gower".
 #' @export
 gower <- function (x, y) {
@@ -305,6 +356,8 @@ gower <- function (x, y) {
 
 #' Alternate Gower distance
 #'
+#' @param x,y Numeric vectors
+#'
 #' Equivalent to vegdist() with method = "altGower".
 #' @export
 alt_gower <- function (x, y) {
@@ -312,6 +365,8 @@ alt_gower <- function (x, y) {
 }
 
 #' Minkowski distance
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to R's built-in dist() function with method = "minkowski".
 #' Equivalent to minkowski() function in scipy.spatial.distance.
@@ -322,6 +377,8 @@ minkowski <- function (x, y, p = 1) {
 }
 
 #' Morisita index of dissimilarity
+#'
+#' @param x,y Numeric vectors
 #'
 #' Equivalent to vegdist() with method = "morisita".
 #' @export

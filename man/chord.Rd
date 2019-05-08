@@ -6,6 +6,11 @@
 \usage{
 chord(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to D_3 in Legendre & Legendre.}
+}
 \description{
-Equivalent to D_3 in Legendre & Legendre.
+Chord distance
 }

@@ -6,7 +6,12 @@
 \usage{
 russel_rao(x, y)
 }
-\description{
+\arguments{
+\item{x, y}{Numeric vectors
+
 Equivalent to russelrao() function in scipy.spatial.distance.
-Equivalent to 1 - S_11 in Legendre & Legendre
+Equivalent to 1 - S_11 in Legendre & Legendre}
+}
+\description{
+Russel-Rao distance
 }

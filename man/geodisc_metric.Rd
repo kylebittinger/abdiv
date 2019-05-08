@@ -6,6 +6,11 @@
 \usage{
 geodisc_metric(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to D_4 in Legendre & Legendre.}
+}
 \description{
-Equivalent to D_4 in Legendre & Legendre.
+Geodisc metric
 }

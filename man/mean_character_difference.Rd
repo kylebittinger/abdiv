@@ -6,7 +6,12 @@
 \usage{
 mean_character_difference(x, y)
 }
-\description{
+\arguments{
+\item{x, y}{Numeric vectors
+
 Equivalent to D_8 in Legendre & Legendre.
-For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
+For binary data, equivalent to 1 - S_1 in Legendre & Legendre.}
+}
+\description{
+Mean character difference
 }

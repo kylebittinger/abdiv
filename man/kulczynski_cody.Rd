@@ -6,6 +6,11 @@
 \usage{
 kulczynski_cody(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to 1 - S_13 in Legendre & Legendre.}
+}
 \description{
-Equivalent to 1 - S_13 in Legendre & Legendre.
+Kulczynski-Cody distance
 }

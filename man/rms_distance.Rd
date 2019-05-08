@@ -6,6 +6,11 @@
 \usage{
 rms_distance(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to D_XXXX in Legendre & Legendre.}
+}
 \description{
 Root-mean-square distance
 }

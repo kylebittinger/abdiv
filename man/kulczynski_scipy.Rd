@@ -6,6 +6,9 @@
 \usage{
 kulczynski_scipy(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors}
+}
 \description{
 Kulczynski distance (scipy implementation)
 }

@@ -6,6 +6,11 @@
 \usage{
 clark_coefficient_of_divergence(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to D_11 in Legendre & Legendre.}
+}
 \description{
-Equivalent to D_11 in Legendre & Legendre.
+Clark's coefficient of divergence
 }

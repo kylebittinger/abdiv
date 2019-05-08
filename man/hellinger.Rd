@@ -6,6 +6,11 @@
 \usage{
 hellinger(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to D_17 in Legendre & Legendre.}
+}
 \description{
-Equivalent to D_17 in Legendre & Legendre.
+Hellinger distance
 }

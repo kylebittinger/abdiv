@@ -6,9 +6,14 @@
 \usage{
 canberra(x, y)
 }
-\description{
+\arguments{
+\item{x, y}{Numeric vectors
+
 Equivalent to R's built-in dist() function with method = "canberra".
 Equivalent to vegdist() with method = "canberra", multiplied by the number of nonzero entries.
 Equivalent to canberra() function in scipy.spatial.distance.
-Equivalent to D_10 in Legendre & Legendre.
+Equivalent to D_10 in Legendre & Legendre.}
+}
+\description{
+Canberra distance
 }

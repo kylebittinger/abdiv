@@ -6,7 +6,12 @@
 \usage{
 yule(x, y)
 }
-\description{
+\arguments{
+\item{x, y}{Numeric vectors
+
 Equivalent to yule() function in scipy.spatial.distance.
-Equivalent to 1 - S, where S is the Yule coefficient in Legendre & Legendre.
+Equivalent to 1 - S, where S is the Yule coefficient in Legendre & Legendre.}
+}
+\description{
+Yule distance
 }

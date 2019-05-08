@@ -6,6 +6,11 @@
 \usage{
 kulczynski_mothur(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors
+
+Equivalent to 1 - S_12 in Legendre & Legendre.}
+}
 \description{
-Equivalent to 1 - S_12 in Legendre & Legendre.
+Kulczynski distance (Mothur implementation)
 }

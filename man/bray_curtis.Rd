@@ -6,7 +6,12 @@
 \usage{
 bray_curtis(x, y)
 }
-\description{
+\arguments{
+\item{x, y}{Numeric vectors
+
 Equivalent to vegdist() with method = "bray".
-Equivalent to D_14 = 1 - s_17 in Legendre & Legendre.
+Equivalent to D_14 = 1 - s_17 in Legendre & Legendre.}
+}
+\description{
+Bray-Curtis distance
 }
