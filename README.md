@@ -111,7 +111,6 @@ Again, we'll use a vector called `ecofuncs_beta` to compute every dissimilarity 
 
 ``` r
 data_frame(Measure = ecofuncs_beta) %>%
-  filter(!(Measure %in% "russel_rao")) %>%
   group_by(Measure) %>%
   mutate(Value = get(Measure)(s1, s2)) %>%
   ggplot(aes(x=Measure, y=Value)) +
@@ -122,4 +121,4 @@ data_frame(Measure = ecofuncs_beta) %>%
 
 ![](README-files/README-beta-diversity-1.png)
 
-The dissimilarities are generally positive, and they have a range of scales. Some dissimilarity measures range from 0 to 1, while others can go up indefinitely. The Russel-Rao index is removed, because I implemented it to be equivalent to the index in scipy, and that implementation behaves oddly for vectors that aren't already converted to binary (True/False) values. As it stands, I'm regretting my decision, and will probably change the Russel-Rao distance to something that makes more sense.
+The dissimilarities are generally positive, and they have a range of scales. Some dissimilarity measures range from 0 to 1, while others can go up indefinitely.
