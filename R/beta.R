@@ -213,13 +213,13 @@ kulczynski_scipy <- function (x, y) {
 }
 
 scipy_coefficients <- function (x, y) {
-  not_x <- 1 - x
-  not_y <- 1 - y
+  x <- x > 0
+  y <- y > 0
   list(
-    cTT = sum(x * y),
-    cFT = sum(not_x * y),
-    cTF = sum(x * not_y),
-    cFF = sum(not_x * not_y))
+    cTT = sum(x & y),
+    cFT = sum((!x) & y),
+    cTF = sum(x & (!y)),
+    cFF = sum((!x) & (!y)))
 }
 
 #' Rogers-Tanimoto distance

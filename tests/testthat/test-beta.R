@@ -251,13 +251,18 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
   expect_equal(jaccard(c(1, 0, 0), c(1, 1, 1)), 2 / 3)
   expect_equal(kulczynski_scipy(c(1, 0, 0), c(0, 1, 0)), 1)
   expect_equal(kulczynski_scipy(c(1, 0, 0), c(1, 1, 0)), 0.75)
-  expect_equal(kulczynski_scipy(c(1, 0, 0), c(2, 1, 0)), 1 / 3)
-  expect_equal(kulczynski_scipy(c(1, 0, 0), c(3, 1, 0)), -0.5)
+  # Scipy says this is 1 / 3 based on their weird transformation
+  # With a reasonable transformation, the answer should be 0.75, same as above
+  expect_equal(kulczynski_scipy(c(1, 0, 0), c(2, 1, 0)), 0.75)
+  # Same here. Scipy gets -0.5, should be 0.75, as above
+  expect_equal(kulczynski_scipy(c(1, 0, 0), c(3, 1, 0)), 0.75)
   # Example from https://github.com/scipy/scipy/issues/2009
   expect_equal(kulczynski_scipy(c(1, 1, 0, 0), c(0, 1, 1, 0)), 5 / 6)
   expect_equal(rogers_tanimoto(c(1, 0, 0), c(0, 1, 0)), 0.8)
   expect_equal(rogers_tanimoto(c(1, 0, 0), c(1, 1, 0)), 0.5)
-  expect_equal(rogers_tanimoto(c(1, 0, 0), c(2, 0, 0)), -1)
+  # Scipy gets a value of -1 with their implementation
+  # Correct value is 0; vectors have equivalent species presence/absence
+  expect_equal(rogers_tanimoto(c(1, 0, 0), c(2, 0, 0)), 0)
   expect_equal(russel_rao(c(1, 0, 0), c(0, 1, 0)), 1)
   expect_equal(russel_rao(c(1, 0, 0), c(1, 1, 0)), 2 / 3)
   expect_equal(russel_rao(c(1, 0, 0), c(2, 0, 0)), 1 / 3)
@@ -266,11 +271,15 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
   # in scipy is also the same.
   expect_equal(sokal_michener(c(1, 0, 0), c(0, 1, 0)), 0.8)
   expect_equal(sokal_michener(c(1, 0, 0), c(1, 1, 0)), 0.5)
-  expect_equal(sokal_michener(c(1, 0, 0), c(2, 0, 0)), -1.0)
+  # Scipy gets a value of -1 with their implementation
+  # Correct value is 0; vectors are equivalent in presence/absence
+  expect_equal(sokal_michener(c(1, 0, 0), c(2, 0, 0)), 0)
   expect_equal(sokal_sneath(c(1, 0, 0), c(0, 1, 0)), 1)
   expect_equal(sokal_sneath(c(1, 0, 0), c(1, 1, 0)), 2 / 3)
-  expect_equal(sokal_sneath(c(1, 0, 0), c(2, 1, 0)), 0)
-  expect_equal(sokal_sneath(c(1, 0, 0), c(3, 1, 0)), -2)
+  # Scipy implementation gives 0, should be 2 / 3, as above
+  expect_equal(sokal_sneath(c(1, 0, 0), c(2, 1, 0)), 2 / 3)
+  # Scipy implementation gives -2, should be 2 / 3, as above
+  expect_equal(sokal_sneath(c(1, 0, 0), c(3, 1, 0)), 2 / 3)
   expect_equal(yule(c(1, 0, 0), c(0, 1, 0)), 2)
   expect_equal(yule(c(1, 1, 0), c(0, 1, 0)), 0)
 })
