@@ -7,16 +7,20 @@
 manhattan(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to R's built-in dist() function with method = "manhattan".
-Equivalent to vegdist() with method = "manhattan".
-Equivalent to cityblock() function in scipy.spatial.distance.
-Equivalent to D_7 in Legendre & Legendre.
-Whittaker's index of assiciation (D_9 in Legendre & Legendre) is the
-Manhattan distance computed after transforming to proportions and dividing
-by 2.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Manhattan or city block distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to R's built-in dist() function with method = "manhattan".
+  \item Equivalent to vegdist() with method = "manhattan".
+  \item Equivalent to cityblock() function in scipy.spatial.distance.
+  \item Equivalent to D_7 in Legendre & Legendre.
+  \item Whittaker's index of assiciation (D_9 in Legendre & Legendre) is the
+Manhattan distance computed after transforming to proportions and dividing
+by 2.
+}
 }

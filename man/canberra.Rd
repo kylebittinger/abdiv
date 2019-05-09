@@ -7,13 +7,17 @@
 canberra(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to R's built-in dist() function with method = "canberra".
-Equivalent to vegdist() with method = "canberra", multiplied by the number of nonzero entries.
-Equivalent to canberra() function in scipy.spatial.distance.
-Equivalent to D_10 in Legendre & Legendre.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Canberra distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to R's built-in dist() function with method = "canberra".
+  \item Equivalent to vegdist() with method = "canberra", multiplied by the number of nonzero entries.
+  \item Equivalent to canberra() function in scipy.spatial.distance.
+  \item Equivalent to D_10 in Legendre & Legendre.
+}
 }

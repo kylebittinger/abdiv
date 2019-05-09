@@ -7,5 +7,11 @@
 morisita_horn(x, y)
 }
 \description{
-Equivalent to vegdist() with method = "horn".
+Morisita-Horn index of dissimilarity
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to vegdist() with method = "horn".
+}
 }

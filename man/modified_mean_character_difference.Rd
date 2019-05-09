@@ -7,11 +7,15 @@
 modified_mean_character_difference(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to D_19 in Legendre & Legendre.
-For binary data, equivalent to Jaccard distance.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Modified mean character difference
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to D_19 in Legendre & Legendre.
+  \item For binary data, equivalent to Jaccard distance.
+}
 }

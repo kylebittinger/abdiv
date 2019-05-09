@@ -7,8 +7,14 @@
 jaccard(x, y)
 }
 \description{
-Equivalent to R's built-in dist() function with method = "binary".
-Equivalent to vegdist() with method = "jaccard" and binary = TRUE.
-Equivalent to jaccard() function in scipy.spatial.distance.
-Equivalent to 1 - S7 in Legendre & Legendre.
+Jaccard index of dissimilarity
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to R's built-in dist() function with method = "binary".
+  \item Equivalent to vegdist() with method = "jaccard" and binary = TRUE.
+  \item Equivalent to jaccard() function in scipy.spatial.distance.
+  \item Equivalent to 1 - S7 in Legendre & Legendre.
+}
 }

@@ -7,10 +7,14 @@
 kulczynski(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to vegdist() with method = "kulczynski".}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Kulczynski distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to vegdist() with method = "kulczynski".
+}
 }

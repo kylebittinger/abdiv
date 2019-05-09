@@ -7,6 +7,12 @@
 hamming(x, y)
 }
 \description{
-Equivalent to hamming() function in scipy.spatial.distance
-For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
+Hamming distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to hamming() function in scipy.spatial.distance
+  \item For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
+}
 }

@@ -7,10 +7,14 @@
 geodisc_metric(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to D_4 in Legendre & Legendre.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Geodisc metric
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to D_4 in Legendre & Legendre.
+}
 }

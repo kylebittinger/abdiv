@@ -7,10 +7,14 @@
 alt_gower(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to vegdist() with method = "altGower".}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Alternate Gower distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to vegdist() with method = "altGower".
+}
 }

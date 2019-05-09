@@ -7,5 +7,11 @@
 millar(x, y)
 }
 \description{
-Equivalent to vegdist() with method = "binomial".
+Binomial index of dissimilarity
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to vegdist() with method = "binomial".
+}
 }

@@ -7,10 +7,14 @@
 correlation(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to correlation() function in scipy.spatial.distance.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Correlation distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to correlation() function in scipy.spatial.distance.
+}
 }

@@ -7,10 +7,14 @@
 morisita(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to vegdist() with method = "morisita".}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Morisita index of dissimilarity
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to vegdist() with method = "morisita".
+}
 }

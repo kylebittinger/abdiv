@@ -7,10 +7,14 @@
 chebyshev(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to chebyshev() function in scipy.spatial.distance.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Chebyshev distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to chebyshev() function in scipy.spatial.distance.
+}
 }

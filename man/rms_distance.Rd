@@ -7,10 +7,14 @@
 rms_distance(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to D_XXXX in Legendre & Legendre.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Root-mean-square distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to D_XXXX in Legendre & Legendre.
+}
 }

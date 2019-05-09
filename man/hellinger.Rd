@@ -7,10 +7,14 @@
 hellinger(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to D_17 in Legendre & Legendre.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Hellinger distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to D_17 in Legendre & Legendre.
+}
 }

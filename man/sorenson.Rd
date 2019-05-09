@@ -7,6 +7,12 @@
 sorenson(x, y)
 }
 \description{
-Equivalent to dice() function in scipy.spatial.distance.
-Equivalent to D_13 = 1 - S_8 in Legendre & Legendre.
+Sorenson or Dice index of dissimilarity
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to dice() function in scipy.spatial.distance.
+  \item Equivalent to D_13 = 1 - S_8 in Legendre & Legendre.
+}
 }

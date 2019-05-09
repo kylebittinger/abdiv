@@ -7,12 +7,16 @@
 minkowski(x, y, p = 1)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to R's built-in dist() function with method = "minkowski".
-Equivalent to minkowski() function in scipy.spatial.distance.
-Equivalent to D_6 in Legendre & Legendre.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Minkowski distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to R's built-in dist() function with method = "minkowski".
+  \item Equivalent to minkowski() function in scipy.spatial.distance.
+  \item Equivalent to D_6 in Legendre & Legendre.
+}
 }

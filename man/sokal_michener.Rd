@@ -7,10 +7,14 @@
 sokal_michener(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to... XXXXX}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Sokal-Michener distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to... XXXXX
+}
 }

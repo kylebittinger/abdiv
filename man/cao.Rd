@@ -7,5 +7,11 @@
 cao(x, y)
 }
 \description{
-Equivalent to vegdist() with method = "cao".
+Cao index of dissimilarity
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to vegdist() with method = "cao".
+}
 }

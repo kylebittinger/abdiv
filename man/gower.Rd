@@ -7,10 +7,14 @@
 gower(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to vegdist() with method = "gower".}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Gower distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to vegdist() with method = "gower".
+}
 }

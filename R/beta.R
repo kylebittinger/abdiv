@@ -52,7 +52,11 @@ euclidean <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to D_XXXX in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to D_XXXX in Legendre & Legendre.
+#' }
 #' @export
 rms_distance <- function (x, y) {
   sqrt(mean((y - x) ^ 2))
@@ -62,7 +66,11 @@ rms_distance <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to D_3 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to D_3 in Legendre & Legendre.
+#' }
 #' @export
 chord <- function (x, y) {
   x <- x / sqrt(sum(x ^ 2))
@@ -74,7 +82,11 @@ chord <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to D_11 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to D_11 in Legendre & Legendre.
+#' }
 #' @export
 clark_coefficient_of_divergence <- function (x, y) {
   keep <- (x > 0) | (y > 0)
@@ -87,7 +99,11 @@ clark_coefficient_of_divergence <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to D_4 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to D_4 in Legendre & Legendre.
+#' }
 #' @export
 geodisc_metric <- function (x, y) {
   acos(1 - chord(x, y) / 2)
@@ -97,13 +113,17 @@ geodisc_metric <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to R's built-in dist() function with method = "manhattan".
-#' Equivalent to vegdist() with method = "manhattan".
-#' Equivalent to cityblock() function in scipy.spatial.distance.
-#' Equivalent to D_7 in Legendre & Legendre.
-#' Whittaker's index of assiciation (D_9 in Legendre & Legendre) is the
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to R's built-in dist() function with method = "manhattan".
+#'   \item Equivalent to vegdist() with method = "manhattan".
+#'   \item Equivalent to cityblock() function in scipy.spatial.distance.
+#'   \item Equivalent to D_7 in Legendre & Legendre.
+#'   \item Whittaker's index of assiciation (D_9 in Legendre & Legendre) is the
 #' Manhattan distance computed after transforming to proportions and dividing
 #' by 2.
+#' }
 #' @export
 manhattan <- function (x, y) {
   sum(abs(y - x))
@@ -113,8 +133,12 @@ manhattan <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to D_8 in Legendre & Legendre.
-#' For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to D_8 in Legendre & Legendre.
+#'   \item For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
+#' }
 #' @export
 mean_character_difference <- function (x, y) {
   manhattan(x, y) / length(x)
@@ -124,8 +148,12 @@ mean_character_difference <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to D_19 in Legendre & Legendre.
-#' For binary data, equivalent to Jaccard distance.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to D_19 in Legendre & Legendre.
+#'   \item For binary data, equivalent to Jaccard distance.
+#' }
 #' @export
 modified_mean_character_difference <- function (x, y) {
   pp <- sum((x > 0) | (y > 0))
@@ -136,10 +164,14 @@ modified_mean_character_difference <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to R's built-in dist() function with method = "canberra".
-#' Equivalent to vegdist() with method = "canberra", multiplied by the number of nonzero entries.
-#' Equivalent to canberra() function in scipy.spatial.distance.
-#' Equivalent to D_10 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to R's built-in dist() function with method = "canberra".
+#'   \item Equivalent to vegdist() with method = "canberra", multiplied by the number of nonzero entries.
+#'   \item Equivalent to canberra() function in scipy.spatial.distance.
+#'   \item Equivalent to D_10 in Legendre & Legendre.
+#' }
 #' @export
 canberra <- function (x, y) {
   numerator <- abs(x - y)
@@ -152,7 +184,11 @@ canberra <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to chebyshev() function in scipy.spatial.distance.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to chebyshev() function in scipy.spatial.distance.
+#' }
 #' @export
 chebyshev <- function (x, y) {
   max(abs(x - y))
@@ -162,7 +198,11 @@ chebyshev <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to correlation() function in scipy.spatial.distance.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to correlation() function in scipy.spatial.distance.
+#' }
 #' @export
 correlation <- function (x, y) {
   x_centered <- x - mean(x)
@@ -174,7 +214,11 @@ correlation <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to cosine() function in scipy.spatial.distance.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to cosine() function in scipy.spatial.distance.
+#' }
 #' @export
 cosine <- function (x, y) {
   1 - mean(x * y) / sqrt(mean(x * x) * mean(y * y))
@@ -184,8 +228,12 @@ cosine <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to vegdist() with method = "bray".
-#' Equivalent to D_14 = 1 - s_17 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "bray".
+#'   \item Equivalent to D_14 = 1 - s_17 in Legendre & Legendre.
+#' }
 #' @export
 bray_curtis <- function (x, y) {
   sum(abs(x - y)) / sum(x + y)
@@ -195,7 +243,11 @@ bray_curtis <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to D_17 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to D_17 in Legendre & Legendre.
+#' }
 #' @export
 hellinger <- function (x, y) {
   x <- x / sum(x)
@@ -207,7 +259,11 @@ hellinger <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to vegdist() with method = "kulczynski".
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "kulczynski".
+#' }
 #' @export
 kulczynski <- function (x, y) {
   min_sum <- sum(pmin(x, y))
@@ -220,7 +276,11 @@ kulczynski <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to 1 - S_13 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to 1 - S_13 in Legendre & Legendre.
+#' }
 #' @export
 kulczynski_cody <- function (x, y) {
   x <- x > 0
@@ -233,7 +293,11 @@ kulczynski_cody <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to 1 - S_12 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to 1 - S_12 in Legendre & Legendre.
+#' }
 #' @export
 kulczynski_mothur <- function (x, y) {
   x <- x > 0
@@ -268,9 +332,12 @@ scipy_coefficients <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to rogerstanimoto() function in scipy.spatial.distance.
-#' Equivalent to 1 - S_2 in Legendre & Legendre
-#'
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to rogerstanimoto() function in scipy.spatial.distance.
+#'   \item Equivalent to 1 - S_2 in Legendre & Legendre
+#' }
 #' @export
 rogers_tanimoto <- function (x, y) {
   with(scipy_coefficients(x, y), {
@@ -283,9 +350,12 @@ rogers_tanimoto <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to russelrao() function in scipy.spatial.distance.
-#' Equivalent to 1 - S_11 in Legendre & Legendre
-#'
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to russelrao() function in scipy.spatial.distance.
+#'   \item Equivalent to 1 - S_11 in Legendre & Legendre
+#' }
 #' @export
 russel_rao <- function (x, y) {
   x <- x > 0
@@ -299,7 +369,11 @@ russel_rao <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to... XXXXX
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to... XXXXX
+#' }
 #' @export
 sokal_michener <- function (x, y) {
   with(scipy_coefficients(x, y), {
@@ -313,8 +387,12 @@ sokal_michener <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to sokalsneath() function in scipy.spatial.distance.
-#' Equivalent to 1 - S_10 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to sokalsneath() function in scipy.spatial.distance.
+#'   \item Equivalent to 1 - S_10 in Legendre & Legendre.
+#' }
 #' @export
 sokal_sneath <- function (x, y) {
   with(scipy_coefficients(x, y), {
@@ -327,8 +405,12 @@ sokal_sneath <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to yule() function in scipy.spatial.distance.
-#' Equivalent to 1 - S, where S is the Yule coefficient in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to yule() function in scipy.spatial.distance.
+#'   \item Equivalent to 1 - S, where S is the Yule coefficient in Legendre & Legendre.
+#' }
 #' @export
 yule <- function (x, y) {
   with(scipy_coefficients(x, y), {
@@ -350,7 +432,11 @@ make_range_scale_fcn <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to vegdist() with method = "gower".
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "gower".
+#' }
 #' @export
 gower <- function (x, y) {
   range_scale <- make_range_scale_fcn(x, y)
@@ -363,7 +449,11 @@ gower <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to vegdist() with method = "altGower".
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "altGower".
+#' }
 #' @export
 alt_gower <- function (x, y) {
   sum(abs(x - y)) / sum((x > 0) | (y > 0))
@@ -373,9 +463,13 @@ alt_gower <- function (x, y) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to R's built-in dist() function with method = "minkowski".
-#' Equivalent to minkowski() function in scipy.spatial.distance.
-#' Equivalent to D_6 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to R's built-in dist() function with method = "minkowski".
+#'   \item Equivalent to minkowski() function in scipy.spatial.distance.
+#'   \item Equivalent to D_6 in Legendre & Legendre.
+#' }
 #' @export
 minkowski <- function (x, y, p = 1) {
   sum(abs(x - y) ^ p) ^ (1 / p)
@@ -385,7 +479,11 @@ minkowski <- function (x, y, p = 1) {
 #'
 #' @param x,y Numeric vectors
 #'
-#' Equivalent to vegdist() with method = "morisita".
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "morisita".
+#' }
 #' @export
 morisita <- function (x, y) {
   # BUG IN VEGAN?!?!?!
@@ -405,7 +503,11 @@ morisita <- function (x, y) {
 
 #' Cao index of dissimilarity
 #'
-#' Equivalent to vegdist() with method = "cao".
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "cao".
+#' }
 #' @export
 cao <- function (x, y) {
   keep <- (x > 0) | (y > 0)
@@ -424,8 +526,11 @@ cao <- function (x, y) {
 
 #' Binomial index of dissimilarity
 #'
-#' Equivalent to vegdist() with method = "binomial".
-#'
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "binomial".
+#' }
 #' @export
 millar <- function (x, y) {
   keep <- (x > 0) | (y > 0)
@@ -440,7 +545,11 @@ millar <- function (x, y) {
 
 #' Morisita-Horn index of dissimilarity
 #'
-#' Equivalent to vegdist() with method = "horn".
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "horn".
+#' }
 #' @export
 morisita_horn <- function (x, y) {
   lambda_x <- sum(x ^ 2) / (sum(x) ^ 2)
@@ -451,10 +560,14 @@ morisita_horn <- function (x, y) {
 
 #' Jaccard index of dissimilarity
 #'
-#' Equivalent to R's built-in dist() function with method = "binary".
-#' Equivalent to vegdist() with method = "jaccard" and binary = TRUE.
-#' Equivalent to jaccard() function in scipy.spatial.distance.
-#' Equivalent to 1 - S7 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to R's built-in dist() function with method = "binary".
+#'   \item Equivalent to vegdist() with method = "jaccard" and binary = TRUE.
+#'   \item Equivalent to jaccard() function in scipy.spatial.distance.
+#'   \item Equivalent to 1 - S7 in Legendre & Legendre.
+#' }
 #' @export
 jaccard <- function (x, y) {
   x <- x > 0
@@ -470,8 +583,12 @@ koleff_abc <- function (x, y) {
 
 #' Sorenson or Dice index of dissimilarity
 #'
-#' Equivalent to dice() function in scipy.spatial.distance.
-#' Equivalent to D_13 = 1 - S_8 in Legendre & Legendre.
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to dice() function in scipy.spatial.distance.
+#'   \item Equivalent to D_13 = 1 - S_8 in Legendre & Legendre.
+#' }
 #' @export
 sorenson <- function (x, y) {
   x <- x > 0
@@ -493,9 +610,12 @@ whittaker <- function (x, y) {
 
 #' Hamming distance
 #'
-#' Equivalent to hamming() function in scipy.spatial.distance
-#' For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
-#'
+#' @details
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to hamming() function in scipy.spatial.distance
+#'   \item For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
+#' }
 #' @export
 hamming <- function (x, y) {
   sum(x != y) / length(x)

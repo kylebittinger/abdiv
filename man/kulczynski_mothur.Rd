@@ -7,10 +7,14 @@
 kulczynski_mothur(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to 1 - S_12 in Legendre & Legendre.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Kulczynski distance (Mothur implementation)
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to 1 - S_12 in Legendre & Legendre.
+}
 }

@@ -7,10 +7,14 @@
 chord(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to D_3 in Legendre & Legendre.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Chord distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to D_3 in Legendre & Legendre.
+}
 }

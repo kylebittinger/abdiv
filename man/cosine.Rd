@@ -7,10 +7,14 @@
 cosine(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to cosine() function in scipy.spatial.distance.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Cosine distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to cosine() function in scipy.spatial.distance.
+}
 }

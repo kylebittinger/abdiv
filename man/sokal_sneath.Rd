@@ -7,11 +7,15 @@
 sokal_sneath(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to sokalsneath() function in scipy.spatial.distance.
-Equivalent to 1 - S_10 in Legendre & Legendre.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Sokal-Sneath distance
+}
+\details{
+Relation to other definitions:
+\itemize{
+  \item Equivalent to sokalsneath() function in scipy.spatial.distance.
+  \item Equivalent to 1 - S_10 in Legendre & Legendre.
+}
 }
