@@ -7,14 +7,16 @@
 euclidean(x, y)
 }
 \arguments{
-\item{x, y}{Numeric vectors
-
-Equivalent to R's built-in dist() function with method = "euclidean".
-Equivalent to vegdist() with method = "euclidean".
-Equivalent to euclidean() function in scipy.spatial.distance.
-Equivalent to D_1 in Legendre & Legendre.
-Equivalent to D_18 in Legendre & Legendre after transformation to relative abundance.}
+\item{x, y}{Numeric vectors}
 }
 \description{
 Euclidean distance
+}
+\details{
+Relation to other definitions:
+* Equivalent to R's built-in dist() function with method = "euclidean".
+* Equivalent to vegdist() with method = "euclidean".
+* Equivalent to euclidean() function in scipy.spatial.distance.
+* Equivalent to D_1 in Legendre & Legendre.
+* Equivalent to D_18 in Legendre & Legendre after transformation to relative abundance.
 }

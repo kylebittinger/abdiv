@@ -115,6 +115,7 @@ data_frame(Measure = ecofuncs_beta) %>%
   mutate(Value = get(Measure)(s1, s2)) %>%
   ggplot(aes(x=Measure, y=Value)) +
   geom_point(color="#4DBBD5") +
+  scale_y_log10() +
   coord_flip() +
   theme_bw()
 ```
