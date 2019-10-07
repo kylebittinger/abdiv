@@ -105,12 +105,7 @@ etsy_ci <- function (x, conf=0.975) {
 
 # TODO: faith_pd
 
-#' Fisher's alpha parameter
-#' @export
-fisher_alpha <- function (x) {
-  check_positive(x)
-  vegan::fisher.alpha(x)
-}
+# TODO: Fisher's alpha
 
 # TODO: Gini-Simpson
 
