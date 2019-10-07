@@ -1,7 +1,7 @@
 #' Convert a data frame in long format to a numeric matrix
 #' @export
 spread_to_numeric_matrix <- function (data, row_key, col_key, value) {
-  data <- dplyr::select_(data, row_key, col_key, value)
+  data <- dplyr::select(data, row_key, col_key, value)
   data_wide <- tidyr::spread(data, col_key, value, fill=0)
   data_wide <- tibble::column_to_rownames(data_wide, row_key)
   as.matrix(as.data.frame(data_wide))
