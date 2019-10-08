@@ -11,7 +11,7 @@ check_positive <- function (x) {
 #' @export
 ecofuncs_alpha <- c(
     "berger_parker_d", "brillouin_d", "chao1", "dominance", "doubles",
-    "enspie", "fisher_alpha", "goods_coverage", "heip_e", "invsimpson",
+    "enspie", "goods_coverage", "heip_e", "invsimpson",
     "kempton_taylor_q", "margalef", "mcintosh_d", "mcintosh_e", "menhinick",
     "pielou_e", "richness", "robbins", "shannon", "simpson", "simpson_e",
     "singles", "strong")
