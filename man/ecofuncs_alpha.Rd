@@ -4,7 +4,7 @@
 \name{ecofuncs_alpha}
 \alias{ecofuncs_alpha}
 \title{All alpha diversity measures}
-\format{An object of class \code{character} of length 23.}
+\format{An object of class \code{character} of length 22.}
 \usage{
 ecofuncs_alpha
 }
