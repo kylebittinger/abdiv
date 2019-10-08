@@ -6,7 +6,7 @@ test_that("Distances are computed correctly for data frame", {
     Feature = paste0("F", c(1:5, 2:6, 4:8)),
     Val = 1:15,
     stringsAsFactors = FALSE)
-  df_wide <- spread_to_numeric_matrix(df, "Observation", "Feature", "Val")
+  df_wide <- spread_to_numeric_matrix(df, Observation, Feature, Val)
   df_wide_vals <- c(
     1, 2, 3,  4,  5,  0,  0,  0,
     0, 6, 7,  8,  9, 10,  0,  0,
@@ -18,7 +18,7 @@ test_that("Distances are computed correctly for data frame", {
     c(27, 62, 51), Size = 3L, Labels = c("A", "B", "C"),
     Diag = FALSE, Upper = FALSE, class = "dist")
   observed_manhattan_dist <- dist_long(
-    df, "Observation", "Feature", "Val", manhattan)
+    df, Observation, Feature, Val, manhattan)
   expect_equal(observed_manhattan_dist, expected_manhattan_dist)
 })
 

@@ -1,16 +1,23 @@
 #' Convert a data frame in long format to a numeric matrix
 #' @export
 spread_to_numeric_matrix <- function (data, row_key, col_key, value) {
-  data <- dplyr::select(data, row_key, col_key, value)
-  data_wide <- tidyr::spread(data, col_key, value, fill=0)
-  data_wide <- tibble::column_to_rownames(data_wide, row_key)
+  row_key <- dplyr::enquo(row_key)
+  col_key <- dplyr::enquo(col_key)
+  value <- dplyr::enquo(value)
+  data <- dplyr::select(data, !!row_key, !!col_key, !!value)
+  data_wide <- tidyr::spread(data, !!col_key, !!value, fill=0)
+  data_wide <- dplyr::rename(data_wide, rowname_col = !!row_key)
+  data_wide <- tibble::column_to_rownames(data_wide, "rowname_col")
   as.matrix(as.data.frame(data_wide))
 }
 
 #' Compute distances on data in long format
 #' @export
 dist_long <- function (data, row_key, col_key, value, distance_fcn) {
-  data_matrix <- spread_to_numeric_matrix(data, row_key, col_key, value)
+  row_key <- dplyr::enquo(row_key)
+  col_key <- dplyr::enquo(col_key)
+  value <- dplyr::enquo(value)
+  data_matrix <- spread_to_numeric_matrix(data, !!row_key, !!col_key, !!value)
   usedist::dist_make(data_matrix, distance_fcn)
 }
 
