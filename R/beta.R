@@ -6,8 +6,7 @@ spread_to_numeric_matrix <- function (data, row_key, col_key, value) {
   value <- dplyr::enquo(value)
   data <- dplyr::select(data, !!row_key, !!col_key, !!value)
   data_wide <- tidyr::spread(data, !!col_key, !!value, fill=0)
-  data_wide <- dplyr::rename(data_wide, rowname_col = !!row_key)
-  data_wide <- tibble::column_to_rownames(data_wide, "rowname_col")
+  data_wide <- tibble::column_to_rownames(data_wide, dplyr::as_label(row_key))
   as.matrix(as.data.frame(data_wide))
 }
 
