@@ -6,7 +6,7 @@ test_that("Distances are computed correctly for data frame", {
     Feature = paste0("F", c(1:5, 2:6, 4:8)),
     Val = 1:15,
     stringsAsFactors = FALSE)
-  df_wide <- spread_to_numeric_matrix(df, Observation, Feature, Val)
+  df_wide <- pivot_to_numeric_matrix(df, Observation, Feature, Val)
   df_wide_vals <- c(
     1, 2, 3,  4,  5,  0,  0,  0,
     0, 6, 7,  8,  9, 10,  0,  0,
@@ -93,6 +93,32 @@ test_that("Distance functions are consistent with Legendre & Legendre", {
   expect_equal(bray_curtis(c(2, 5, 2, 5, 3), c(9, 1, 1, 1, 1)), 18 / 30)
   expect_equal(bray_curtis(c(3, 5, 2, 4, 3), c(9, 1, 1, 1, 1)), 16 / 30)
 
+})
+
+test_that("Kullback-Leibler divergence works", {
+  px <- c(0.36, 0.48, 0.16)
+  qx <- c(1/3, 1/3, 1/3)
+  # Example from wikipedia
+  expect_equal(kullback_leibler_divergence(px, qx), 0.0852996)
+  # KL divergence is not symmetric
+  expect_equal(kullback_leibler_divergence(qx, px), 0.097455)
+
+  # Vectors should be scaled to probability distributions
+  expect_equal(
+    kullback_leibler_divergence(5 * px, 2 * qx),
+    kullback_leibler_divergence(px, qx))
+
+  # Whenever P(x) is zero the contribution of the corresponding term is
+  # interpreted as zero.
+  expect_equal(
+    kullback_leibler_divergence(c(0.5, 0.5, 0), c(0.25, 0.5, 0.25)),
+    0.3465736)
+
+  # The Kullback–Leibler divergence is defined only if
+  # for all Q(x)=0 implies P(x)=0 (absolute continuity).
+  expect_equal(
+    kullback_leibler_divergence(c(0, 0, 0.5, 0.5), c(0.25, 0.75, 0, 0)),
+    NaN)
 })
 
 test_that("Distance functions are consistent with scipy.spatial.distance", {

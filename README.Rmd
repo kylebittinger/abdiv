@@ -53,9 +53,9 @@ richness(s1)
 richness(s2)
 ```
 
-The Shannon index measures both the number of species and the evenness of their
-distribution. Site 2 has fewer species, but they're distributed more evenly, so
-the Shannon index is higher.
+The Shannon index measures both the number of species and the evenness of the
+relative abundance values. Site 2 has fewer species, but each species has the
+same relative abundance, so the Shannon index is higher.
 
 ```{r}
 shannon(s1)
@@ -64,27 +64,16 @@ shannon(s2)
 
 Let's summarize the diversity of site 1 and site 2 using all the functions
 available in this library.  The full set of within-sample diversity functions
-is available as a character vector in `ecofuncs_alpha`. First, we'll make a
-nice, tidy data frame called `site_df`.
+is available as a character vector in `alpha_diversities`. The term
+"$\alpha$-diversity" means the diversity within a single sample.
 
-```{r message=FALSE}
+```{r alpha-diversity, message=FALSE}
 library(tidyverse)
-site_df <- data_frame(
-  Species = rep(LETTERS[1:5], 2),
-  Site = rep(c("Site 1", "Site 2"), each=5),
-  Counts = c(s1, s2))
-site_df
-```
-
-With our data frame in hand, we'll use the `summarize_at` function in `dplyr`
-to run all the diversity functions for each site.
-
-```{r alpha-diversity}
-site_df %>%
-  group_by(Site) %>%
-  summarize_at(vars(Counts), funs_(ecofuncs_alpha)) %>%
-  gather(Measure, Value, -Site) %>%
-  ggplot(aes(x=Measure, y=Value, color=Site)) +
+tibble(Measure = alpha_diversities) %>%
+  group_by(Measure) %>%
+  summarize(Site1 = get(Measure)(s1), Site2 = get(Measure)(s2)) %>%
+  pivot_longer(-Measure, "SampleID") %>%
+  ggplot(aes(x=Measure, y=value, color=SampleID)) +
   geom_point() +
   scale_color_manual(values=c("#E64B35", "#4DBBD5")) +
   coord_flip() +
@@ -95,12 +84,12 @@ We can see that site 1 is regarded as more diverse by some measures; it has the
 most species. For other measures, site 2 is regarded as more diverse; it has
 the most even distribution of species.
 
-The definition of functions and links to other software packages can be found
-in the documentation.
+In our documentation, you can find more info on each $\alpha$-diversity
+function.
 
 Having assessed the within-sample diversity, we can next ask about the number
 of shared species between sites.  If species are shared, how similar is the
-distribution across species? There are many ways to quantify this between-site
+distribution across species? There are many ways to quantify this between-sample
 diversity or $\beta$-diversity.
 
 We can view $\beta$-diversity as either the similarity or dissimilarity
@@ -117,20 +106,20 @@ jaccard(s1, s2)
 
 The Bray-Curtis dissimilarity adds up the absolute differences between species
 counts, then divides by the total counts. For our two sites, that's
-$(2 + 5 + 8 + 8 + 7) / 48$, or 0.625.
+(2 + 5 + 8 + 8 + 7) / 48, or 0.625.
 
 ```{r}
 bray_curtis(s1, s2)
 ```
 
-Again, we'll use a vector called `ecofuncs_beta` to compute every dissimilarity
+Again, we'll use a vector called `beta_diversities` to compute every dissimilarity
 measure in the library.
 
 ```{r beta-diversity}
-data_frame(Measure = ecofuncs_beta) %>%
+tibble(Measure = beta_diversities) %>%
   group_by(Measure) %>%
-  mutate(Value = get(Measure)(s1, s2)) %>%
-  ggplot(aes(x=Measure, y=Value)) +
+  mutate(value = get(Measure)(s1, s2)) %>%
+  ggplot(aes(x=Measure, y=value)) +
   geom_point(color="#4DBBD5") +
   scale_y_log10() +
   coord_flip() +
@@ -140,3 +129,5 @@ data_frame(Measure = ecofuncs_beta) %>%
 The dissimilarities are generally positive, and they have a range of scales.
 Some dissimilarity measures range from 0 to 1, while others can go up
 indefinitely.
+
+As before, you can find more info on each $\beta$-diversity function in our documentation.

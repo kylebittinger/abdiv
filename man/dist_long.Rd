@@ -4,7 +4,7 @@
 \alias{dist_long}
 \title{Compute distances on data in long format}
 \usage{
-dist_long(data, row_key, col_key, value, distance_fcn)
+dist_long(data, obs_col, feature_col, value_col, distance_fcn)
 }
 \description{
 Compute distances on data in long format

@@ -9,7 +9,7 @@ check_positive <- function (x) {
 #'
 #' We exclude functions that return multiple values.
 #' @export
-ecofuncs_alpha <- c(
+alpha_diversities <- c(
     "berger_parker_d", "brillouin_d", "chao1", "dominance", "doubles",
     "enspie", "goods_coverage", "heip_e", "invsimpson",
     "kempton_taylor_q", "margalef", "mcintosh_d", "mcintosh_e", "menhinick",

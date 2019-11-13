@@ -1,22 +1,28 @@
 #' Convert a data frame in long format to a numeric matrix
 #' @export
-spread_to_numeric_matrix <- function (data, row_key, col_key, value) {
-  row_key <- dplyr::enquo(row_key)
-  col_key <- dplyr::enquo(col_key)
-  value <- dplyr::enquo(value)
-  data <- dplyr::select(data, !!row_key, !!col_key, !!value)
-  data_wide <- tidyr::spread(data, !!col_key, !!value, fill=0)
-  data_wide <- tibble::column_to_rownames(data_wide, dplyr::as_label(row_key))
+pivot_to_numeric_matrix <- function (data, obs_col, feature_col, value_col) {
+  obs_col <- dplyr::enquo(obs_col)
+  feature_col <- dplyr::enquo(feature_col)
+  value_col <- dplyr::enquo(value_col)
+  value_fill <- list(0)
+  names(value_fill) <- dplyr::as_label(value_col)
+  data_wide <- tidyr::pivot_wider(
+    data,
+    id_cols = !!obs_col,
+    names_from = !!feature_col,
+    values_from = !!value_col,
+    values_fill = value_fill)
+  data_wide <- tibble::column_to_rownames(data_wide, dplyr::as_label(obs_col))
   as.matrix(as.data.frame(data_wide))
 }
 
 #' Compute distances on data in long format
 #' @export
-dist_long <- function (data, row_key, col_key, value, distance_fcn) {
-  row_key <- dplyr::enquo(row_key)
-  col_key <- dplyr::enquo(col_key)
-  value <- dplyr::enquo(value)
-  data_matrix <- spread_to_numeric_matrix(data, !!row_key, !!col_key, !!value)
+dist_long <- function (data, obs_col, feature_col, value_col, distance_fcn) {
+  obs_col <- dplyr::enquo(obs_col)
+  feature_col <- dplyr::enquo(feature_col)
+  value_col <- dplyr::enquo(value_col)
+  data_matrix <- pivot_to_numeric_matrix(data, !!obs_col, !!feature_col, !!value_col)
   usedist::dist_make(data_matrix, distance_fcn)
 }
 
@@ -25,7 +31,7 @@ dist_long <- function (data, row_key, col_key, value, distance_fcn) {
 #' We exclude the phylogenetic measures and functions that return multiple
 #' values.
 #' @export
-ecofuncs_beta <- c(
+beta_diversities <- c(
   "euclidean", "rms_distance", "chord", "clark_coefficient_of_divergence",
   "geodisc_metric", "manhattan", "mean_character_difference",
   "modified_mean_character_difference", "canberra", "chebyshev", "correlation",
@@ -52,6 +58,31 @@ ecofuncs_beta <- c(
 #' @export
 euclidean <- function (x, y) {
   sqrt(sum((y - x) ^ 2))
+}
+
+#' Kullback-Leibler divergence
+#'
+#' @param x,y Numeric vectors representing probabilities
+#'
+#' @details
+#' Kullback-Leibler divergence is a non-symmetric measure of difference between
+#' two porbability vectors. In general, KL(x, y) is not equal to KL(y, x).
+#'
+#' Because this measure is defined for probabilities, the vectors x and y are
+#' normalized in the function so they sum to 1.
+#'
+#' The Kullback-Leibler divergence is not defined when y_i == 0 but x_i > 0. In
+#' this case, the function returns NaN.
+#' @export
+kullback_leibler_divergence <- function (x, y) {
+  x <- x / sum(x)
+  y <- y / sum(y)
+  y0_but_not_x0 <- (y == 0) & (!(x == 0))
+  if (any(y0_but_not_x0)) {
+    return(NaN)
+  }
+  terms <- x * log(x / y)
+  sum(ifelse(x > 0, terms, 0))
 }
 
 #' Root-mean-square distance
@@ -638,6 +669,4 @@ hamming <- function (x, y) {
 # Pearson coefficient of racial likeness, D_12, not implemented
 # Chi-square distances, D_15 and D_16, not implemented (they need the full matrix)
 # Need to note how Bray-Curtis distance is related to almost everything else.
-
-
 
