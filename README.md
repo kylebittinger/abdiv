@@ -57,8 +57,8 @@ shannon(s2)
 Let’s summarize the diversity of site 1 and site 2 using all the
 functions available in this library. The full set of within-sample
 diversity functions is available as a character vector in
-`alpha_diversities`. The term “\(\alpha\)-diversity” means the diversity
-within a single sample.
+`alpha_diversities`. The term “α-diversity” means the diversity within a
+single sample.
 
 ``` r
 library(tidyverse)
@@ -79,18 +79,18 @@ We can see that site 1 is regarded as more diverse by some measures; it
 has the most species. For other measures, site 2 is regarded as more
 diverse; it has the most even distribution of species.
 
-In our documentation, you can find more info on each
-\(\alpha\)-diversity function.
+In our documentation, you can find more info on each α-diversity
+function.
 
 Having assessed the within-sample diversity, we can next ask about the
 number of shared species between sites. If species are shared, how
 similar is the distribution across species? There are many ways to
-quantify this between-sample diversity or \(\beta\)-diversity.
+quantify this between-sample diversity or β-diversity.
 
-We can view \(\beta\)-diversity as either the similarity or
-dissimilarity between sites. The functions in `ecofuncs` are written in
-terms of dissimilarity: similar sites will have values close to zero,
-and highly dissimilar sites will have values close to the maximum.
+We can view β-diversity as either the similarity or dissimilarity
+between sites. The functions in `ecofuncs` are written in terms of
+dissimilarity: similar sites will have values close to zero, and highly
+dissimilar sites will have values close to the maximum.
 
 The Jaccard distance counts the fraction of species present in only one
 site. The answer is 3 out of 5, or 0.6.
@@ -129,5 +129,5 @@ The dissimilarities are generally positive, and they have a range of
 scales. Some dissimilarity measures range from 0 to 1, while others can
 go up indefinitely.
 
-As before, you can find more info on each \(\beta\)-diversity function
-in our documentation.
+As before, you can find more info on each β-diversity function in our
+documentation.
