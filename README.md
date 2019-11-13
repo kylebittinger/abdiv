@@ -121,7 +121,6 @@ tibble(Measure = beta_diversities) %>%
   scale_y_log10() +
   coord_flip() +
   theme_bw()
-#> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
 ![](README-files/README-beta-diversity-1.png)<!-- -->
@@ -129,3 +128,6 @@ tibble(Measure = beta_diversities) %>%
 The dissimilarities are generally positive, and they have a range of
 scales. Some dissimilarity measures range from 0 to 1, while others can
 go up indefinitely.
+
+As before, you can find more info on each \(\beta\)-diversity function
+in our documentation.
