@@ -1,27 +1,5 @@
 context("beta diversity")
 
-test_that("Distances are computed correctly for data frame", {
-  df <- data.frame(
-    Observation = rep(c("A", "B", "C"), each = 5),
-    Feature = paste0("F", c(1:5, 2:6, 4:8)),
-    Val = 1:15,
-    stringsAsFactors = FALSE)
-  df_wide <- pivot_to_numeric_matrix(df, Observation, Feature, Val)
-  df_wide_vals <- c(
-    1, 2, 3,  4,  5,  0,  0,  0,
-    0, 6, 7,  8,  9, 10,  0,  0,
-    0, 0, 0, 11, 12, 13, 14, 15)
-  expect_equal(df_wide, matrix(
-    df_wide_vals, byrow = TRUE, nrow=3,
-    dimnames = list(c("A", "B", "C"), paste0("F", 1:8))))
-  expected_manhattan_dist <- structure(
-    c(27, 62, 51), Size = 3L, Labels = c("A", "B", "C"),
-    Diag = FALSE, Upper = FALSE, class = "dist")
-  observed_manhattan_dist <- dist_long(
-    df, Observation, Feature, Val, manhattan)
-  expect_equal(observed_manhattan_dist, expected_manhattan_dist)
-})
-
 test_that("Distance functions are consistent with stats::dist()", {
   x1 <- c(0, 1, 2, 3, 4)
   x2 <- c(3, 0, 2, 1, 5)

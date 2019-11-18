@@ -1,31 +1,3 @@
-#' Convert a data frame in long format to a numeric matrix
-#' @export
-pivot_to_numeric_matrix <- function (data, obs_col, feature_col, value_col) {
-  obs_col <- dplyr::enquo(obs_col)
-  feature_col <- dplyr::enquo(feature_col)
-  value_col <- dplyr::enquo(value_col)
-  value_fill <- list(0)
-  names(value_fill) <- dplyr::as_label(value_col)
-  data_wide <- tidyr::pivot_wider(
-    data,
-    id_cols = !!obs_col,
-    names_from = !!feature_col,
-    values_from = !!value_col,
-    values_fill = value_fill)
-  data_wide <- tibble::column_to_rownames(data_wide, dplyr::as_label(obs_col))
-  as.matrix(as.data.frame(data_wide))
-}
-
-#' Compute distances on data in long format
-#' @export
-dist_long <- function (data, obs_col, feature_col, value_col, distance_fcn) {
-  obs_col <- dplyr::enquo(obs_col)
-  feature_col <- dplyr::enquo(feature_col)
-  value_col <- dplyr::enquo(value_col)
-  data_matrix <- pivot_to_numeric_matrix(data, !!obs_col, !!feature_col, !!value_col)
-  usedist::dist_make(data_matrix, distance_fcn)
-}
-
 #' All beta-diversity measures
 #'
 #' We exclude the phylogenetic measures and functions that return multiple
