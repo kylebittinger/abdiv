@@ -1,24 +1,24 @@
-Package: ecofuncs
+Package: abdiv
 Type: Package
-Title: Simple functions for community ecology
-Version: 0.1.0
+Title: Alpha and beta diversity measures
+Version: 0.2.0
 Author: Kyle Bittinger
 Maintainer: Kyle Bittinger <kylebittinger@gmail.com>
-Description: This package contains a collection of basic functions for
-    community ecology, and overlaps cosiderably with other packages such as
-    vegan and fossil. The implementation here is designed to work well with
-    "tidy" data sets and to include a wide range of functions implemented in 
-    software outside the R ecosystem.
+Description: This package provides a collection of measures for ecological
+  diversity.
+  Ecological diversity comes in two flavors: alpha diversity measures
+  the diversity within a single site or sample, and beta diversity measures
+  the diversity across two sites or samples.
+  This package overlaps cosiderably with other packages such as
+  vegan, gUniFrac, and fossil. The implementations here are designed to be
+  basic and clear to the reader.
+  We include a wide range of functions implemented in software outside the R
+  ecosystem, such as scipy and scikit-bio.
 License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Suggests: testthat,
-    knitr,
-    rmarkdown
-Imports: usedist,
-    dplyr,
-    tidyr,
-    tibble,
-    ape
+  vegan
+Imports: ape
 VignetteBuilder: knitr

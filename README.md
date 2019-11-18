@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ecofuncs
+# abdiv
 
 This package re-implements measures of ecological diversity from several
 other software packages, including `vegan`, `scikit-bio`, and
@@ -9,11 +9,11 @@ other software packages, including `vegan`, `scikit-bio`, and
 
 ## Installation
 
-You can install ecofuncs from github with:
+You can install abdiv from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("kylebittinger/ecofuncs")
+devtools::install_github("kylebittinger/abdiv")
 ```
 
 ## Example
@@ -88,7 +88,7 @@ similar is the distribution across species? There are many ways to
 quantify this between-sample diversity or β-diversity.
 
 We can view β-diversity as either the similarity or dissimilarity
-between sites. The functions in `ecofuncs` are written in terms of
+between sites. The functions in `abdiv` are written in terms of
 dissimilarity: similar sites will have values close to zero, and highly
 dissimilar sites will have values close to the maximum.
 

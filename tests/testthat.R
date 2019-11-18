@@ -1,4 +1,4 @@
 library(testthat)
-library(ecofuncs)
+library(abdiv)
 
-test_check("ecofuncs")
+test_check("abdiv")
