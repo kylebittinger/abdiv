@@ -7,8 +7,7 @@ output: github_document
 ```{r, echo = FALSE, message=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-files/README-",
+  fig.path = "tools/readme/",
   dpi=300
 )
 devtools::load_all()

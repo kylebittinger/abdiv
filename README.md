@@ -38,9 +38,9 @@ Richness measures the total number of species in each sample.
 
 ``` r
 richness(s1)
-#> [1] 4
+## [1] 4
 richness(s2)
-#> [1] 3
+## [1] 3
 ```
 
 The Shannon index measures both the number of species and the evenness
@@ -49,9 +49,9 @@ species has the same relative abundance, so the Shannon index is higher.
 
 ``` r
 shannon(s1)
-#> [1] 0.9365995
+## [1] 0.9365995
 shannon(s2)
-#> [1] 1.098612
+## [1] 1.098612
 ```
 
 Let’s summarize the diversity of site 1 and site 2 using all the
@@ -73,7 +73,7 @@ tibble(Measure = alpha_diversities) %>%
   theme_bw()
 ```
 
-![](README-files/README-alpha-diversity-1.png)<!-- -->
+![](tools/readme/alpha-diversity-1.png)<!-- -->
 
 We can see that site 1 is regarded as more diverse by some measures; it
 has the most species. For other measures, site 2 is regarded as more
@@ -97,7 +97,7 @@ site. The answer is 3 out of 5, or 0.6.
 
 ``` r
 jaccard(s1, s2)
-#> [1] 0.6
+## [1] 0.6
 ```
 
 The Bray-Curtis dissimilarity adds up the absolute differences between
@@ -106,7 +106,7 @@ that’s (2 + 5 + 8 + 8 + 7) / 48, or 0.625.
 
 ``` r
 bray_curtis(s1, s2)
-#> [1] 0.625
+## [1] 0.625
 ```
 
 Again, we’ll use a vector called `beta_diversities` to compute every
@@ -123,7 +123,7 @@ tibble(Measure = beta_diversities) %>%
   theme_bw()
 ```
 
-![](README-files/README-beta-diversity-1.png)<!-- -->
+![](tools/readme/beta-diversity-1.png)<!-- -->
 
 The dissimilarities are generally positive, and they have a range of
 scales. Some dissimilarity measures range from 0 to 1, while others can
