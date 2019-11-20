@@ -139,3 +139,104 @@ indefinitely.
 
 As before, you can find more info on each β-diversity function in our
 documentation.
+
+## Phylogenetic diversity and UniFrac
+
+A phylogenetic tree can be incorporated into diversity measures to add
+information about the evolutionary history of species. One of the first
+measures in this area was Faith's phylogenetic diversity. Here, we take an
+example from Faith and Richards (PMID 24832524) to show how phylogenetic
+diversity works.
+
+Here is the tree from the paper:
+
+```{r message=FALSE}
+library(ggtree)
+faith_tree <- ape::read.tree(text="(((a:5,(b:2,c:1):4):4,(d:5,e:3):1):20);")
+faith_tree <- ape::rotateConstr(faith_tree, letters[5:1])
+ggtree(faith_tree, ladderize = F) +
+  geom_tiplab()
+```
+
+If all the species are present, the value of Faith's phylogenetic diversity
+(PD) is the sum of the branch lengths. Here, we expect the total branch length
+to be 5 + 4 + 2 + 4 + 1 + 20 + 5 + 3 + 1 = 45, adding from top to bottom.^[In
+the paper, they give the value as 41, but they don't assign a length to the
+edge connecting species "b" and "c". Looking at the figure, I've estimated that
+the length should be 4, so we get 45 for our example, rather than 41.]
+
+Here is how you would calculate Faith's PD:
+
+```{r}
+faith_pd(c(1, 1, 1, 1, 1), faith_tree)
+```
+
+If species "a" is missing, we expect Faith's PD to be reduced by 5, the length
+of the branch leading to species "a".
+
+```{r}
+faith_pd(c(0, 1, 1, 1, 1), faith_tree)
+```
+
+The practice of using phylogenetic information in diversity has been especially
+popular in microbial ecology, where bacteria are suveyed using the 16S rRNA
+marker gene. In addition to serving as a fingerprint for bacteria, the gene
+sequence can be used to build a phylogenetic tree.
+
+In this area, the UniFrac distance is widely used to measure β-diversity
+between bacterial communities. We'll reproduce an example from the UniFrac
+paper by Lozupone and Knight (PMID 16332807). Here is panel A of figure 1:
+
+```{r}
+unifrac_tree <- ape::read.tree(text = paste0(
+  "((",
+  "((A:0.8,(B:0.6,(C:0.4,(D:0.3,E:0.3):0.1):0.2):0.2):0.3,(F:0.4,G:0.4):0.7)",
+  ":1.1,",
+  "((H:0.8,(I:0.6,(J:0.4,(K:0.3,L:0.3):0.1):0.2):0.2):0.3,(M:0.4,N:0.4):0.7)",
+  ":1.1):0.3)root;"))
+unifrac_tree <- ape::rotateConstr(unifrac_tree, LETTERS[14:1])
+unifrac_paper_data <- tibble(
+  Species = LETTERS[1:14],
+  PanelA = factor(c(1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 1)),
+  PanelB = factor(c(1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2)))
+ggtree(unifrac_tree, ladderize = F) %<+%
+  unifrac_paper_data +
+  geom_tippoint(aes(shape=PanelA), x=2.6, size=3) +
+  scale_shape_manual(values = c(1, 15))
+```
+
+In this example, we've measured two bacterial communities, where the species
+detected in each are labeled with circles and squares. They have no species in
+common, but the species from each community spans the entire tree. The
+communities are not very phylogenetically distinct. In fact, if we measure the
+branch length leading uniquely to either a circle or a square, we sum up the
+branch lengths on the far right-hand side of the plot. This is about half the
+total branch length for the tree.
+
+```{r}
+a_circle <- c(1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1)
+a_square <- c(0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0)
+unweighted_unifrac(a_circle, a_square, unifrac_tree)
+```
+
+We can increase the UniFrac distance if we re-arrange the species in each
+community so that all the circles are in the upper part of the tree and all the
+squares are in the lower part.
+
+```{r}
+ggtree(unifrac_tree, ladderize = F) %<+%
+  unifrac_paper_data +
+  geom_tippoint(aes(shape=PanelB), x=2.6, size=3) +
+  scale_shape_manual(values = c(1, 15))
+```
+
+With this arrangement, the species in each community are phylogenetically
+very different.  Except for the root, each branch of the tree leads uniquely
+to a species present in square or circle, and never to a species present in
+both. Therefore, the UniFrac distance is close to 1.
+
+```{r}
+b_circle <- c(1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0)
+b_square <- c(0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1)
+unweighted_unifrac(b_circle, b_square, unifrac_tree)
+```
