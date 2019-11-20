@@ -16,30 +16,34 @@ You can install abdiv from github with:
 devtools::install_github("kylebittinger/abdiv")
 ```
 
-## Example
+## Alpha diversity
 
 Let’s say we’ve surveyed a field and counted the number of plants in
 each of two sites. We’ve found five species in total, and we’d like to
-summarize the diversity of the two sampling sites. Here are the results
-for site 1 and site 2, represented as vectors.
+summarize the diversity of the two sampling sites. The diversity within
+each site is called α-diversity.
+
+Here are the number of plants for each species at site 1 and site 2,
+represented as vectors.
 
 ``` r
-s1 <- c(2, 5, 16, 0, 1)
-s2 <- c(0, 0, 8, 8, 8)
+site1 <- c(2, 5, 16, 0, 1)
+site2 <- c(0, 0, 8, 8, 8)
 ```
 
 The two sites have about the same number of total plants, but the
 ditsribution of species is much different. More than half the plants in
 site 1 belong to a single species, whereas the plants in site 2 are
 almost evenly distributed across three different species. To get
-started, let’s look at a few measures of diversity for each sample.
+started, let’s look at a few ways to quantify the α-diversity for each
+sample.
 
 Richness measures the total number of species in each sample.
 
 ``` r
-richness(s1)
+richness(site1)
 ## [1] 4
-richness(s2)
+richness(site2)
 ## [1] 3
 ```
 
@@ -48,9 +52,9 @@ of the relative abundance values. Site 2 has fewer species, but each
 species has the same relative abundance, so the Shannon index is higher.
 
 ``` r
-shannon(s1)
+shannon(site1)
 ## [1] 0.9365995
-shannon(s2)
+shannon(site2)
 ## [1] 1.098612
 ```
 
@@ -64,7 +68,7 @@ single sample.
 library(tidyverse)
 tibble(Measure = alpha_diversities) %>%
   group_by(Measure) %>%
-  summarize(Site1 = get(Measure)(s1), Site2 = get(Measure)(s2)) %>%
+  summarize(Site1 = get(Measure)(site1), Site2 = get(Measure)(site2)) %>%
   pivot_longer(-Measure, "SampleID") %>%
   ggplot(aes(x=Measure, y=value, color=SampleID)) +
   geom_point() +
@@ -82,21 +86,26 @@ diverse; it has the most even distribution of species.
 In our documentation, you can find more info on each α-diversity
 function.
 
-Having assessed the within-sample diversity, we can next ask about the
-number of shared species between sites. If species are shared, how
+## Beta diversity
+
+Having assessed the diversity within each sample, we can next ask about
+the number of shared species between sites. If species are shared, how
 similar is the distribution across species? There are many ways to
-quantify this between-sample diversity or β-diversity.
+quantify the between-sample diversity or β-diversity.
 
-We can view β-diversity as either the similarity or dissimilarity
-between sites. The functions in `abdiv` are written in terms of
-dissimilarity: similar sites will have values close to zero, and highly
-dissimilar sites will have values close to the maximum.
+You can think about β-diversity as either the similarity or
+dissimilarity between sites. The functions in `abdiv` are written in
+terms of dissimilarity: similar sites will have values close to zero,
+and highly dissimilar sites will have values close to the maximum. This
+way of thinking goes along with our intuition about diversity: sites
+with greater dissimilarity will exhibit increased diversity if we
+consider both sites together.
 
-The Jaccard distance counts the fraction of species present in only one
-site. The answer is 3 out of 5, or 0.6.
+Let’s look at some examples. The Jaccard distance counts the fraction of
+species present in only one site. The answer is 3 out of 5, or 0.6.
 
 ``` r
-jaccard(s1, s2)
+jaccard(site1, site2)
 ## [1] 0.6
 ```
 
@@ -105,7 +114,7 @@ species counts, then divides by the total counts. For our two sites,
 that’s (2 + 5 + 8 + 8 + 7) / 48, or 0.625.
 
 ``` r
-bray_curtis(s1, s2)
+bray_curtis(site1, site2)
 ## [1] 0.625
 ```
 
@@ -115,7 +124,7 @@ dissimilarity measure in the library.
 ``` r
 tibble(Measure = beta_diversities) %>%
   group_by(Measure) %>%
-  mutate(value = get(Measure)(s1, s2)) %>%
+  mutate(value = get(Measure)(site1, site2)) %>%
   ggplot(aes(x=Measure, y=value)) +
   geom_point(color="#4DBBD5") +
   scale_y_log10() +
