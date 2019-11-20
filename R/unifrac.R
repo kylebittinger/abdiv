@@ -10,6 +10,18 @@ get_branch_abundances <- function (edge_matrix, node_abundances) {
   as.numeric(edge_matrix %*% node_abundances)
 }
 
+#' Faith's phylogenetic diversity
+#' @export
+faith_pd <- function (x, tree) {
+  em <- make_edge_matrix(tree)
+  b <- tree$edge.length
+  if (is.null(b)) {
+    stop("Tree has no branch lengths")
+  }
+  px <- get_branch_abundances(em, x) > 0
+  sum(b[px])
+}
+
 #' Unweighted UniFrac distance
 #' @export
 unweighted_unifrac <- function (x, y, tree) {
