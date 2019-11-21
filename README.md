@@ -266,6 +266,22 @@ unweighted_unifrac(b_circle, b_square, unifrac_tree)
 ## [1] 0.9747899
 ```
 
+One practical matter issue with phylogenetic diversity is to make sure
+that the order of the species in your vectors matches the order of the
+tree. To accomplish this, you can obtain the order of species names from
+the tree object:
+
+``` r
+unifrac_tree$tip.label
+##  [1] "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N"
+```
+
+Additional information on phylogenetic diversity can be found in the
+documentation.
+
+Please don’t hesitate to reach out via email or file an issue if you
+need support when using this library.
+
 1.  In the paper, they give the value as 41, but they don’t assign a
     length to the edge connecting species “b” and “c”. Looking at the
     figure, I’ve estimated that the length should be 4, so we get 45 for

@@ -251,3 +251,18 @@ b_circle <- c(1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0)
 b_square <- c(0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1)
 unweighted_unifrac(b_circle, b_square, unifrac_tree)
 ```
+
+One practical matter issue with phylogenetic diversity is to make sure that
+the order of the species in your vectors matches the order of the tree. To
+accomplish this, you can obtain the order of species names from the tree
+object:
+
+```{r}
+unifrac_tree$tip.label
+```
+
+Additional information on phylogenetic diversity can be found in the
+documentation.
+
+Please don't hesitate to reach out via email or file an issue
+if you need support when using this library.
