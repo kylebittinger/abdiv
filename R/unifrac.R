@@ -10,9 +10,62 @@ get_branch_abundances <- function (edge_matrix, node_abundances) {
   as.numeric(edge_matrix %*% node_abundances)
 }
 
+#' Match vector of counts to phylogenetic tree
+#'
+#' @param x A vector of species counts.
+#' @param tree A phylogenetic tree of class \code{"phylo"}.
+#' @param x_labels A vector of species labels for \code{x}.
+#' @return The vector \code{x}, re-arranged to match the tree.
+#' @details This function applies a couple of different methods to arrange the
+#'   data in \code{x} to match a phylogenetic tree.
+#'   \itemize{
+#'     \item If \code{x_labels} is provided, we use this vector to match the
+#'       elements of \code{x} with the tip labels in the tree.
+#'     \item If \code{x_labels} is not provided and \code{x} is a named vector,
+#'       we use the names to match the tip labels in the tree.
+#'     \item If \code{x_labels} is not provided and \code{x} is not named, we
+#'       assume that \code{x} is already in the correct order, check that the
+#'       length of \code{x} matches the number of tips in the tree, and return
+#'       \code{x}.
+#'   }
+#' @export
+match_to_tree <- function (x, tree, x_labels = NULL) {
+  tree_labels <- tree$tip.label
+  x_labels_are_provided <- !is.null(x_labels)
+  if (x_labels_are_provided) {
+    if (length(x) != length(x_labels)) {
+      stop("Length of x does not match length of x_labels.")
+    }
+    if (!all(x_labels %in% tree_labels)) {
+      x_labels_not_in_tree <- setdiff(x_labels, tree_labels)
+      stop(paste("x_labels not found in tree:", x_labels_not_in_tree))
+    }
+    idx <- match(x_labels, tree_labels)
+    xout <- numeric(length(tree_labels))
+    xout[idx] <- x
+    return(xout)
+  }
+  x_has_names <- !is.null(names(x))
+  if (x_has_names) {
+    if (!all(names(x) %in% tree_labels)) {
+      x_names_not_in_tree <- setdiff(names(x), tree_labels)
+      stop(paste("Names of x not found in tree:", x_names_not_in_tree))
+    }
+    idx <- match(names(x), tree_labels)
+    xout <- numeric(length(tree_labels))
+    xout[idx] <- x
+    return(xout)
+  }
+  if (length(x) != length(tree_labels)) {
+    stop("Length of x does not match number of tips in tree.")
+  }
+  return(x)
+}
+
 #' Faith's phylogenetic diversity
 #' @export
-faith_pd <- function (x, tree) {
+faith_pd <- function (x, tree, x_labels = NULL) {
+  x <- match_to_tree(x, tree, x_labels)
   em <- make_edge_matrix(tree)
   b <- tree$edge.length
   if (is.null(b)) {

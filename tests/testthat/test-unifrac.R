@@ -1,9 +1,12 @@
 context("unifrac")
 
+# Test data
+
 t_no_branch_lengths <- structure(list(edge = structure(c(6L, 7L, 8L, 9L, 9L, 8L, 6L,
   10L, 10L, 7L, 8L, 9L, 1L, 2L, 3L, 10L, 4L, 5L), .Dim = c(9L,
   2L)), Nnode = 5L, tip.label = c("OTU1", "OTU2", "OTU3", "OTU4",
-  "OTU5")), .Names = c("edge", "Nnode", "tip.label"), class = "phylo", order = "cladewise")
+  "OTU5")), .Names = c("edge", "Nnode", "tip.label"), class = "phylo",
+  order = "cladewise")
 
 skbio_t1 <- structure(list(edge = structure(c(6L, 7L, 8L, 9L, 10L, 10L, 9L,
   7L, 11L, 11L, 7L, 8L, 9L, 10L, 1L, 2L, 3L, 11L, 4L, 5L), .Dim = c(10L,
@@ -25,7 +28,8 @@ skbio_unobs_root <- structure(list(edge = structure(c(5L, 6L, 6L, 5L, 7L, 7L,
 
 unifrac_tree <- structure(list(edge = structure(c(4L, 5L, 5L, 4L, 5L, 1L, 2L,
   3L), .Dim = c(4L, 2L)), edge.length = c(0.1, 0.3, 0.3, 0.4),
-  Nnode = 2L, tip.label = c("D", "E", "C")), class = "phylo", order = "cladewise")
+  Nnode = 2L, tip.label = c("D", "E", "C")), class = "phylo",
+  order = "cladewise")
 
 b0 <- c(1, 3, 0, 1, 0)
 b1 <- c(0, 2, 0, 4, 4)
@@ -36,7 +40,30 @@ b5 <- c(0, 0, 0, 3, 5)
 
 sk_cts <- rbind(b0=setNames(b0, paste0("OTU", 1:5)), b1, b2, b3, b4, b5)
 
-test_that("Scikit-bio tests are satisfied", {
+test_that("match_to_tree generates errors correctly", {
+  expect_error(
+    match_to_tree(c(1,0,5), skbio_t1),
+    "Length of")
+  expect_error(
+    match_to_tree(c(1,0,5), skbio_t1, c("OTU1", "OTU2", "asdf")),
+    "not found in tree")
+  expect_error(
+    match_to_tree(c(OTU1 = 1, OTU2 = 0, asdf = 5), skbio_t1),
+    "not found in tree")
+})
+
+test_that("match_to_tree re-arranges input vectors to match tree", {
+  expect_equal(
+    match_to_tree(c(1,8,3), skbio_t1, c("OTU1", "OTU2", "OTU5")),
+    c(1, 8, 0, 0, 3))
+  expect_equal(
+    match_to_tree(c(OTU1 = 1, OTU2 = 8, OTU5 = 3), skbio_t1),
+    c(1, 8, 0, 0, 3))
+  expect_equal(
+    match_to_tree(c(1, 8, 0, 0, 3), skbio_t1), c(1, 8, 0, 0, 3))
+})
+
+test_that("faith_pd satisfies scikit-bio tests", {
   expect_equal(faith_pd(c(0, 0, 0, 0, 0), skbio_t1), 0)
 
   expect_equal(faith_pd(b0, skbio_t1), 4.5)
@@ -48,7 +75,9 @@ test_that("Scikit-bio tests are satisfied", {
 
   expect_equal(faith_pd(c(1, 1, 0, 0), skbio_unobs_root), 0.6)
   expect_equal(faith_pd(c(0, 0, 1, 1), skbio_unobs_root), 2.3)
+})
 
+test_that("Scikit-bio tests are satisfied", {
   expect_equal(unweighted_unifrac(b0, b1, skbio_t1), 0.238095238095)
   expect_equal(unweighted_unifrac(b0, b2, skbio_t1), 0.52)
   expect_equal(unweighted_unifrac(b0, b3, skbio_t1), 0.52)
