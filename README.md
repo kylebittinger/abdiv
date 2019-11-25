@@ -515,6 +515,8 @@ usedist::dist_make(
 Please don’t hesitate to reach out via email or file an issue if you
 need support when using this library.
 
+## Footnotes
+
 1.  In the paper, they give the value as 41, but they don’t assign a
     length to the edge connecting species “b” and “c”. Looking at the
     figure, I’ve estimated that the length should be 4, so we get 45 for

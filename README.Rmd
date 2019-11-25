@@ -428,3 +428,5 @@ usedist::dist_make(
 
 Please don't hesitate to reach out via email or file an issue
 if you need support when using this library.
+
+## Footnotes
