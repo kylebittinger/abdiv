@@ -63,21 +63,41 @@ test_that("match_to_tree re-arranges input vectors to match tree", {
     match_to_tree(c(1, 8, 0, 0, 3), skbio_t1), c(1, 8, 0, 0, 3))
 })
 
+test_that("Tree with no branch length generates errors", {
+  expect_error(unweighted_unifrac(b0, b1, t_no_branch_lengths))
+  expect_error(weighted_unifrac(b0, b1, t_no_branch_lengths))
+  expect_error(weighted_normalized_unifrac(b0, b1, t_no_branch_lengths))
+  expect_error(generalized_unifrac(b0, b1, t_no_branch_lengths))
+  expect_error(variance_adjusted_unifrac(b0, b1, t_no_branch_lengths))
+  expect_error(information_unifrac(b0, b1, t_no_branch_lengths))
+})
+
+test_that("Input vectors are rearranged with keyword argument", {
+  # We should be able to reverse the vectors, reverse the labels, and get the
+  # same answer as with the original vector.
+  rlabel <- rev(paste0("OTU", 1:5))
+  rb0 <- rev(b0)
+  rb1 <- rev(b1)
+  expect_equal(faith_pd(rb0, skbio_t1, rlabel), 4.5)
+  expect_equal(unweighted_unifrac(rb0, rb1, skbio_t1, rlabel), 0.238095238095)
+  expect_equal(weighted_unifrac(rb0, rb1, skbio_t1, rlabel), 2.4)
+  expect_equal(weighted_normalized_unifrac(rb0, rb1, skbio_t1, rlabel), 0.6)
+  expect_equal(generalized_unifrac(rb0, rb1, skbio_t1, 0, rlabel), 0.647619047619048)
+  expect_equal(information_unifrac(rb0, rb1, skbio_t1, rlabel), 0.1394037899)
+})
+
 test_that("faith_pd satisfies scikit-bio tests", {
   expect_equal(faith_pd(c(0, 0, 0, 0, 0), skbio_t1), 0)
-
   expect_equal(faith_pd(b0, skbio_t1), 4.5)
   expect_equal(faith_pd(b1, skbio_t1), 4.75)
   expect_equal(faith_pd(b2, skbio_t1), 4.75)
   expect_equal(faith_pd(b3, skbio_t1), 4.75)
-
   expect_equal(faith_pd(c(1, 0), skbio_minimal), 0.25)
-
   expect_equal(faith_pd(c(1, 1, 0, 0), skbio_unobs_root), 0.6)
   expect_equal(faith_pd(c(0, 0, 1, 1), skbio_unobs_root), 2.3)
 })
 
-test_that("Scikit-bio tests are satisfied", {
+test_that("unweighted_unifrac satisfies scikit-bio tests", {
   expect_equal(unweighted_unifrac(b0, b1, skbio_t1), 0.238095238095)
   expect_equal(unweighted_unifrac(b0, b2, skbio_t1), 0.52)
   expect_equal(unweighted_unifrac(b0, b3, skbio_t1), 0.52)
@@ -93,6 +113,9 @@ test_that("Scikit-bio tests are satisfied", {
   expect_equal(unweighted_unifrac(b3, b4, skbio_t1), 0.68)
   expect_equal(unweighted_unifrac(b3, b5, skbio_t1), 0.421052631579)
   expect_equal(unweighted_unifrac(b4, b5, skbio_t1), 1)
+})
+
+test_that("weighted_unifrac satisfies scikit-bio tests", {
   expect_equal(weighted_unifrac(b0, b1, skbio_t1), 2.4)
   expect_equal(weighted_unifrac(b0, b2, skbio_t1), 1.86666666667)
   expect_equal(weighted_unifrac(b0, b3, skbio_t1), 2.53333333333)
@@ -108,6 +131,9 @@ test_that("Scikit-bio tests are satisfied", {
   expect_equal(weighted_unifrac(b3, b4, skbio_t1), 2.666666666667)
   expect_equal(weighted_unifrac(b3, b5, skbio_t1), 1.333333333333)
   expect_equal(weighted_unifrac(b4, b5, skbio_t1), 4.0)
+})
+
+test_that("weighted_normalized_unifrac satisfies scikit-bio tests", {
   expect_equal(weighted_normalized_unifrac(b0, b1, skbio_t1), 0.6)
   expect_equal(weighted_normalized_unifrac(b0, b2, skbio_t1), 0.466666666667)
   expect_equal(weighted_normalized_unifrac(b0, b3, skbio_t1), 0.633333333333)
@@ -123,8 +149,6 @@ test_that("Scikit-bio tests are satisfied", {
   expect_equal(weighted_normalized_unifrac(b3, b4, skbio_t1), 0.666666666667)
   expect_equal(weighted_normalized_unifrac(b3, b5, skbio_t1), 0.333333333333)
   expect_equal(weighted_normalized_unifrac(b4, b5, skbio_t1), 1.0)
-
-  expect_error(unweighted_unifrac(b0, b1, t_no_branch_lengths))
 })
 
 test_that("Implementation is consistent with GUniFrac package", {

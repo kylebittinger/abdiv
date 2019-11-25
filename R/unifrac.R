@@ -10,6 +10,12 @@ get_branch_abundances <- function (edge_matrix, node_abundances) {
   as.numeric(edge_matrix %*% node_abundances)
 }
 
+check_tree <- function (tree) {
+  if (is.null(tree$edge.length)) {
+    stop("Tree has no branch lengths")
+  }
+}
+
 #' Match vector of counts to phylogenetic tree
 #'
 #' @param x A vector of species counts.
@@ -65,24 +71,22 @@ match_to_tree <- function (x, tree, x_labels = NULL) {
 #' Faith's phylogenetic diversity
 #' @export
 faith_pd <- function (x, tree, x_labels = NULL) {
+  check_tree(tree)
   x <- match_to_tree(x, tree, x_labels)
   em <- make_edge_matrix(tree)
   b <- tree$edge.length
-  if (is.null(b)) {
-    stop("Tree has no branch lengths")
-  }
   px <- get_branch_abundances(em, x) > 0
   sum(b[px])
 }
 
 #' Unweighted UniFrac distance
 #' @export
-unweighted_unifrac <- function (x, y, tree) {
+unweighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
   em <- make_edge_matrix(tree)
   b <- tree$edge.length
-  if (is.null(b)) {
-    stop("Tree has no branch lengths")
-  }
   px <- get_branch_abundances(em, x) > 0
   py <- get_branch_abundances(em, y) > 0
   # Unique branch length is the sum of branch lengths where
@@ -96,14 +100,14 @@ unweighted_unifrac <- function (x, y, tree) {
 
 #' Weighted normalized UniFrac distance
 #' @export
-weighted_normalized_unifrac <- function (x, y, tree) {
+weighted_normalized_unifrac <- function (x, y, tree, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
   x <- x / sum(x)
   y <- y / sum(y)
   em <- make_edge_matrix(tree)
   b <- tree$edge.length
-  if (is.null(b)) {
-    stop("Tree has no branch lengths")
-  }
   px <- get_branch_abundances(em, x)
   py <- get_branch_abundances(em, y)
   sum(b * abs(px - py)) / sum(b * (px + py))
@@ -111,14 +115,14 @@ weighted_normalized_unifrac <- function (x, y, tree) {
 
 #' Weighted UniFrac distance
 #' @export
-weighted_unifrac <- function (x, y, tree) {
+weighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
   x <- x / sum(x)
   y <- y / sum(y)
   em <- make_edge_matrix(tree)
   b <- tree$edge.length
-  if (is.null(b)) {
-    stop("Tree has no branch lengths")
-  }
   px <- get_branch_abundances(em, x)
   py <- get_branch_abundances(em, y)
   sum(b * abs(px - py))
@@ -127,14 +131,14 @@ weighted_unifrac <- function (x, y, tree) {
 #' Generalized UniFrac distance
 #' @references Chen et al. Bioinformatics. 2012;28(16):2106-13.
 #' @export
-generalized_unifrac <- function (x, y, tree, alpha = 0.5) {
+generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
   x <- x / sum(x)
   y <- y / sum(y)
   em <- make_edge_matrix(tree)
   b <- tree$edge.length
-  if (is.null(b)) {
-    stop("Tree has no branch lengths")
-  }
   px <- get_branch_abundances(em, x)
   py <- get_branch_abundances(em, y)
   # px + py appears in the denominator; must remove double zeroes now
@@ -149,15 +153,15 @@ generalized_unifrac <- function (x, y, tree, alpha = 0.5) {
 #' Variance-adjusted UniFrac distance
 #' @references Chang et al. BMC Bioinformatics 2011, 12:118.
 #' @export
-variance_adjusted_unifrac <- function (x, y, tree, alpha = 0.5) {
+variance_adjusted_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
   xy_sum <- x + y
   x <- x / sum(x)
   y <- y / sum(y)
   em <- make_edge_matrix(tree)
   b <- tree$edge.length
-  if (is.null(b)) {
-    stop("Tree has no branch lengths")
-  }
   px <- get_branch_abundances(em, x)
   py <- get_branch_abundances(em, y)
   m <- get_branch_abundances(em, xy_sum)
@@ -178,14 +182,14 @@ variance_adjusted_unifrac <- function (x, y, tree, alpha = 0.5) {
 #'
 #' From Expanding the UniFrac Toolbox
 #' @export
-information_unifrac <- function (x, y, tree) {
+information_unifrac <- function (x, y, tree, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
   x <- x / sum(x)
   y <- y / sum(y)
   em <- make_edge_matrix(tree)
   b <- tree$edge.length
-  if (is.null(b)) {
-    stop("Tree has no branch lengths")
-  }
   px <- get_branch_abundances(em, x)
   py <- get_branch_abundances(em, y)
   # log(0) produces infinities; p * log(p) must be zero for formula to work
