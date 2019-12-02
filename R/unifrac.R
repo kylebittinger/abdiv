@@ -90,7 +90,19 @@ faith_pd <- function (x, tree, x_labels = NULL) {
   sum(b[px])
 }
 
-#' Unweighted UniFrac distance
+#' UniFrac distance
+#'
+#' @param x,y Numeric vectors of species counts or proportions.
+#' @param tree A phylogenetic tree object.
+#' @param xy_labels A character vector of species labels for \code{x} and
+#'   \code{y}.
+#' @details Information UniFrac distance from "Expanding the UniFrac Toolbox"
+#' @references Chang et al. BMC Bioinformatics 2011, 12:118.
+#' @references Chen et al. Bioinformatics. 2012;28(16):2106-13.
+#' @name unifrac
+NULL
+
+#' @rdname unifrac
 #' @export
 unweighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
   check_tree(tree)
@@ -109,7 +121,7 @@ unweighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
   branch_unique / branch_total
 }
 
-#' Weighted normalized UniFrac distance
+#' @rdname unifrac
 #' @export
 weighted_normalized_unifrac <- function (x, y, tree, xy_labels = NULL) {
   check_tree(tree)
@@ -124,7 +136,7 @@ weighted_normalized_unifrac <- function (x, y, tree, xy_labels = NULL) {
   sum(b * abs(px - py)) / sum(b * (px + py))
 }
 
-#' Weighted UniFrac distance
+#' @rdname unifrac
 #' @export
 weighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
   check_tree(tree)
@@ -139,8 +151,7 @@ weighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
   sum(b * abs(px - py))
 }
 
-#' Generalized UniFrac distance
-#' @references Chen et al. Bioinformatics. 2012;28(16):2106-13.
+#' @rdname unifrac
 #' @export
 generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
   check_tree(tree)
@@ -161,8 +172,7 @@ generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
   sum(b * (p_sum ^ (alpha - 1)) * abs(px - py)) / sum(b * (p_sum ^ alpha))
 }
 
-#' Variance-adjusted UniFrac distance
-#' @references Chang et al. BMC Bioinformatics 2011, 12:118.
+#' @rdname unifrac
 #' @export
 variance_adjusted_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
   check_tree(tree)
@@ -189,9 +199,7 @@ variance_adjusted_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL
   sum(b * abs(px - py) / m_denom) / sum(b * (px + py) / m_denom)
 }
 
-#' Information UniFrac distance
-#'
-#' From Expanding the UniFrac Toolbox
+#' @rdname unifrac
 #' @export
 information_unifrac <- function (x, y, tree, xy_labels = NULL) {
   check_tree(tree)
@@ -207,4 +215,3 @@ information_unifrac <- function (x, y, tree, xy_labels = NULL) {
   plogp <- function (p) ifelse(p > 0, p * log(p), 0)
   sum(b * abs(plogp(px) - plogp(py))) / sum(b)
 }
-
