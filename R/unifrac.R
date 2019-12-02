@@ -92,13 +92,77 @@ faith_pd <- function (x, tree, x_labels = NULL) {
 
 #' UniFrac distance
 #'
+#' The UniFrac distance is a phylogenetic distance measure introduced for
+#' microbial communities in 2005 by Catherine Lozupone. Since then, the idea
+#' has been extended a number of times to include abundance-weighted and
+#' variance-adjusted measures.
+#'
 #' @param x,y Numeric vectors of species counts or proportions.
 #' @param tree A phylogenetic tree object.
 #' @param xy_labels A character vector of species labels for \code{x} and
 #'   \code{y}.
-#' @details Information UniFrac distance from "Expanding the UniFrac Toolbox"
-#' @references Chang et al. BMC Bioinformatics 2011, 12:118.
-#' @references Chen et al. Bioinformatics. 2012;28(16):2106-13.
+#' @return The UniFrac distance between communities \code{x} and \code{y}.
+#' @details
+#' These functions compute different variations of the UniFrac distance between
+#' communities described by the vectors \code{x} and \code{y}. If the vectors
+#' are named, the names will be automatically used to match the vectors with
+#' the tree. Missing names are filled in with zero counts. If the vectors are
+#' not named and \code{xy_labels} is provided, these labels will be used to
+#' match the vectors with the tree. If the vectors are not named and
+#' \code{xy_labels} is not provided, it is assumed that the vectors are already
+#' in the correct order, and we simply check that their length matches the
+#' number of tips in the tree.
+#'
+#' \code{unweighted_unifrac} gives the original UniFrac distance from Lozupone
+#' and Knight (2005), which is the fraction of total branch length leading to
+#' community \code{x} or community \code{y}, but not both. It is based on
+#' species presence/absence.
+#'
+#' \code{weighted_unifrac} gives the abundance-weighted version of UniFrac
+#' proposed by Lozupone et al. (2007). In this measure, the branch lengths of
+#' the tree are multiplied by the absolute difference in species abundances
+#' below each branch.
+#'
+#' \code{weighted_normalized_unifrac} provides a normalized version of
+#' \code{weighted_unifrac}, so the distance is between 0 and 1.
+#'
+#' \code{variance_adjusted_unifrac} was proposed by Chang et al. (2011) to
+#' adjust for the variation of weights in weighted UniFrac under random
+#' sampling.
+#'
+#' \code{generalized_unifrac} was proposed by Chen et al. (2012) to provide a
+#' unifed matematical framework for weighted and unweighted UniFrac distance.
+#' It includes a parameter, \eqn{\alpha}, which can be used to adjust the
+#' abundance-weighting in the distance. A value of \eqn{\alpha = 1} corresponds
+#' to weighted UniFrac. A value of \eqn{\alpha = 0} corresponds to unweighted
+#' UniFrac if presence/absence vectors are provided.  The authors suggest a
+#' value of \eqn{\alpha = 0.5} as a compromise between weighted and unweighted
+#' distances.
+#'
+#' \code{information_unifrac} was proposed by Wong et al. (2016) to connect
+#' UniFrac distance with compositional data analysis. They also proposed a
+#' "ratio UniFrac" distance, which is not yet implemented.
+#' @references
+#' Lozupone C, Knight R. UniFrac: a new phylogenetic method for
+#' comparing microbial communities. Applied and environmental microbiology.
+#' 2005;71(12):8228–8235. 10.1128/AEM.71.12.8228-8235.2005
+#'
+#' Lozupone CA, Hamady M, Kelley ST, Knight R. Quantitative and
+#' qualitative \eqn{\beta} diversity measures lead to different insights into
+#' factors that structure microbial communities. Applied and environmental
+#' microbiology. 2007;73(5):1576–1585. 10.1128/AEM.01996-06
+#'
+#' Chang Q., et al. Variance adjusted weighted UniFrac: a powerful
+#' beta diversity measure for comparing communities based on phylogeny.
+#' BMC Bioinformatics. 2011;12:118. 10.1186/1471-2105-12-118
+#'
+#' Chen J, Bittinger K, Charlson ES, Hoffmann C, Lewis J, Wu GD,
+#' et al. Associating microbiome composition with environmental covariates
+#' using generalized UniFrac distances. Bioinformatics.
+#' 2012;28(16):2106–2113. 10.1093/bioinformatics/bts342
+#'
+#' Wong RG, Wu JR, Gloor GB. Expanding the UniFrac Toolbox.
+#' PLOS ONE. 2016;11(9):1–20. 10.1371/journal.pone.0161196
 #' @name unifrac
 NULL
 
@@ -123,21 +187,6 @@ unweighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
 
 #' @rdname unifrac
 #' @export
-weighted_normalized_unifrac <- function (x, y, tree, xy_labels = NULL) {
-  check_tree(tree)
-  x <- match_to_tree(x, tree, xy_labels)
-  y <- match_to_tree(y, tree, xy_labels)
-  x <- x / sum(x)
-  y <- y / sum(y)
-  em <- make_edge_matrix(tree)
-  b <- tree$edge.length
-  px <- get_branch_abundances(em, x)
-  py <- get_branch_abundances(em, y)
-  sum(b * abs(px - py)) / sum(b * (px + py))
-}
-
-#' @rdname unifrac
-#' @export
 weighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
@@ -153,7 +202,7 @@ weighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
 
 #' @rdname unifrac
 #' @export
-generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
+weighted_normalized_unifrac <- function (x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -163,13 +212,7 @@ generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
   b <- tree$edge.length
   px <- get_branch_abundances(em, x)
   py <- get_branch_abundances(em, y)
-  # px + py appears in the denominator; must remove double zeroes now
-  keep <- (px + py) > 0
-  b <- b[keep]
-  px <- px[keep]
-  py <- py[keep]
-  p_sum <- px + py
-  sum(b * (p_sum ^ (alpha - 1)) * abs(px - py)) / sum(b * (p_sum ^ alpha))
+  sum(b * abs(px - py)) / sum(b * (px + py))
 }
 
 #' @rdname unifrac
@@ -197,6 +240,27 @@ variance_adjusted_unifrac <- function (x, y, tree, xy_labels = NULL) {
   # should have an i subscript
   m_denom <- sqrt(m * (m_total - m))
   sum(b * abs(px - py) / m_denom) / sum(b * (px + py) / m_denom)
+}
+
+#' @rdname unifrac
+#' @export
+generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
+  x <- x / sum(x)
+  y <- y / sum(y)
+  em <- make_edge_matrix(tree)
+  b <- tree$edge.length
+  px <- get_branch_abundances(em, x)
+  py <- get_branch_abundances(em, y)
+  # px + py appears in the denominator; must remove double zeroes now
+  keep <- (px + py) > 0
+  b <- b[keep]
+  px <- px[keep]
+  py <- py[keep]
+  p_sum <- px + py
+  sum(b * (p_sum ^ (alpha - 1)) * abs(px - py)) / sum(b * (p_sum ^ alpha))
 }
 
 #' @rdname unifrac
