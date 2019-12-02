@@ -6,6 +6,20 @@
 \usage{
 faith_pd(x, tree, x_labels = NULL)
 }
+\arguments{
+\item{x}{A numeric vector of species counts or proportions, or a logical
+vector of species presence/absence.}
+
+\item{tree}{A phylogenetic tree object..}
+
+\item{x_labels}{A character vector of species labels for \code{x}.}
+}
 \description{
-Faith's phylogenetic diversity
+Faith's phylogenetic diversity gives the total branch length on a
+phylogenetic tree that is spanned by a community.  The abundance of each
+species in the community is not considered.
+}
+\references{
+Faith DP. Conservation evaluation and phylogenetic diversity.
+  Biol. Conserv. 1992;61:1–10. doi: 10.1016/0006-3207(92)91201-3.
 }
