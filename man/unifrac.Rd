@@ -18,7 +18,7 @@ weighted_unifrac(x, y, tree, xy_labels = NULL)
 
 generalized_unifrac(x, y, tree, alpha = 0.5, xy_labels = NULL)
 
-variance_adjusted_unifrac(x, y, tree, alpha = 0.5, xy_labels = NULL)
+variance_adjusted_unifrac(x, y, tree, xy_labels = NULL)
 
 information_unifrac(x, y, tree, xy_labels = NULL)
 }

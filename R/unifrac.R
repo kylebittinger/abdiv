@@ -174,7 +174,7 @@ generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
 
 #' @rdname unifrac
 #' @export
-variance_adjusted_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
+variance_adjusted_unifrac <- function (x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
