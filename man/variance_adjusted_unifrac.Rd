@@ -4,7 +4,7 @@
 \alias{variance_adjusted_unifrac}
 \title{Variance-adjusted UniFrac distance}
 \usage{
-variance_adjusted_unifrac(x, y, tree, alpha = 0.5)
+variance_adjusted_unifrac(x, y, tree, alpha = 0.5, xy_labels = NULL)
 }
 \description{
 Variance-adjusted UniFrac distance

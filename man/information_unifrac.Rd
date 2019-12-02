@@ -4,7 +4,7 @@
 \alias{information_unifrac}
 \title{Information UniFrac distance}
 \usage{
-information_unifrac(x, y, tree)
+information_unifrac(x, y, tree, xy_labels = NULL)
 }
 \description{
 From Expanding the UniFrac Toolbox

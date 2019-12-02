@@ -4,7 +4,7 @@
 \alias{generalized_unifrac}
 \title{Generalized UniFrac distance}
 \usage{
-generalized_unifrac(x, y, tree, alpha = 0.5)
+generalized_unifrac(x, y, tree, alpha = 0.5, xy_labels = NULL)
 }
 \description{
 Generalized UniFrac distance

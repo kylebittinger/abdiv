@@ -4,7 +4,7 @@
 \alias{weighted_normalized_unifrac}
 \title{Weighted normalized UniFrac distance}
 \usage{
-weighted_normalized_unifrac(x, y, tree)
+weighted_normalized_unifrac(x, y, tree, xy_labels = NULL)
 }
 \description{
 Weighted normalized UniFrac distance
