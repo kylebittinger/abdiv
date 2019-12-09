@@ -285,3 +285,44 @@ information_unifrac <- function (x, y, tree, xy_labels = NULL) {
   plogp <- function (p) ifelse(p > 0, p * log(p), 0)
   sum(b * abs(plogp(px) - plogp(py))) / sum(b)
 }
+
+#' Example data for Faith's phylogenetic diversity
+#'
+#' This example was used to illustrate phylogenetic diversity in Faith and
+#' Richards (2012).
+#'
+#' @format \code{faith_tree} is a phylogenetic tree with five tips, labeled
+#' a-e. It was created with the \code{ape} library.
+#'
+#' @source
+#' Faith DP, Richards ZT. Biology (Basel). 2012 Dec 14;1(3):906-32.
+#' 10.3390/biology1030906
+"faith_tree"
+
+#' Example data for UniFrac distance
+#'
+#' This example was used to illustrate unweighted UniFrac distance in Lozupone
+#' and Knight (2005).
+#'
+#' @usage
+#' lozupone_tree
+#' lozupone_panel_a
+#' lozupone_panel_b
+#'
+#' @format \code{lozupone_tree} is a phylogenetic tree with 14 tips, labeled
+#' A-N. It was created with the \code{ape} library.
+#'
+#' The data frames \code{lozupone_panel_a} and \code{lozupone_panel_b} are
+#' transcribed from Figure 1 of the paper. They have the following columns:
+#' \describe{
+#'   \item{Species}{The species label, matching to the phylogenetic tree.}
+#'   \item{SampleID}{The community, either "Circle" or "Square".}
+#'   \item{Counts}{
+#'     The number of organisms counted per species, always 1 for this
+#'     example.}
+#' }
+#' @source
+#' Lozupone C, Knight R. UniFrac: a new phylogenetic method for
+#' comparing microbial communities. Applied and environmental microbiology.
+#' 2005;71(12):8228–8235. 10.1128/AEM.71.12.8228-8235.2005
+"lozupone_tree"
