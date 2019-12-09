@@ -79,6 +79,29 @@ distances.
 UniFrac distance with compositional data analysis. They also proposed a
 "ratio UniFrac" distance, which is not yet implemented.
 }
+\examples{
+# From Lozupone and Knight (2005), Figure 1.
+# Panel A
+x1 <- c(1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1)
+x2 <- c(0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0)
+unweighted_unifrac(x1, x2, lozupone_tree)
+
+# Panel B
+x3 <- c(0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1)
+x4 <- c(1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0)
+unweighted_unifrac(x3, x4, lozupone_tree)
+
+# Can use named vectors to specify species
+weighted_normalized_unifrac(
+  c(A=1, C=1, D=1, F=1, I=1, L=1, N=1),
+  c(B=1, E=1, G=1, H=1, J=1, K=1, M=1),
+  lozupone_tree)
+weighted_normalized_unifrac(x1, x2, lozupone_tree)
+
+# Generalized UniFrac is equal to weighted normalized UniFrac when alpha = 1
+generalized_unifrac(x1, x2, lozupone_tree, alpha=1)
+generalized_unifrac(x1, x2, lozupone_tree, alpha=0.5)
+}
 \references{
 Lozupone C, Knight R. UniFrac: a new phylogenetic method for
 comparing microbial communities. Applied and environmental microbiology.

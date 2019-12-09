@@ -87,6 +87,17 @@ match_to_tree <- function (x, tree, x_labels = NULL) {
 #'   check that its length matches the number of tips in the tree.
 #' @references Faith DP. Conservation evaluation and phylogenetic diversity.
 #'   Biol. Conserv. 1992;61:1–10. doi: 10.1016/0006-3207(92)91201-3.
+#' @examples
+#' # Faith's phylogenetic diversity for whole tree is equal to the sum of the
+#' # branch lengths.
+#' sum(faith_tree$edge.length)
+#' faith_pd(c(1, 1, 1, 1, 1), faith_tree)
+#'
+#' # Can use named vector or additional argument to match species to tree.
+#' faith_tree$tip.label
+#' faith_pd(c(0, 0, 0, 10, 12), faith_tree)
+#' faith_pd(c(d=10, e=12), faith_tree)
+#' faith_pd(c(10, 12), faith_tree, c("d", "e"))
 #' @export
 faith_pd <- function (x, tree, x_labels = NULL) {
   check_tree(tree)
@@ -169,6 +180,28 @@ faith_pd <- function (x, tree, x_labels = NULL) {
 #'
 #' Wong RG, Wu JR, Gloor GB. Expanding the UniFrac Toolbox.
 #' PLOS ONE. 2016;11(9):1–20. 10.1371/journal.pone.0161196
+#' @examples
+#' # From Lozupone and Knight (2005), Figure 1.
+#' # Panel A
+#' x1 <- c(1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1)
+#' x2 <- c(0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0)
+#' unweighted_unifrac(x1, x2, lozupone_tree)
+#'
+#' # Panel B
+#' x3 <- c(0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1)
+#' x4 <- c(1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0)
+#' unweighted_unifrac(x3, x4, lozupone_tree)
+#'
+#' # Can use named vectors to specify species
+#' weighted_normalized_unifrac(
+#'   c(A=1, C=1, D=1, F=1, I=1, L=1, N=1),
+#'   c(B=1, E=1, G=1, H=1, J=1, K=1, M=1),
+#'   lozupone_tree)
+#' weighted_normalized_unifrac(x1, x2, lozupone_tree)
+#'
+#' # Generalized UniFrac is equal to weighted normalized UniFrac when alpha = 1
+#' generalized_unifrac(x1, x2, lozupone_tree, alpha=1)
+#' generalized_unifrac(x1, x2, lozupone_tree, alpha=0.5)
 #' @name unifrac
 NULL
 

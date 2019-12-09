@@ -28,6 +28,18 @@ If the vector \code{x} is named, the names will be automatically
   assumed that \code{x} is already in the correct order, and we simply
   check that its length matches the number of tips in the tree.
 }
+\examples{
+# Faith's phylogenetic diversity for whole tree is equal to the sum of the
+# branch lengths.
+sum(faith_tree$edge.length)
+faith_pd(c(1, 1, 1, 1, 1), faith_tree)
+
+# Can use named vector or additional argument to match species to tree.
+faith_tree$tip.label
+faith_pd(c(0, 0, 0, 10, 12), faith_tree)
+faith_pd(c(d=10, e=12), faith_tree)
+faith_pd(c(10, 12), faith_tree, c("d", "e"))
+}
 \references{
 Faith DP. Conservation evaluation and phylogenetic diversity.
   Biol. Conserv. 1992;61:1–10. doi: 10.1016/0006-3207(92)91201-3.
