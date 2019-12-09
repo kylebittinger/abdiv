@@ -147,19 +147,7 @@ A phylogenetic tree can be incorporated into diversity measures to add
 information about the evolutionary history of species. One of the first
 measures in this area was Faith’s phylogenetic diversity. Here, we take
 an example from Figure 1 in Faith and Richards (PMID 24832524) to show
-how phylogenetic diversity works.
-
-We’ll read the tree in Newick format using the `ape` package. To render
-it just like the figure, we use `ape::rotateConstr()` to arrange the
-tips of the tree in order from “a” to “e”.
-
-``` r
-library(ape)
-faith_tree <- read.tree(text="(((a:5,(b:2,c:1):4):4,(d:5,e:3):1):20);")
-faith_tree <- rotateConstr(faith_tree, letters[5:1])
-```
-
-The `ggtree` package can be used to plot the tree.
+how phylogenetic diversity works. The tree is included as `faith_tree`:
 
 ``` r
 library(ggtree)
@@ -167,7 +155,7 @@ ggtree(faith_tree, ladderize = F) +
   geom_tiplab()
 ```
 
-<img src="tools/readme/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="tools/readme/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 If all the species are present, the value of Faith’s phylogenetic
 diversity (PD) is the sum of the branch lengths. Here, we expect the
@@ -198,33 +186,22 @@ tree.
 In this area, the UniFrac distance is widely used to measure β-diversity
 between bacterial communities. We’ll reproduce an example from the
 UniFrac paper by Lozupone and Knight (PMID 16332807), which describes
-the unweighted UniFrac distance. We’ve stored the tree from Figure 1 in
-our package files under `extdata/unifrac_paper.tre`, so we’ll load it
-from there.
-
-``` r
-unifrac_tree <- read.tree(
-  system.file("extdata", "unifrac_paper.tre", package = "abdiv"))
-unifrac_tree <- rotateConstr(unifrac_tree, LETTERS[14:1])
-```
+the unweighted UniFrac distance. The tree from Figure 1 is available as
+`lozupone_tree`.
 
 In the example from Figure 1A, we’ve measured two bacterial communities,
 where the species detected in each are labeled with circles and squares.
 The communities have no species in common.
 
 ``` r
-unifrac_paper_data <- tibble(
-  Species = LETTERS[1:14],
-  PanelA = factor(c(1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 1)),
-  PanelB = factor(c(1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2)))
-ggtree(unifrac_tree, ladderize = F) %<+%
-  unifrac_paper_data +
-  geom_tippoint(aes(shape=PanelA), x=2.6, size=3) +
+ggtree(lozupone_tree, ladderize = F) %<+%
+  lozupone_panel_a +
+  geom_tippoint(aes(shape=SampleID), x=2.6, size=3) +
   scale_shape_manual(values = c(1, 15)) +
   scale_x_continuous(limits=c(0, 2.8))
 ```
 
-<img src="tools/readme/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="tools/readme/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 The circle and square communities are all mixed up on the phylogenetic
 tree. The unweighted UniFrac distance is the fraction of the total
@@ -236,7 +213,7 @@ total length for all branches in the tree.
 ``` r
 a_circle <- c(1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1)
 a_square <- c(0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0)
-unweighted_unifrac(a_circle, a_square, unifrac_tree)
+unweighted_unifrac(a_circle, a_square, lozupone_tree)
 ## [1] 0.5378151
 ```
 
@@ -245,14 +222,14 @@ that all the circles are in the upper part of the tree and all the
 squares are in the lower part. In the paper, this is shown in Figure 1B.
 
 ``` r
-ggtree(unifrac_tree, ladderize = F) %<+%
-  unifrac_paper_data +
-  geom_tippoint(aes(shape=PanelB), x=2.6, size=3) +
+ggtree(lozupone_tree, ladderize = F) %<+%
+  lozupone_panel_b +
+  geom_tippoint(aes(shape=SampleID), x=2.6, size=3) +
   scale_shape_manual(values = c(1, 15)) +
   scale_x_continuous(limits=c(0, 2.8))
 ```
 
-<img src="tools/readme/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="tools/readme/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 With this arrangement, the species in each community are
 phylogenetically very different. Except for the root, each branch of the
@@ -263,7 +240,7 @@ to 1.
 ``` r
 b_circle <- c(1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0)
 b_square <- c(0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1)
-unweighted_unifrac(b_circle, b_square, unifrac_tree)
+unweighted_unifrac(b_circle, b_square, lozupone_tree)
 ## [1] 0.9747899
 ```
 
