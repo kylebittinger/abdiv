@@ -92,10 +92,9 @@ faith_pd <- function (x, tree, x_labels = NULL) {
 
 #' UniFrac distance
 #'
-#' The UniFrac distance is a phylogenetic distance measure introduced for
-#' microbial communities in 2005 by Catherine Lozupone. Since then, the idea
-#' has been extended a number of times to include abundance-weighted and
-#' variance-adjusted measures.
+#' The UniFrac distance is a phylogenetically-weighted distance between two
+#' communities of organisms. The measure has been extended a number of
+#' times to include abundance-weighted and variance-adjusted versions.
 #'
 #' @param x,y Numeric vectors of species counts or proportions.
 #' @param tree A phylogenetic tree object.

@@ -34,10 +34,9 @@ information_unifrac(x, y, tree, xy_labels = NULL)
 The UniFrac distance between communities \code{x} and \code{y}.
 }
 \description{
-The UniFrac distance is a phylogenetic distance measure introduced for
-microbial communities in 2005 by Catherine Lozupone. Since then, the idea
-has been extended a number of times to include abundance-weighted and
-variance-adjusted measures.
+The UniFrac distance is a phylogenetically-weighted distance between two
+communities of organisms. The measure has been extended a number of
+times to include abundance-weighted and variance-adjusted versions.
 }
 \details{
 These functions compute different variations of the UniFrac distance between
