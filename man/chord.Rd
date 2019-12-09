@@ -10,11 +10,12 @@ chord(x, y)
 \item{x, y}{Numeric vectors}
 }
 \description{
-Chord distance
+The Euclidean distance after scaling each community vector by the root sum
+of squares. Ranges from 0 to \eqn{\sqrt{2}}{sqrt(2)}.
 }
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to D_3 in Legendre & Legendre.
+  \item Equivalent to \eqn{D_3}{D_3} in Legendre & Legendre.
 }
 }

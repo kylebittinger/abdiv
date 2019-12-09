@@ -15,11 +15,13 @@ Euclidean distance
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to R's built-in dist() function with method = "euclidean".
-  \item Equivalent to vegdist() with method = "euclidean".
-  \item Equivalent to euclidean() function in scipy.spatial.distance.
-  \item Equivalent to D_1 in Legendre & Legendre.
-  \item Equivalent to D_18 in Legendre & Legendre after transformation to
-    relative abundance.
+  \item Equivalent to R's built-in \code{dist()} function with
+    \code{method = "euclidean"}.
+  \item Equivalent to \code{vegdist()} with \code{method = "euclidean"}.
+  \item Equivalent to the \code{euclidean()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \eqn{D_1}{D_1} in Legendre & Legendre.
+  \item Equivalent to \eqn{D_{18}}{D_18} in Legendre & Legendre after
+    transformation to relative abundance.
 }
 }

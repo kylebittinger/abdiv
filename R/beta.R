@@ -5,7 +5,7 @@
 #' @export
 beta_diversities <- c(
   "euclidean", "rms_distance", "chord", "clark_coefficient_of_divergence",
-  "geodisc_metric", "manhattan", "mean_character_difference",
+  "geodesic_metric", "manhattan", "mean_character_difference",
   "modified_mean_character_difference", "canberra", "chebyshev", "correlation",
   "cosine", "bray_curtis", "hellinger", "kulczynski", "kulczynski_cody",
   "kulczynski_mothur", "kulczynski_scipy", "rogers_tanimoto", "russel_rao",
@@ -20,12 +20,14 @@ beta_diversities <- c(
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to R's built-in dist() function with method = "euclidean".
-#'   \item Equivalent to vegdist() with method = "euclidean".
-#'   \item Equivalent to euclidean() function in scipy.spatial.distance.
-#'   \item Equivalent to D_1 in Legendre & Legendre.
-#'   \item Equivalent to D_18 in Legendre & Legendre after transformation to
-#'     relative abundance.
+#'   \item Equivalent to R's built-in \code{dist()} function with
+#'     \code{method = "euclidean"}.
+#'   \item Equivalent to \code{vegdist()} with \code{method = "euclidean"}.
+#'   \item Equivalent to the \code{euclidean()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \eqn{D_1}{D_1} in Legendre & Legendre.
+#'   \item Equivalent to \eqn{D_{18}}{D_18} in Legendre & Legendre after
+#'     transformation to relative abundance.
 #' }
 #' @export
 euclidean <- function (x, y) {
@@ -73,12 +75,15 @@ rms_distance <- function (x, y) {
 
 #' Chord distance
 #'
+#' The Euclidean distance after scaling each community vector by the root sum
+#' of squares. Ranges from 0 to \eqn{\sqrt{2}}{sqrt(2)}.
+#'
 #' @param x,y Numeric vectors
 #'
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to D_3 in Legendre & Legendre.
+#'   \item Equivalent to \eqn{D_3}{D_3} in Legendre & Legendre.
 #' }
 #' @export
 chord <- function (x, y) {
@@ -104,17 +109,20 @@ clark_coefficient_of_divergence <- function (x, y) {
   sqrt(sum(((x - y) / (x + y)) ^ 2) / length(x))
 }
 
-#' Geodisc metric
+#' Geodesic metric
+#'
+#' If the communities are arranged into vectors of unit length, the geodesic
+#' metric is the length of the arc on a hypersphere between the vectors.
 #'
 #' @param x,y Numeric vectors
 #'
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to D_4 in Legendre & Legendre.
+#'   \item Equivalent to \eqn{D_4}{D_4} in Legendre & Legendre.
 #' }
 #' @export
-geodisc_metric <- function (x, y) {
+geodesic_metric <- function (x, y) {
   acos(1 - chord(x, y) / 2)
 }
 
@@ -631,6 +639,7 @@ hamming <- function (x, y) {
 }
 
 # Legendre & Legendre notes:
+# D_2 (average distance) not implemented
 # S_3, S_4, S_5, S_6 not implemented
 # Hamann and Pearson's phi not implemented
 # S_9 = 3a / (3a + b + c) not implemented
