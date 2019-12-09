@@ -19,6 +19,15 @@ Faith's phylogenetic diversity gives the total branch length on a
 phylogenetic tree that is spanned by a community.  The abundance of each
 species in the community is not considered.
 }
+\details{
+If the vector \code{x} is named, the names will be automatically
+  used to match \code{x} with the tree. Missing names are filled in with
+  zero counts. If \code{x} is not named and \code{x_labels} is provided,
+  these labels are used to match the elements of \code{x} with the tree.
+  If \code{x} is not named and \code{x_labels} is not provided, it is
+  assumed that \code{x} is already in the correct order, and we simply
+  check that its length matches the number of tips in the tree.
+}
 \references{
 Faith DP. Conservation evaluation and phylogenetic diversity.
   Biol. Conserv. 1992;61:1–10. doi: 10.1016/0006-3207(92)91201-3.
