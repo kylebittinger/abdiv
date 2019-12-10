@@ -2,18 +2,33 @@
 % Please edit documentation in R/beta.R
 \name{euclidean}
 \alias{euclidean}
-\title{Euclidean distance}
+\alias{rms_distance}
+\alias{chord}
+\alias{hellinger}
+\alias{geodesic_metric}
+\title{Euclidean distance and related measures}
 \usage{
 euclidean(x, y)
+
+rms_distance(x, y)
+
+chord(x, y)
+
+hellinger(x, y)
+
+geodesic_metric(x, y)
 }
 \arguments{
 \item{x, y}{Numeric vectors}
 }
 \description{
-Euclidean distance
+These distance and diversity measures are mathematically similar to the
+Euclidean distance between two vectors.
 }
 \details{
-Relation to other definitions:
+For vectors \code{x} and \code{y}, the Euclidean distance is defined as
+\deqn{d(x, y) = \sqrt{\Sigma_i^n (x_i - y_i) ^ 2}.}
+Relation of \code{euclidean()} to other definitions:
 \itemize{
   \item Equivalent to R's built-in \code{dist()} function with
     \code{method = "euclidean"}.
@@ -21,7 +36,42 @@ Relation to other definitions:
   \item Equivalent to the \code{euclidean()} function in
     \code{scipy.spatial.distance}.
   \item Equivalent to \eqn{D_1}{D_1} in Legendre & Legendre.
-  \item Equivalent to \eqn{D_{18}}{D_18} in Legendre & Legendre after
-    transformation to relative abundance.
+  \item Equivalent to the \emph{distance between species profiles},
+    \eqn{D_{18}}{D_18} in Legendre & Legendre if \code{x} and \code{y} are
+    transformed to relative abundance.
+}
+
+The \emph{root-mean-square} distance or \emph{average} distance is similar
+to Euclidean distance. As the name implies, it is computed as the square
+root of the mean of the squared differences between elements of \code{x}
+and \code{y}:
+\deqn{d(x, y) = \sqrt{\frac{1}{n} \Sigma_i^n (x_i - y_i) ^ 2}.}
+Relation of \code{rms_distance()} to other definitions:
+\itemize{
+  \item Equivalent to \eqn{D_2}{D_2} in Legendre & Legendre.
+}
+
+The \emph{chord} distance is the Euclidean distance after scaling each
+vector by its root sum of squares, \eqn{\hat{x} = \sqrt{\Sigma_i x_i^2}}.
+The chord distance between any two vectors ranges from 0 to
+\eqn{\sqrt{2}}{sqrt(2)}. Relation of \code{chord()} to other definitions:
+\itemize{
+  \item Equivalent to \eqn{D_3}{D_3} in Legendre & Legendre.
+}
+
+The \emph{Hellinger} distance is equal to the chord distance computed after
+a square-root transformation. Relation of \code{hellinger()} to other
+definitions:
+\itemize{
+  \item Equivalent to \eqn{D_{17}}{D_17} in Legendre & Legendre.
+}
+
+The \emph{geodesic metric} is a transformed version of the chord distance.
+\deqn{d(x, y) = \textrm{arccos}(1 - \frac{d_c^2(x, y)}{2}),} where \eqn{d_c}
+is the chord distance. It gives the length of the arc on a hypersphere
+between the vectors, if the vectors are normalized to unit length. Relation
+of \code{geodesic_metric()} to other definitions:
+\itemize{
+  \item Equivalent to \eqn{D_4}{D_4} in Legendre & Legendre.
 }
 }

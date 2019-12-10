@@ -13,12 +13,17 @@ beta_diversities <- c(
   "morisita", "cao", "millar", "morisita_horn", "jaccard", "sorenson",
   "whittaker", "hamming")
 
-#' Euclidean distance
+#' Euclidean distance and related measures
+#'
+#' These distance and diversity measures are mathematically similar to the
+#' Euclidean distance between two vectors.
 #'
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' Relation to other definitions:
+#' For vectors \code{x} and \code{y}, the Euclidean distance is defined as
+#' \deqn{d(x, y) = \sqrt{\Sigma_i^n (x_i - y_i) ^ 2}.}
+#' Relation of \code{euclidean()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to R's built-in \code{dist()} function with
 #'     \code{method = "euclidean"}.
@@ -26,12 +31,91 @@ beta_diversities <- c(
 #'   \item Equivalent to the \code{euclidean()} function in
 #'     \code{scipy.spatial.distance}.
 #'   \item Equivalent to \eqn{D_1}{D_1} in Legendre & Legendre.
-#'   \item Equivalent to \eqn{D_{18}}{D_18} in Legendre & Legendre after
-#'     transformation to relative abundance.
+#'   \item Equivalent to the \emph{distance between species profiles},
+#'     \eqn{D_{18}}{D_18} in Legendre & Legendre if \code{x} and \code{y} are
+#'     transformed to relative abundance.
+#' }
+#'
+#' The \emph{root-mean-square} distance or \emph{average} distance is similar
+#' to Euclidean distance. As the name implies, it is computed as the square
+#' root of the mean of the squared differences between elements of \code{x}
+#' and \code{y}:
+#' \deqn{d(x, y) = \sqrt{\frac{1}{n} \Sigma_i^n (x_i - y_i) ^ 2}.}
+#' Relation of \code{rms_distance()} to other definitions:
+#' \itemize{
+#'   \item Equivalent to \eqn{D_2}{D_2} in Legendre & Legendre.
+#' }
+#'
+#' The \emph{chord} distance is the Euclidean distance after scaling each
+#' vector by its root sum of squares, \eqn{\hat{x} = \sqrt{\Sigma_i x_i^2}}.
+#' The chord distance between any two vectors ranges from 0 to
+#' \eqn{\sqrt{2}}{sqrt(2)}. Relation of \code{chord()} to other definitions:
+#' \itemize{
+#'   \item Equivalent to \eqn{D_3}{D_3} in Legendre & Legendre.
+#' }
+#'
+#' The \emph{Hellinger} distance is equal to the chord distance computed after
+#' a square-root transformation. Relation of \code{hellinger()} to other
+#' definitions:
+#' \itemize{
+#'   \item Equivalent to \eqn{D_{17}}{D_17} in Legendre & Legendre.
+#' }
+#'
+#' The \emph{geodesic metric} is a transformed version of the chord distance.
+#' \deqn{d(x, y) = \textrm{arccos}(1 - \frac{d_c^2(x, y)}{2}),} where \eqn{d_c}
+#' is the chord distance. It gives the length of the arc on a hypersphere
+#' between the vectors, if the vectors are normalized to unit length. Relation
+#' of \code{geodesic_metric()} to other definitions:
+#' \itemize{
+#'   \item Equivalent to \eqn{D_4}{D_4} in Legendre & Legendre.
 #' }
 #' @export
 euclidean <- function (x, y) {
   sqrt(sum((y - x) ^ 2))
+}
+
+#' @rdname euclidean
+#' @export
+rms_distance <- function (x, y) {
+  sqrt(mean((y - x) ^ 2))
+}
+
+#' @rdname euclidean
+#' @export
+chord <- function (x, y) {
+  x <- x / sqrt(sum(x ^ 2))
+  y <- y / sqrt(sum(y ^ 2))
+  euclidean(x, y)
+}
+
+#' @rdname euclidean
+#' @export
+hellinger <- function (x, y) {
+  x <- x / sum(x)
+  y <- y / sum(y)
+  chord(sqrt(x), sqrt(y))
+}
+
+#' @rdname euclidean
+#' @export
+geodesic_metric <- function (x, y) {
+  acos(1 - chord(x, y) / 2)
+}
+
+#' Clark's coefficient of divergence
+#'
+#' @param x,y Numeric vectors
+#'
+#' Relation of \code{clark_coefficient_of_divergence()} to other definitions:
+#' \itemize{
+#'   \item Equivalent to \eqn{D_{11}}{D_11} in Legendre & Legendre.
+#' }
+#' @export
+clark_coefficient_of_divergence <- function (x, y) {
+  keep <- (x > 0) | (y > 0)
+  x <- x[keep]
+  y <- y[keep]
+  sqrt(sum(((x - y) / (x + y)) ^ 2) / length(x))
 }
 
 #' Kullback-Leibler divergence
@@ -57,73 +141,6 @@ kullback_leibler_divergence <- function (x, y) {
   }
   terms <- x * log(x / y)
   sum(ifelse(x > 0, terms, 0))
-}
-
-#' Root-mean-square distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{D_2}{D_2} in Legendre & Legendre.
-#' }
-#' @export
-rms_distance <- function (x, y) {
-  sqrt(mean((y - x) ^ 2))
-}
-
-#' Chord distance
-#'
-#' The Euclidean distance after scaling each community vector by the root sum
-#' of squares. Ranges from 0 to \eqn{\sqrt{2}}{sqrt(2)}.
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{D_3}{D_3} in Legendre & Legendre.
-#' }
-#' @export
-chord <- function (x, y) {
-  x <- x / sqrt(sum(x ^ 2))
-  y <- y / sqrt(sum(y ^ 2))
-  euclidean(x, y)
-}
-
-#' Clark's coefficient of divergence
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{D_{11}}{D_11} in Legendre & Legendre.
-#' }
-#' @export
-clark_coefficient_of_divergence <- function (x, y) {
-  keep <- (x > 0) | (y > 0)
-  x <- x[keep]
-  y <- y[keep]
-  sqrt(sum(((x - y) / (x + y)) ^ 2) / length(x))
-}
-
-#' Geodesic metric
-#'
-#' If the communities are arranged into vectors of unit length, the geodesic
-#' metric is the length of the arc on a hypersphere between the vectors.
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{D_4}{D_4} in Legendre & Legendre.
-#' }
-#' @export
-geodesic_metric <- function (x, y) {
-  acos(1 - chord(x, y) / 2)
 }
 
 #' Manhattan or city block distance
@@ -276,25 +293,6 @@ cosine <- function (x, y) {
 #' @export
 bray_curtis <- function (x, y) {
   sum(abs(x - y)) / sum(x + y)
-}
-
-#' Hellinger distance
-#'
-#' The Hellinger distance is the chord distance computed on species proportions
-#' after a square-root transformation.
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{D_{17}}{D_17} in Legendre & Legendre.
-#' }
-#' @export
-hellinger <- function (x, y) {
-  x <- x / sum(x)
-  y <- y / sum(y)
-  chord(sqrt(x), sqrt(y))
 }
 
 #' Kulczynski distance
@@ -680,12 +678,12 @@ hamming <- function (x, y) {
 }
 
 # Euclidean-like:
-# euclidean, chord, geodesic_metric, clark_coefficient_of_divergence,
-# hellinger, rms_distance
+# euclidean, rms_distance, chord, geodesic_metric, hellinger
 
 # Manhattan-like:
-# manhattan, mean_character_difference, modified_mean_character_difference,
-# canberra
+# manhattan, mean_character_difference, modified_mean_character_difference
+
+# Canberra-like: clark_coefficient_of_divergence
 
 # Vegan notes:
 # TODO: Mountford
