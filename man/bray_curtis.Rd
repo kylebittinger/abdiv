@@ -10,12 +10,14 @@ bray_curtis(x, y)
 \item{x, y}{Numeric vectors}
 }
 \description{
-Bray-Curtis distance
+The Bray-Curtis distance is the sum of absolute differences between the
+vectors divided by the sum of both vectors.
 }
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to vegdist() with method = "bray".
-  \item Equivalent to D_14 = 1 - s_17 in Legendre & Legendre.
+  \item Equivalent to \code{vegdist()} with \code{method = "bray"}.
+  \item Equivalent to \eqn{D_{14} = 1 - S_{17}}{D_14 = 1 - S_17} in
+    Legendre & Legendre.
 }
 }

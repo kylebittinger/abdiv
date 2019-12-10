@@ -15,6 +15,6 @@ Kulczynski distance (Mothur implementation)
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to 1 - S_12 in Legendre & Legendre.
+  \item Equivalent to \eqn{1 - S_{12}}{1 - S_12} in Legendre & Legendre.
 }
 }

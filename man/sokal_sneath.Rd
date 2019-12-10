@@ -15,7 +15,8 @@ Sokal-Sneath distance
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to sokalsneath() function in scipy.spatial.distance.
-  \item Equivalent to 1 - S_10 in Legendre & Legendre.
+  \item Equivalent to \code{sokalsneath()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \eqn{1 - S_{10}}{1 - S_10} in Legendre & Legendre.
 }
 }

@@ -7,12 +7,15 @@
 sorenson(x, y)
 }
 \description{
-Sorenson or Dice index of dissimilarity
+After transforming to presence/absence, the average fraction of species
+found in one sample but not the other.
 }
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to dice() function in scipy.spatial.distance.
-  \item Equivalent to D_13 = 1 - S_8 in Legendre & Legendre.
+  \item Equivalent to the \code{dice()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
+    Legendre.
 }
 }

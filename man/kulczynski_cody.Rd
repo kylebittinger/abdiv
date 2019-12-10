@@ -15,6 +15,6 @@ Kulczynski-Cody distance
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to 1 - S_13 in Legendre & Legendre.
+  \item Equivalent to \eqn{1 - S_{13}}{1 - S_13} in Legendre & Legendre.
 }
 }

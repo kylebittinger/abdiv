@@ -15,7 +15,8 @@ Russel-Rao distance
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to russelrao() function in scipy.spatial.distance.
-  \item Equivalent to 1 - S_11 in Legendre & Legendre
+  \item Equivalent to the \code{russelrao()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \code{1 - S_{11}}{1 - S_11} in Legendre & Legendre.
 }
 }

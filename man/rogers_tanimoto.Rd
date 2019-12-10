@@ -15,7 +15,8 @@ Rogers-Tanimoto distance
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to rogerstanimoto() function in scipy.spatial.distance.
-  \item Equivalent to 1 - S_2 in Legendre & Legendre
+  \item Equivalent to the \code{rogerstanimoto()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \eqn{1 - S_2}{1 - S_2} in Legendre & Legendre.
 }
 }

@@ -10,12 +10,14 @@ mean_character_difference(x, y)
 \item{x, y}{Numeric vectors}
 }
 \description{
-Mean character difference
+The mean character difference is the Manhattan distance divided by the
+vector length.
 }
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to D_8 in Legendre & Legendre.
-  \item For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
+  \item Equivalent to \eqn{D_8}{D_8} in Legendre & Legendre.
+  \item For binary data, equivalent to \eqn{1 - S_1}{1 - S_1} in Legendre
+    & Legendre, where \eqn{S_1}{S_1} is the simple matching coefficient.
 }
 }

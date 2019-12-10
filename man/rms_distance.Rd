@@ -15,6 +15,6 @@ Root-mean-square distance
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to D_XXXX in Legendre & Legendre.
+  \item Equivalent to \eqn{D_2}{D_2} in Legendre & Legendre.
 }
 }

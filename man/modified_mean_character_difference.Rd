@@ -10,12 +10,13 @@ modified_mean_character_difference(x, y)
 \item{x, y}{Numeric vectors}
 }
 \description{
-Modified mean character difference
+The modified mean character difference is the Manhattan distance divided by
+the number of elements where the vectors are not both equal to zero.
 }
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to D_19 in Legendre & Legendre.
-  \item For binary data, equivalent to Jaccard distance.
+  \item Equivalent to \eqn{D_{19}}{D_19} in Legendre & Legendre.
+  \item For binary data, equivalent to the Jaccard distance.
 }
 }

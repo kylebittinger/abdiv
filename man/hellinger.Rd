@@ -10,7 +10,8 @@ hellinger(x, y)
 \item{x, y}{Numeric vectors}
 }
 \description{
-Hellinger distance
+The Hellinger distance is the chord distance computed on species proportions
+after a square-root transformation.
 }
 \details{
 Relation to other definitions:

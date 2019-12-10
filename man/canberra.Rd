@@ -10,14 +10,18 @@ canberra(x, y)
 \item{x, y}{Numeric vectors}
 }
 \description{
-Canberra distance
+The sum over all elements of the absolute difference in abundance divided by
+the sum.
 }
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to R's built-in dist() function with method = "canberra".
-  \item Equivalent to vegdist() with method = "canberra", multiplied by the number of nonzero entries.
-  \item Equivalent to canberra() function in scipy.spatial.distance.
-  \item Equivalent to D_10 in Legendre & Legendre.
+  \item Equivalent to R's built-in \code{dist()} function with
+    \code{method = "canberra"}.
+  \item Equivalent to the \code{vegdist()} function with
+    \code{method = "canberra"}, multiplied by the number of nonzero entries.
+  \item Equivalent to the \code{canberra()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \eqn{D_{10}}{D_10} in Legendre & Legendre.
 }
 }

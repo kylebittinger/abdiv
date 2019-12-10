@@ -10,13 +10,18 @@ minkowski(x, y, p = 1)
 \item{x, y}{Numeric vectors}
 }
 \description{
-Minkowski distance
+The Minkowski metric is a generalized form of Euclidean (p=2) and Manhattan
+(p=1) distance.
 }
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to R's built-in dist() function with method = "minkowski".
-  \item Equivalent to minkowski() function in scipy.spatial.distance.
-  \item Equivalent to D_6 in Legendre & Legendre.
+  \item Equivalent to R's built-in \code{dist()} function with
+    \code{method = "minkowski"}.
+  \item Equivalent to the \code{minkowski()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \eqn{D_6}{D_6} in Legendre & Legendre.
 }
+The default value of \code{p = 1} makes this distance equal to the Manhattan
+distance.
 }

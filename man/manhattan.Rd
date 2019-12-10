@@ -10,17 +10,20 @@ manhattan(x, y)
 \item{x, y}{Numeric vectors}
 }
 \description{
-Manhattan or city block distance
+The Manhattan distance is the sum of absolute differences between the
+elements of two vectors.
 }
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to R's built-in dist() function with method = "manhattan".
-  \item Equivalent to vegdist() with method = "manhattan".
-  \item Equivalent to cityblock() function in scipy.spatial.distance.
-  \item Equivalent to D_7 in Legendre & Legendre.
-  \item Whittaker's index of assiciation (D_9 in Legendre & Legendre) is the
-Manhattan distance computed after transforming to proportions and dividing
-by 2.
+  \item Equivalent to R's built-in \code{dist()} function with
+    \code{method = "manhattan"}.
+  \item Equivalent to \code{vegdist()} with \code{method = "manhattan"}.
+  \item Equivalent to the \code{cityblock()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \eqn{D_7}{D_7} in Legendre & Legendre.
+  \item Whittaker's index of assiciation (\eqn{D_9}{D_9} in Legendre &
+    Legendre) is the Manhattan distance computed after transforming to
+    proportions and dividing by 2.
 }
 }

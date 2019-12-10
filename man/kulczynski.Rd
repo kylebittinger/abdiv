@@ -15,6 +15,6 @@ Kulczynski distance
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to vegdist() with method = "kulczynski".
+  \item Equivalent to \code{vegdist()} with \code{method = "kulczynski"}.
 }
 }

@@ -66,7 +66,7 @@ kullback_leibler_divergence <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to D_XXXX in Legendre & Legendre.
+#'   \item Equivalent to \eqn{D_2}{D_2} in Legendre & Legendre.
 #' }
 #' @export
 rms_distance <- function (x, y) {
@@ -99,7 +99,7 @@ chord <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to D_11 in Legendre & Legendre.
+#'   \item Equivalent to \eqn{D_{11}}{D_11} in Legendre & Legendre.
 #' }
 #' @export
 clark_coefficient_of_divergence <- function (x, y) {
@@ -128,18 +128,23 @@ geodesic_metric <- function (x, y) {
 
 #' Manhattan or city block distance
 #'
+#' The Manhattan distance is the sum of absolute differences between the
+#' elements of two vectors.
+#'
 #' @param x,y Numeric vectors
 #'
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to R's built-in dist() function with method = "manhattan".
-#'   \item Equivalent to vegdist() with method = "manhattan".
-#'   \item Equivalent to cityblock() function in scipy.spatial.distance.
-#'   \item Equivalent to D_7 in Legendre & Legendre.
-#'   \item Whittaker's index of assiciation (D_9 in Legendre & Legendre) is the
-#' Manhattan distance computed after transforming to proportions and dividing
-#' by 2.
+#'   \item Equivalent to R's built-in \code{dist()} function with
+#'     \code{method = "manhattan"}.
+#'   \item Equivalent to \code{vegdist()} with \code{method = "manhattan"}.
+#'   \item Equivalent to the \code{cityblock()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \eqn{D_7}{D_7} in Legendre & Legendre.
+#'   \item Whittaker's index of assiciation (\eqn{D_9}{D_9} in Legendre &
+#'     Legendre) is the Manhattan distance computed after transforming to
+#'     proportions and dividing by 2.
 #' }
 #' @export
 manhattan <- function (x, y) {
@@ -148,13 +153,17 @@ manhattan <- function (x, y) {
 
 #' Mean character difference
 #'
+#' The mean character difference is the Manhattan distance divided by the
+#' vector length.
+#'
 #' @param x,y Numeric vectors
 #'
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to D_8 in Legendre & Legendre.
-#'   \item For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
+#'   \item Equivalent to \eqn{D_8}{D_8} in Legendre & Legendre.
+#'   \item For binary data, equivalent to \eqn{1 - S_1}{1 - S_1} in Legendre
+#'     & Legendre, where \eqn{S_1}{S_1} is the simple matching coefficient.
 #' }
 #' @export
 mean_character_difference <- function (x, y) {
@@ -163,13 +172,16 @@ mean_character_difference <- function (x, y) {
 
 #' Modified mean character difference
 #'
+#' The modified mean character difference is the Manhattan distance divided by
+#' the number of elements where the vectors are not both equal to zero.
+#'
 #' @param x,y Numeric vectors
 #'
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to D_19 in Legendre & Legendre.
-#'   \item For binary data, equivalent to Jaccard distance.
+#'   \item Equivalent to \eqn{D_{19}}{D_19} in Legendre & Legendre.
+#'   \item For binary data, equivalent to the Jaccard distance.
 #' }
 #' @export
 modified_mean_character_difference <- function (x, y) {
@@ -179,15 +191,21 @@ modified_mean_character_difference <- function (x, y) {
 
 #' Canberra distance
 #'
+#' The sum over all elements of the absolute difference in abundance divided by
+#' the sum.
+#'
 #' @param x,y Numeric vectors
 #'
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to R's built-in dist() function with method = "canberra".
-#'   \item Equivalent to vegdist() with method = "canberra", multiplied by the number of nonzero entries.
-#'   \item Equivalent to canberra() function in scipy.spatial.distance.
-#'   \item Equivalent to D_10 in Legendre & Legendre.
+#'   \item Equivalent to R's built-in \code{dist()} function with
+#'     \code{method = "canberra"}.
+#'   \item Equivalent to the \code{vegdist()} function with
+#'     \code{method = "canberra"}, multiplied by the number of nonzero entries.
+#'   \item Equivalent to the \code{canberra()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \eqn{D_{10}}{D_10} in Legendre & Legendre.
 #' }
 #' @export
 canberra <- function (x, y) {
@@ -243,13 +261,17 @@ cosine <- function (x, y) {
 
 #' Bray-Curtis distance
 #'
+#' The Bray-Curtis distance is the sum of absolute differences between the
+#' vectors divided by the sum of both vectors.
+#'
 #' @param x,y Numeric vectors
 #'
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to vegdist() with method = "bray".
-#'   \item Equivalent to D_14 = 1 - s_17 in Legendre & Legendre.
+#'   \item Equivalent to \code{vegdist()} with \code{method = "bray"}.
+#'   \item Equivalent to \eqn{D_{14} = 1 - S_{17}}{D_14 = 1 - S_17} in
+#'     Legendre & Legendre.
 #' }
 #' @export
 bray_curtis <- function (x, y) {
@@ -257,6 +279,9 @@ bray_curtis <- function (x, y) {
 }
 
 #' Hellinger distance
+#'
+#' The Hellinger distance is the chord distance computed on species proportions
+#' after a square-root transformation.
 #'
 #' @param x,y Numeric vectors
 #'
@@ -279,7 +304,7 @@ hellinger <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to vegdist() with method = "kulczynski".
+#'   \item Equivalent to \code{vegdist()} with \code{method = "kulczynski"}.
 #' }
 #' @export
 kulczynski <- function (x, y) {
@@ -296,7 +321,7 @@ kulczynski <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to 1 - S_13 in Legendre & Legendre.
+#'   \item Equivalent to \eqn{1 - S_{13}}{1 - S_13} in Legendre & Legendre.
 #' }
 #' @export
 kulczynski_cody <- function (x, y) {
@@ -313,7 +338,7 @@ kulczynski_cody <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to 1 - S_12 in Legendre & Legendre.
+#'   \item Equivalent to \eqn{1 - S_{12}}{1 - S_12} in Legendre & Legendre.
 #' }
 #' @export
 kulczynski_mothur <- function (x, y) {
@@ -352,8 +377,9 @@ scipy_coefficients <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to rogerstanimoto() function in scipy.spatial.distance.
-#'   \item Equivalent to 1 - S_2 in Legendre & Legendre
+#'   \item Equivalent to the \code{rogerstanimoto()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \eqn{1 - S_2}{1 - S_2} in Legendre & Legendre.
 #' }
 #' @export
 rogers_tanimoto <- function (x, y) {
@@ -370,8 +396,9 @@ rogers_tanimoto <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to russelrao() function in scipy.spatial.distance.
-#'   \item Equivalent to 1 - S_11 in Legendre & Legendre
+#'   \item Equivalent to the \code{russelrao()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \code{1 - S_{11}}{1 - S_11} in Legendre & Legendre.
 #' }
 #' @export
 russel_rao <- function (x, y) {
@@ -407,8 +434,9 @@ sokal_michener <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to sokalsneath() function in scipy.spatial.distance.
-#'   \item Equivalent to 1 - S_10 in Legendre & Legendre.
+#'   \item Equivalent to \code{sokalsneath()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \eqn{1 - S_{10}}{1 - S_10} in Legendre & Legendre.
 #' }
 #' @export
 sokal_sneath <- function (x, y) {
@@ -478,15 +506,22 @@ alt_gower <- function (x, y) {
 
 #' Minkowski distance
 #'
+#' The Minkowski metric is a generalized form of Euclidean (p=2) and Manhattan
+#' (p=1) distance.
+#'
 #' @param x,y Numeric vectors
 #'
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to R's built-in dist() function with method = "minkowski".
-#'   \item Equivalent to minkowski() function in scipy.spatial.distance.
-#'   \item Equivalent to D_6 in Legendre & Legendre.
+#'   \item Equivalent to R's built-in \code{dist()} function with
+#'     \code{method = "minkowski"}.
+#'   \item Equivalent to the \code{minkowski()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \eqn{D_6}{D_6} in Legendre & Legendre.
 #' }
+#' The default value of \code{p = 1} makes this distance equal to the Manhattan
+#' distance.
 #' @export
 minkowski <- function (x, y, p = 1) {
   sum(abs(x - y) ^ p) ^ (1 / p)
@@ -510,12 +545,6 @@ morisita <- function (x, y) {
   xy_term <- sum(x * y) / (sum(x) * sum(y))
   1 - 2 * xy_term / (lambda_x + lambda_y)
 }
-
-# TODO: Mountford
-# TODO: Raup
-# TODO: Chao-Jaccard, vegan uses some correction from the paper
-# DONT DO: mahalanobis, in R stats module
-# Mahalanobis equivalent to D_5 in Legendre & Legendre.
 
 
 #' Cao index of dissimilarity
@@ -600,11 +629,16 @@ koleff_abc <- function (x, y) {
 
 #' Sorenson or Dice index of dissimilarity
 #'
+#' After transforming to presence/absence, the average fraction of species
+#' found in one sample but not the other.
+#'
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to dice() function in scipy.spatial.distance.
-#'   \item Equivalent to D_13 = 1 - S_8 in Legendre & Legendre.
+#'   \item Equivalent to the \code{dice()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
+#'     Legendre.
 #' }
 #' @export
 sorenson <- function (x, y) {
@@ -638,16 +672,66 @@ hamming <- function (x, y) {
   sum(x != y) / length(x)
 }
 
+# Euclidean-like:
+# euclidean, chord, geodesic_metric, clark_coefficient_of_divergence,
+# hellinger
+
+# Manhattan-like:
+# manhattan, mean_character_difference, modified_mean_character_difference,
+# canberra
+
+# Vegan notes:
+# TODO: Mountford
+# TODO: Raup
+# TODO: Chao-Jaccard, vegan uses some correction from the paper
+
 # Legendre & Legendre notes:
-# D_2 (average distance) not implemented
-# S_3, S_4, S_5, S_6 not implemented
-# Hamann and Pearson's phi not implemented
+# D_1 implemented as euclidean
+# D_2 (average distance) implemented as rms_distance
+# D_3 implemented as chord
+# D_4 implemented as geodesic_metric
+# D_5 (Mahalanobis distance) not implemented, available in R stats module
+# D_6 implemented as minkowski
+# D_7 implemented as manhattan
+# D_8 implemented as mean_character_difference
+# D_19 implemented as modified_mean_character_difference
+# D_9 (Whittaker's index of association) not implemented, noted under manhattan
+# D_10 implemented as canberra
+# D_11 implemented as clark_coefficient_of_divergence
+# D_12 (Pearson coefficient of racial likeness) not implemented
+# D_18 (distance between species profiles) not implemented, noted under euclidean
+# D_15 (Chi-square metric) not implemented, needs full matrix
+# D_16 (Chi-square distance) not implemented, needs full matrix
+# D_17 implemented as hellinger
+# D_13 implemented as sorenson
+# D_14 implemented as bray_curtis
+#   Need to note how Bray-Curtis distance is related to almost everything else.
+# S_1 (simple matching coefficient) is the mean_character_difference
+# S_2 (coefficient of Rogers & Tanimoto) implemented as rogers_tanimoto
+# S_3, S_4, S_5, S_6 (Sokal and Sneath) not implemented
+# Hamann coefficient not implemented
+# Pearson's phi not implemented
+# S_7 implemented as jaccard
+# S_8 implemented as sorenson
 # S_9 = 3a / (3a + b + c) not implemented
-# S_14 as a distance is proportional to sqrt of chord or Hellinger for binary data
-# S_26 is not implemented
-# Gower's coefficient, S_15 and S_16 not implemented. I think they are equivalent to Hamming distance.
+# S_10 implemented as sokal_sneath
+# S_11 implemented as russel_rao
+# S_12 implemented as kulczynski_mothur
+# S_13 implemented as kulczynski_cody
+#   The Kulczynski distances are a mess!
+# S_14 (name unclear) not implemented. It should be noted that S_14 as a
+#   distance is proportional to sqrt of chord or Hellinger for binary data.
+# S_26 (name unclear) not implemented
+# S_15 (Gower coefficient) not implemented. Equivalent to Hamming distance?
+# S_16 (Estabrook and Rogers) not implemented
+# S_17 (Steinhaus coefficient) implemented as bray_curtis
+# S_18 (yet another Kulcynski coefficient) is equivalent to kulczynski, I think
+# S_19 (modified Gower) not implemented
+# S_20 (Legendre & Chodorowski) not implemented, also similar to Gower
+# S_21 (Chi-square similarity) not implemented, see D_15
+# S_22 (Goodall 1) not implemented, needs full matrix
+# S_23 (Goodall 2) not implemented, needs full matrix
+# Raup-Crick not implemented, available as raupcrick() in vegan
+# S_27 (Raup-Crick p-value) not implemented
 # Skip rest of Q-mode similarity for now
-# Pearson coefficient of racial likeness, D_12, not implemented
-# Chi-square distances, D_15 and D_16, not implemented (they need the full matrix)
-# Need to note how Bray-Curtis distance is related to almost everything else.
 
