@@ -2,19 +2,28 @@
 % Please edit documentation in R/beta.R
 \name{manhattan}
 \alias{manhattan}
-\title{Manhattan or city block distance}
+\alias{mean_character_difference}
+\alias{modified_mean_character_difference}
+\title{Manhattan and related distances}
 \usage{
 manhattan(x, y)
+
+mean_character_difference(x, y)
+
+modified_mean_character_difference(x, y)
 }
 \arguments{
 \item{x, y}{Numeric vectors}
 }
 \description{
-The Manhattan distance is the sum of absolute differences between the
-elements of two vectors.
+The Manhattan or city block distance is the sum of absolute differences
+between the elements of two vectors. The \emph{mean character} difference
+is a closely related measure.
 }
 \details{
-Relation to other definitions:
+For two vectors \code{x} and \code{y}, the Manhattan distance is given by
+\deqn{d(x, y) = \Sigma_i |x_i - y_i|.} Relation of \code{manhattan()} to
+other definitions:
 \itemize{
   \item Equivalent to R's built-in \code{dist()} function with
     \code{method = "manhattan"}.
@@ -26,4 +35,39 @@ Relation to other definitions:
     Legendre) is the Manhattan distance computed after transforming to
     proportions and dividing by 2.
 }
+
+The mean character difference is the Manhattan distance divided by the
+length of the vectors. Relation of \code{mean_character_difference()} to
+other definitions:
+\itemize{
+  \item Equivalent to \eqn{D_8} in Legendre & Legendre.
+  \item For binary data, equivalent to \eqn{1 - S_1} in Legendre & Legendre,
+    where \eqn{S_1} is the simple matching coefficient.
+}
+
+The modified mean character difference is the Manhattan distance divided by
+the number elements where either \code{x} or \code{y} (or both) are nonzero.
+Relation of \code{modified_mean_character_difference()} to other
+definitions:
+\itemize{
+  \item Equivalent to \eqn{D_{19}} in Legendre & Legendre.
+  \item For binary data, it is equivalent to the Jaccard distance.
+}
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+y <- c(10, 2, 0, 1, 1, 0)
+manhattan(x, y)
+# Whittaker's index of association
+manhattan(x / sum(x), y / sum(y)) / 2
+
+mean_character_difference(x, y)
+# Simple matching coefficient for presence/absence data
+# Should be 2 / 6
+mean_character_difference(x > 0, y > 0)
+
+modified_mean_character_difference(x, y)
+# Jaccard distance for presence/absence data
+modified_mean_character_difference(x > 0, y > 0)
+jaccard(x, y)
 }

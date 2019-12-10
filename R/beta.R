@@ -160,15 +160,18 @@ kullback_leibler_divergence <- function (x, y) {
   sum(ifelse(x > 0, terms, 0))
 }
 
-#' Manhattan or city block distance
+#' Manhattan and related distances
 #'
-#' The Manhattan distance is the sum of absolute differences between the
-#' elements of two vectors.
+#' The Manhattan or city block distance is the sum of absolute differences
+#' between the elements of two vectors. The \emph{mean character} difference
+#' is a closely related measure.
 #'
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' Relation to other definitions:
+#' For two vectors \code{x} and \code{y}, the Manhattan distance is given by
+#' \deqn{d(x, y) = \Sigma_i |x_i - y_i|.} Relation of \code{manhattan()} to
+#' other definitions:
 #' \itemize{
 #'   \item Equivalent to R's built-in \code{dist()} function with
 #'     \code{method = "manhattan"}.
@@ -180,43 +183,52 @@ kullback_leibler_divergence <- function (x, y) {
 #'     Legendre) is the Manhattan distance computed after transforming to
 #'     proportions and dividing by 2.
 #' }
+#'
+#' The mean character difference is the Manhattan distance divided by the
+#' length of the vectors. Relation of \code{mean_character_difference()} to
+#' other definitions:
+#' \itemize{
+#'   \item Equivalent to \eqn{D_8} in Legendre & Legendre.
+#'   \item For binary data, equivalent to \eqn{1 - S_1} in Legendre & Legendre,
+#'     where \eqn{S_1} is the simple matching coefficient.
+#' }
+#'
+#' The modified mean character difference is the Manhattan distance divided by
+#' the number elements where either \code{x} or \code{y} (or both) are nonzero.
+#' Relation of \code{modified_mean_character_difference()} to other
+#' definitions:
+#' \itemize{
+#'   \item Equivalent to \eqn{D_{19}} in Legendre & Legendre.
+#'   \item For binary data, it is equivalent to the Jaccard distance.
+#' }
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' y <- c(10, 2, 0, 1, 1, 0)
+#' manhattan(x, y)
+#' # Whittaker's index of association
+#' manhattan(x / sum(x), y / sum(y)) / 2
+#'
+#' mean_character_difference(x, y)
+#' # Simple matching coefficient for presence/absence data
+#' # Should be 2 / 6
+#' mean_character_difference(x > 0, y > 0)
+#'
+#' modified_mean_character_difference(x, y)
+#' # Jaccard distance for presence/absence data
+#' modified_mean_character_difference(x > 0, y > 0)
+#' jaccard(x, y)
 #' @export
 manhattan <- function (x, y) {
   sum(abs(y - x))
 }
 
-#' Mean character difference
-#'
-#' The mean character difference is the Manhattan distance divided by the
-#' vector length.
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{D_8}{D_8} in Legendre & Legendre.
-#'   \item For binary data, equivalent to \eqn{1 - S_1}{1 - S_1} in Legendre
-#'     & Legendre, where \eqn{S_1}{S_1} is the simple matching coefficient.
-#' }
+#' @rdname manhattan
 #' @export
 mean_character_difference <- function (x, y) {
   manhattan(x, y) / length(x)
 }
 
-#' Modified mean character difference
-#'
-#' The modified mean character difference is the Manhattan distance divided by
-#' the number of elements where the vectors are not both equal to zero.
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{D_{19}}{D_19} in Legendre & Legendre.
-#'   \item For binary data, equivalent to the Jaccard distance.
-#' }
+#' @rdname manhattan
 #' @export
 modified_mean_character_difference <- function (x, y) {
   pp <- sum((x > 0) | (y > 0))
