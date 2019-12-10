@@ -721,11 +721,6 @@ hamming <- function (x, y) {
   sum(x != y) / length(x)
 }
 
-# Manhattan-like:
-# manhattan, mean_character_difference, modified_mean_character_difference
-
-# Canberra-like: clark_coefficient_of_divergence
-
 # Vegan notes:
 # TODO: Mountford
 # TODO: Raup
