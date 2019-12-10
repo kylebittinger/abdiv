@@ -13,7 +13,7 @@ beta_diversities <- c(
   "morisita", "cao", "millar", "morisita_horn", "jaccard", "sorenson",
   "whittaker", "hamming")
 
-#' Euclidean distance and related measures
+#' Euclidean and related distances
 #'
 #' These distance and diversity measures are mathematically similar to the
 #' Euclidean distance between two vectors.
@@ -69,6 +69,23 @@ beta_diversities <- c(
 #' \itemize{
 #'   \item Equivalent to \eqn{D_4}{D_4} in Legendre & Legendre.
 #' }
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' y <- c(10, 2, 0, 1, 1, 0)
+#' euclidean(x, y)
+#' # The "distance between species profiles"
+#' euclidean(x / sum(x), y / sum(y))
+#' rms_distance(x, y)
+#' chord(x, y)
+#' hellinger(x, y)
+#' # Hellinger is chord distance after square root transform
+#' chord(sqrt(x), sqrt(y))
+#' geodesic_metric(x, y)
+#'
+#' # No species in common with x
+#' v <- c(0, 0, 0, 5, 0, 5)
+#' chord(v, x)
+#' sqrt(2)
 #' @export
 euclidean <- function (x, y) {
   sqrt(sum((y - x) ^ 2))
