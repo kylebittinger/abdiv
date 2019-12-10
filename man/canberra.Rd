@@ -2,26 +2,47 @@
 % Please edit documentation in R/beta.R
 \name{canberra}
 \alias{canberra}
-\title{Canberra distance}
+\alias{clark_coefficient_of_divergence}
+\title{Canberra and related distances}
 \usage{
 canberra(x, y)
+
+clark_coefficient_of_divergence(x, y)
 }
 \arguments{
 \item{x, y}{Numeric vectors}
 }
 \description{
-The sum over all elements of the absolute difference in abundance divided by
-the sum.
+The Canberra distance and Clark's coefficient of divergence are measures
+that use the absolute difference over the sum for each element of the
+vectors.
 }
 \details{
-Relation to other definitions:
+For vectors \code{x} and \code{y}, the Canberra distance is defined as
+\deqn{d(x, y) = \Sigma_i \frac{|x_i - y_i|}{x_i + y_i}.} Relation of
+\code{canberra()} to other definitions:
 \itemize{
   \item Equivalent to R's built-in \code{dist()} function with
     \code{method = "canberra"}.
   \item Equivalent to the \code{vegdist()} function with
-    \code{method = "canberra"}, multiplied by the number of nonzero entries.
+    \code{method = "canberra"}, multiplied by the number of entries where
+    \code{x > 0}, \code{y > 0}, or both.
   \item Equivalent to the \code{canberra()} function in
     \code{scipy.spatial.distance}.
-  \item Equivalent to \eqn{D_{10}}{D_10} in Legendre & Legendre.
+  \item Equivalent to \eqn{D_{10}} in Legendre & Legendre.
 }
+
+Clark's coefficient of divergence involves summing squares and taking a
+square root afterwards:
+\deqn{d(x, y) = \sqrt{\Sigma_i (\frac{|x_i - y_i|}{x_i + y_i})^2}.}
+Relation of \code{clark_coefficient_of_divergence()} to other definitions:
+\itemize{
+  \item Equivalent to \eqn{D_{11}}{D_11} in Legendre & Legendre.
+}
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+y <- c(10, 2, 0, 1, 1, 0)
+canberra(x, y)
+clark_coefficient_of_divergence(x, y)
 }

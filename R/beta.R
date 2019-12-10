@@ -119,22 +119,6 @@ geodesic_metric <- function (x, y) {
   acos(1 - chord(x, y) / 2)
 }
 
-#' Clark's coefficient of divergence
-#'
-#' @param x,y Numeric vectors
-#'
-#' Relation of \code{clark_coefficient_of_divergence()} to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{D_{11}}{D_11} in Legendre & Legendre.
-#' }
-#' @export
-clark_coefficient_of_divergence <- function (x, y) {
-  keep <- (x > 0) | (y > 0)
-  x <- x[keep]
-  y <- y[keep]
-  sqrt(sum(((x - y) / (x + y)) ^ 2) / length(x))
-}
-
 #' Kullback-Leibler divergence
 #'
 #' @param x,y Numeric vectors representing probabilities
@@ -235,24 +219,43 @@ modified_mean_character_difference <- function (x, y) {
   manhattan(x, y) / pp
 }
 
-#' Canberra distance
+#' Canberra and related distances
 #'
-#' The sum over all elements of the absolute difference in abundance divided by
-#' the sum.
+#' The Canberra distance and Clark's coefficient of divergence are measures
+#' that use the absolute difference over the sum for each element of the
+#' vectors.
 #'
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' Relation to other definitions:
+#' For vectors \code{x} and \code{y}, the Canberra distance is defined as
+#' \deqn{d(x, y) = \Sigma_i \frac{|x_i - y_i|}{x_i + y_i}.} Relation of
+#' \code{canberra()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to R's built-in \code{dist()} function with
 #'     \code{method = "canberra"}.
 #'   \item Equivalent to the \code{vegdist()} function with
-#'     \code{method = "canberra"}, multiplied by the number of nonzero entries.
+#'     \code{method = "canberra"}, multiplied by the number of entries where
+#'     \code{x > 0}, \code{y > 0}, or both.
 #'   \item Equivalent to the \code{canberra()} function in
 #'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \eqn{D_{10}}{D_10} in Legendre & Legendre.
+#'   \item Equivalent to \eqn{D_{10}} in Legendre & Legendre.
 #' }
+#'
+#' Clark's coefficient of divergence involves summing squares and taking a
+#' square root afterwards:
+#' \deqn{d(x, y) = \sqrt{\frac{1}{n} \Sigma_i (\frac{|x_i - y_i|}{x_i + y_i})^2},}
+#' where \eqn{n} is the number of elements where \code{x > 0}, \code{y > 0}, or
+#' both. Relation of \code{clark_coefficient_of_divergence()} to other
+#' definitions:
+#' \itemize{
+#'   \item Equivalent to \eqn{D_{11}}{D_11} in Legendre & Legendre.
+#' }
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' y <- c(10, 2, 0, 1, 1, 0)
+#' canberra(x, y)
+#' clark_coefficient_of_divergence(x, y)
 #' @export
 canberra <- function (x, y) {
   numerator <- abs(x - y)
@@ -260,6 +263,17 @@ canberra <- function (x, y) {
   keep <- denominator != 0
   sum(numerator[keep] / denominator[keep])
 }
+
+#' @rdname canberra
+#' @export
+clark_coefficient_of_divergence <- function (x, y) {
+  keep <- (x > 0) | (y > 0)
+  x <- x[keep]
+  y <- y[keep]
+  # Should the denominator be sum(keep)?
+  sqrt(sum(((x - y) / (x + y)) ^ 2) / length(x))
+}
+
 
 #' Chebyshev distance
 #'
