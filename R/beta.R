@@ -674,7 +674,7 @@ hamming <- function (x, y) {
 
 # Euclidean-like:
 # euclidean, chord, geodesic_metric, clark_coefficient_of_divergence,
-# hellinger
+# hellinger, rms_distance
 
 # Manhattan-like:
 # manhattan, mean_character_difference, modified_mean_character_difference,
