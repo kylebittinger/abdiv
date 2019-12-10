@@ -12,9 +12,12 @@ Jaccard index of dissimilarity
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to R's built-in dist() function with method = "binary".
-  \item Equivalent to vegdist() with method = "jaccard" and binary = TRUE.
-  \item Equivalent to jaccard() function in scipy.spatial.distance.
-  \item Equivalent to 1 - S7 in Legendre & Legendre.
+  \item Equivalent to R's built-in \code{dist()} function with
+    \code{method = "binary"}.
+  \item Equivalent to \code{vegdist()} with \code{method = "jaccard"}
+    and \code{binary = TRUE}.
+  \item Equivalent to the \code{jaccard()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \eqn{1 - S_7}{1 - S_7} in Legendre & Legendre.
 }
 }

@@ -16,6 +16,6 @@ after a square-root transformation.
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to D_17 in Legendre & Legendre.
+  \item Equivalent to \eqn{D_{17}}{D_17} in Legendre & Legendre.
 }
 }

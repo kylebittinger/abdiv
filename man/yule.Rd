@@ -15,7 +15,9 @@ Yule distance
 \details{
 Relation to other definitions:
 \itemize{
-  \item Equivalent to yule() function in scipy.spatial.distance.
-  \item Equivalent to 1 - S, where S is the Yule coefficient in Legendre & Legendre.
+  \item Equivalent to the \code{yule()} function in
+    \code{scipy.spatial.distance}.
+  \item Equivalent to \eqn{1 - S}, where \eqn{S} is the Yule coefficient
+    in Legendre & Legendre.
 }
 }

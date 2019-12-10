@@ -288,7 +288,7 @@ bray_curtis <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to D_17 in Legendre & Legendre.
+#'   \item Equivalent to \eqn{D_{17}}{D_17} in Legendre & Legendre.
 #' }
 #' @export
 hellinger <- function (x, y) {
@@ -453,8 +453,10 @@ sokal_sneath <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to yule() function in scipy.spatial.distance.
-#'   \item Equivalent to 1 - S, where S is the Yule coefficient in Legendre & Legendre.
+#'   \item Equivalent to the \code{yule()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \eqn{1 - S}, where \eqn{S} is the Yule coefficient
+#'     in Legendre & Legendre.
 #' }
 #' @export
 yule <- function (x, y) {
@@ -609,10 +611,13 @@ morisita_horn <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to R's built-in dist() function with method = "binary".
-#'   \item Equivalent to vegdist() with method = "jaccard" and binary = TRUE.
-#'   \item Equivalent to jaccard() function in scipy.spatial.distance.
-#'   \item Equivalent to 1 - S7 in Legendre & Legendre.
+#'   \item Equivalent to R's built-in \code{dist()} function with
+#'     \code{method = "binary"}.
+#'   \item Equivalent to \code{vegdist()} with \code{method = "jaccard"}
+#'     and \code{binary = TRUE}.
+#'   \item Equivalent to the \code{jaccard()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \eqn{1 - S_7}{1 - S_7} in Legendre & Legendre.
 #' }
 #' @export
 jaccard <- function (x, y) {
@@ -664,8 +669,10 @@ whittaker <- function (x, y) {
 #' @details
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to hamming() function in scipy.spatial.distance
-#'   \item For binary data, equivalent to 1 - S_1 in Legendre & Legendre.
+#'   \item Equivalent to the \code{hamming()} function in
+#'     \code{scipy.spatial.distance}.
+#'   \item For binary data, equivalent to \code{1 - S_1}{1 - S_1} in Legendre
+#'     & Legendre.
 #' }
 #' @export
 hamming <- function (x, y) {
@@ -710,6 +717,7 @@ hamming <- function (x, y) {
 # S_2 (coefficient of Rogers & Tanimoto) implemented as rogers_tanimoto
 # S_3, S_4, S_5, S_6 (Sokal and Sneath) not implemented
 # Hamann coefficient not implemented
+# Yule coefficient implemented as yule
 # Pearson's phi not implemented
 # S_7 implemented as jaccard
 # S_8 implemented as sorenson
