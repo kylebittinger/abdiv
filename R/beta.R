@@ -229,7 +229,8 @@ modified_mean_character_difference <- function (x, y) {
 #'
 #' @details
 #' For vectors \code{x} and \code{y}, the Canberra distance is defined as
-#' \deqn{d(x, y) = \Sigma_i \frac{|x_i - y_i|}{x_i + y_i}.} Relation of
+#' \deqn{d(x, y) = \Sigma_i \frac{|x_i - y_i|}{x_i + y_i}.} Elements where
+#' \eqn{x_i + y_i = 0} are not included in the sum. Relation of
 #' \code{canberra()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to R's built-in \code{dist()} function with
@@ -258,20 +259,20 @@ modified_mean_character_difference <- function (x, y) {
 #' clark_coefficient_of_divergence(x, y)
 #' @export
 canberra <- function (x, y) {
-  numerator <- abs(x - y)
-  denominator <- abs(x + y)
-  keep <- denominator != 0
-  sum(numerator[keep] / denominator[keep])
+  xy_diff <- abs(x - y)
+  xy_sum <- x + y
+  keep <- xy_sum != 0
+  sum(xy_diff[keep] / xy_sum[keep])
 }
 
 #' @rdname canberra
 #' @export
 clark_coefficient_of_divergence <- function (x, y) {
-  keep <- (x > 0) | (y > 0)
-  x <- x[keep]
-  y <- y[keep]
-  # Should the denominator be sum(keep)?
-  sqrt(sum(((x - y) / (x + y)) ^ 2) / length(x))
+  xy_diff <- x - y
+  xy_sum <- x + y
+  keep <- xy_sum != 0
+  pp <- sum(keep)
+  sqrt(sum((xy_diff[keep] / xy_sum[keep]) ^ 2) / pp)
 }
 
 
