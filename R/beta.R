@@ -694,9 +694,6 @@ hamming <- function (x, y) {
   sum(x != y) / length(x)
 }
 
-# Euclidean-like:
-# euclidean, rms_distance, chord, geodesic_metric, hellinger
-
 # Manhattan-like:
 # manhattan, mean_character_difference, modified_mean_character_difference
 
