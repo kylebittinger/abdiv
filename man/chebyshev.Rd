@@ -10,11 +10,19 @@ chebyshev(x, y)
 \item{x, y}{Numeric vectors}
 }
 \description{
-Chebyshev distance
+The Chebyshev distance is the maximum absolute difference between the vector
+elements.
 }
 \details{
-Relation to other definitions:
+For vectors \code{x} and \code{y}, the Chebyshev distance is defined as
+\deqn{\max_i |x_i - y_i|.} Relation to other definitions:
 \itemize{
-  \item Equivalent to chebyshev() function in scipy.spatial.distance.
+  \item Equivalent to the \code{chebyshev()} function in
+    \code{scipy.spatial.distance}.
 }
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+y <- c(10, 2, 0, 1, 1, 0)
+chebyshev(x, y) # should be 5
 }

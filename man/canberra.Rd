@@ -29,7 +29,8 @@ For vectors \code{x} and \code{y}, the Canberra distance is defined as
     \code{method = "canberra"}, multiplied by the number of entries where
     \code{x > 0}, \code{y > 0}, or both.
   \item Equivalent to the \code{canberra()} function in
-    \code{scipy.spatial.distance}.
+    \code{scipy.spatial.distance} for positive vectors. They take the
+    absolute value of \eqn{x_i} and \eqn{y_i} in the denominator.
   \item Equivalent to \eqn{D_{10}} in Legendre & Legendre.
 }
 

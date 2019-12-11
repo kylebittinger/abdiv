@@ -6,12 +6,12 @@
 beta_diversities <- c(
   "euclidean", "rms_distance", "chord", "clark_coefficient_of_divergence",
   "geodesic_metric", "manhattan", "mean_character_difference",
-  "modified_mean_character_difference", "canberra", "chebyshev", "correlation",
-  "cosine", "bray_curtis", "hellinger", "kulczynski", "kulczynski_cody",
-  "kulczynski_mothur", "kulczynski_scipy", "rogers_tanimoto", "russel_rao",
-  "sokal_michener", "sokal_sneath", "yule", "gower", "alt_gower", "minkowski",
-  "morisita", "cao", "millar", "morisita_horn", "jaccard", "sorenson",
-  "whittaker", "hamming")
+  "modified_mean_character_difference", "canberra", "chebyshev",
+  "correlation_distance", "cosine_distance", "bray_curtis", "hellinger",
+  "kulczynski", "kulczynski_cody", "kulczynski_mothur", "kulczynski_scipy",
+  "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath", "yule",
+  "gower", "alt_gower", "minkowski", "morisita", "cao", "millar",
+  "morisita_horn", "jaccard", "sorenson", "whittaker", "hamming")
 
 #' Euclidean and related distances
 #'
@@ -239,7 +239,8 @@ modified_mean_character_difference <- function (x, y) {
 #'     \code{method = "canberra"}, multiplied by the number of entries where
 #'     \code{x > 0}, \code{y > 0}, or both.
 #'   \item Equivalent to the \code{canberra()} function in
-#'     \code{scipy.spatial.distance}.
+#'     \code{scipy.spatial.distance} for positive vectors. They take the
+#'     absolute value of \eqn{x_i} and \eqn{y_i} in the denominator.
 #'   \item Equivalent to \eqn{D_{10}} in Legendre & Legendre.
 #' }
 #'
@@ -278,46 +279,75 @@ clark_coefficient_of_divergence <- function (x, y) {
 
 #' Chebyshev distance
 #'
+#' The Chebyshev distance is the maximum absolute difference between the vector
+#' elements.
+#'
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' Relation to other definitions:
+#' For vectors \code{x} and \code{y}, the Chebyshev distance is defined as
+#' \deqn{\max_i |x_i - y_i|.} Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to chebyshev() function in scipy.spatial.distance.
+#'   \item Equivalent to the \code{chebyshev()} function in
+#'     \code{scipy.spatial.distance}.
 #' }
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' y <- c(10, 2, 0, 1, 1, 0)
+#' chebyshev(x, y) # should be 5
 #' @export
 chebyshev <- function (x, y) {
   max(abs(x - y))
 }
 
-#' Correlation distance
+#' Correlation and cosine distance
+#'
+#' The correlation and cosine distances, which are derived from the dot
+#' product of the two vectors.
 #'
 #' @param x,y Numeric vectors
 #'
 #' @details
+#' For two vectors \code{x} and \code{y}, the cosine distance is defined as
+#' \deqn{1 - \frac{x \cdot y}{|x| |y|},} where \eqn{|x|} is the magnitude or
+#' L2 norm of the vector, \eqn{|x| = \sqrt{\sum_i x_i}}. Relation to other
+#' definitions:
+#' \itemize{
+#'   \item Equivalent to the \code{cosine()} function in
+#'     \code{scipy.spatial.distance}.
+#' }
+#'
+#' The correlation distance is simply equal to one minus the Pearson
+#' correlation between vectors. Mathematically, it is equivalent to the cosine
+#' distance between the vectors after they are centered (\eqn{x - \bar{x}}).
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to correlation() function in scipy.spatial.distance.
+#'   \item Equivalent to the \code{correlation()} function in
+#'     \code{scipy.spatial.distance}.
 #' }
+#' @examples
+#' x <- c(2, 0)
+#' y <- c(5, 5)
+#' cosine_distance(x, y)
+#' # The two vectors form a 45 degree angle, or pi / 4
+#' 1 - cos(pi / 4)
+#'
+#' v <- c(3.5, 0.1, 1.4)
+#' w <- c(3.3, 0.5, 0.9)
+#' correlation_distance(v, w)
+#' 1 - cor(v, w)
 #' @export
-correlation <- function (x, y) {
-  x_centered <- x - mean(x)
-  y_centered <- y - mean(y)
-  cosine(x_centered, y_centered)
+correlation_distance <- function (x, y) {
+  1 - cor(x, y)
 }
 
-#' Cosine distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to cosine() function in scipy.spatial.distance.
-#' }
+#' @rdname correlation_distance
 #' @export
-cosine <- function (x, y) {
-  1 - mean(x * y) / sqrt(mean(x * x) * mean(y * y))
+cosine_distance <- function (x, y) {
+  xy_dot <- sum(x * y)
+  x_norm <- sqrt(sum(x ^ 2))
+  y_norm <- sqrt(sum(y ^ 2))
+  1 - xy_dot / (x_norm * y_norm)
 }
 
 #' Bray-Curtis distance
@@ -329,7 +359,7 @@ cosine <- function (x, y) {
 #'
 #' @details
 #' For two vectors \code{x} and \code{y}, the Bray-Curtis distance is defined
-#' as \deqn{d(x, y) = \frac{\sum_i |x_i - y_i|}{\sum_i x_i + y_i}}. The
+#' as \deqn{d(x, y) = \frac{\sum_i |x_i - y_i|}{\sum_i x_i + y_i}.} The
 #' Bray-Curtis distance is connected to many other distance measures in this
 #' package; we try to list some of the more important connections here. Relation
 #' to other definitions:
@@ -727,6 +757,15 @@ whittaker <- function (x, y) {
 hamming <- function (x, y) {
   sum(x != y) / length(x)
 }
+
+# Scipy notes:
+# braycurtis implemented as bray_curtis
+# canberra implemented
+# chebyshev implemented
+# cityblock implemented as manhattan
+# correlation implemented
+# cosine implemented
+# euclidean implemented
 
 # Vegan notes:
 # TODO: Mountford

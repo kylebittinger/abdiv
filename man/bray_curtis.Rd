@@ -15,10 +15,15 @@ both vectors.
 }
 \details{
 For two vectors \code{x} and \code{y}, the Bray-Curtis distance is defined
-as \deqn{d(x, y) = \frac{\sum_i |x_i - y_i|}{\sum_i x_i + y_i}}.
-Relation to other definitions:
+as \deqn{d(x, y) = \frac{\sum_i |x_i - y_i|}{\sum_i x_i + y_i}.} The
+Bray-Curtis distance is connected to many other distance measures in this
+package; we try to list some of the more important connections here. Relation
+to other definitions:
 \itemize{
   \item Equivalent to \code{vegdist()} with \code{method = "bray"}.
+  \item Equivalent to the \code{braycurtis()} function in
+    \code{scipy.spatial.distance} for positive vectors. They take the
+    absolute value of \eqn{x_i + y_i} in the denominator.
   \item Equivalent to \eqn{D_{14} = 1 - S_{17}}{D_14 = 1 - S_17} in
     Legendre & Legendre.
 }
