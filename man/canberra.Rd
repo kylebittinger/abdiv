@@ -19,7 +19,7 @@ vectors.
 }
 \details{
 For vectors \code{x} and \code{y}, the Canberra distance is defined as
-\deqn{d(x, y) = \Sigma_i \frac{|x_i - y_i|}{x_i + y_i}.} Elements where
+\deqn{d(x, y) = \sum_i \frac{|x_i - y_i|}{x_i + y_i}.} Elements where
 \eqn{x_i + y_i = 0} are not included in the sum. Relation of
 \code{canberra()} to other definitions:
 \itemize{
@@ -35,7 +35,7 @@ For vectors \code{x} and \code{y}, the Canberra distance is defined as
 
 Clark's coefficient of divergence involves summing squares and taking a
 square root afterwards:
-\deqn{d(x, y) = \sqrt{\frac{1}{n} \Sigma_i (\frac{|x_i - y_i|}{x_i + y_i})^2},}
+\deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i \left(\frac{x_i - y_i}{x_i + y_i} \right)^2},}
 where \eqn{n} is the number of elements where \code{x > 0}, \code{y > 0}, or
 both. Relation of \code{clark_coefficient_of_divergence()} to other
 definitions:

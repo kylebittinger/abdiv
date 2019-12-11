@@ -27,7 +27,7 @@ Euclidean distance between two vectors.
 }
 \details{
 For vectors \code{x} and \code{y}, the Euclidean distance is defined as
-\deqn{d(x, y) = \sqrt{\Sigma_i^n (x_i - y_i) ^ 2}.}
+\deqn{d(x, y) = \sqrt{\sum_i (x_i - y_i) ^ 2}.}
 Relation of \code{euclidean()} to other definitions:
 \itemize{
   \item Equivalent to R's built-in \code{dist()} function with
@@ -45,16 +45,16 @@ The \emph{root-mean-square} distance or \emph{average} distance is similar
 to Euclidean distance. As the name implies, it is computed as the square
 root of the mean of the squared differences between elements of \code{x}
 and \code{y}:
-\deqn{d(x, y) = \sqrt{\frac{1}{n} \Sigma_i^n (x_i - y_i) ^ 2}.}
+\deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i^n (x_i - y_i) ^ 2}.}
 Relation of \code{rms_distance()} to other definitions:
 \itemize{
   \item Equivalent to \eqn{D_2}{D_2} in Legendre & Legendre.
 }
 
 The \emph{chord} distance is the Euclidean distance after scaling each
-vector by its root sum of squares, \eqn{\hat{x} = \sqrt{\Sigma_i x_i^2}}.
-The chord distance between any two vectors ranges from 0 to
-\eqn{\sqrt{2}}{sqrt(2)}. Relation of \code{chord()} to other definitions:
+vector by its root sum of squares, \eqn{\sqrt{\sum_i x_i^2}}. The chord
+distance between any two vectors ranges from 0 to \eqn{\sqrt{2}}{sqrt(2)}.
+Relation of \code{chord()} to other definitions:
 \itemize{
   \item Equivalent to \eqn{D_3}{D_3} in Legendre & Legendre.
 }
@@ -67,10 +67,10 @@ definitions:
 }
 
 The \emph{geodesic metric} is a transformed version of the chord distance.
-\deqn{d(x, y) = \textrm{arccos}(1 - \frac{d_c^2(x, y)}{2}),} where \eqn{d_c}
-is the chord distance. It gives the length of the arc on a hypersphere
-between the vectors, if the vectors are normalized to unit length. Relation
-of \code{geodesic_metric()} to other definitions:
+\deqn{d(x, y) = \textrm{arccos} \left(1 - \frac{d_c^2(x, y)}{2} \right),}
+where \eqn{d_c} is the chord distance. It gives the length of the arc on a
+hypersphere between the vectors, if the vectors are normalized to unit
+length. Relation of \code{geodesic_metric()} to other definitions:
 \itemize{
   \item Equivalent to \eqn{D_4}{D_4} in Legendre & Legendre.
 }

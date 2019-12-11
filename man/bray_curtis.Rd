@@ -10,10 +10,12 @@ bray_curtis(x, y)
 \item{x, y}{Numeric vectors}
 }
 \description{
-The Bray-Curtis distance is the sum of absolute differences between the
-vectors divided by the sum of both vectors.
+The Bray-Curtis distance is the Manhattan distance divided by the sum of
+both vectors.
 }
 \details{
+For two vectors \code{x} and \code{y}, the Bray-Curtis distance is defined
+as \deqn{d(x, y) = \frac{\sum_i |x_i - y_i|}{\sum_i x_i + y_i}}.
 Relation to other definitions:
 \itemize{
   \item Equivalent to \code{vegdist()} with \code{method = "bray"}.

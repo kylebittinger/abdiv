@@ -22,7 +22,7 @@ beta_diversities <- c(
 #'
 #' @details
 #' For vectors \code{x} and \code{y}, the Euclidean distance is defined as
-#' \deqn{d(x, y) = \sqrt{\Sigma_i^n (x_i - y_i) ^ 2}.}
+#' \deqn{d(x, y) = \sqrt{\sum_i (x_i - y_i) ^ 2}.}
 #' Relation of \code{euclidean()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to R's built-in \code{dist()} function with
@@ -40,16 +40,16 @@ beta_diversities <- c(
 #' to Euclidean distance. As the name implies, it is computed as the square
 #' root of the mean of the squared differences between elements of \code{x}
 #' and \code{y}:
-#' \deqn{d(x, y) = \sqrt{\frac{1}{n} \Sigma_i^n (x_i - y_i) ^ 2}.}
+#' \deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i^n (x_i - y_i) ^ 2}.}
 #' Relation of \code{rms_distance()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to \eqn{D_2}{D_2} in Legendre & Legendre.
 #' }
 #'
 #' The \emph{chord} distance is the Euclidean distance after scaling each
-#' vector by its root sum of squares, \eqn{\hat{x} = \sqrt{\Sigma_i x_i^2}}.
-#' The chord distance between any two vectors ranges from 0 to
-#' \eqn{\sqrt{2}}{sqrt(2)}. Relation of \code{chord()} to other definitions:
+#' vector by its root sum of squares, \eqn{\sqrt{\sum_i x_i^2}}. The chord
+#' distance between any two vectors ranges from 0 to \eqn{\sqrt{2}}{sqrt(2)}.
+#' Relation of \code{chord()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to \eqn{D_3}{D_3} in Legendre & Legendre.
 #' }
@@ -62,10 +62,10 @@ beta_diversities <- c(
 #' }
 #'
 #' The \emph{geodesic metric} is a transformed version of the chord distance.
-#' \deqn{d(x, y) = \textrm{arccos}(1 - \frac{d_c^2(x, y)}{2}),} where \eqn{d_c}
-#' is the chord distance. It gives the length of the arc on a hypersphere
-#' between the vectors, if the vectors are normalized to unit length. Relation
-#' of \code{geodesic_metric()} to other definitions:
+#' \deqn{d(x, y) = \textrm{arccos} \left(1 - \frac{d_c^2(x, y)}{2} \right),}
+#' where \eqn{d_c} is the chord distance. It gives the length of the arc on a
+#' hypersphere between the vectors, if the vectors are normalized to unit
+#' length. Relation of \code{geodesic_metric()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to \eqn{D_4}{D_4} in Legendre & Legendre.
 #' }
@@ -154,7 +154,7 @@ kullback_leibler_divergence <- function (x, y) {
 #'
 #' @details
 #' For two vectors \code{x} and \code{y}, the Manhattan distance is given by
-#' \deqn{d(x, y) = \Sigma_i |x_i - y_i|.} Relation of \code{manhattan()} to
+#' \deqn{d(x, y) = \sum_i |x_i - y_i|.} Relation of \code{manhattan()} to
 #' other definitions:
 #' \itemize{
 #'   \item Equivalent to R's built-in \code{dist()} function with
@@ -229,7 +229,7 @@ modified_mean_character_difference <- function (x, y) {
 #'
 #' @details
 #' For vectors \code{x} and \code{y}, the Canberra distance is defined as
-#' \deqn{d(x, y) = \Sigma_i \frac{|x_i - y_i|}{x_i + y_i}.} Elements where
+#' \deqn{d(x, y) = \sum_i \frac{|x_i - y_i|}{x_i + y_i}.} Elements where
 #' \eqn{x_i + y_i = 0} are not included in the sum. Relation of
 #' \code{canberra()} to other definitions:
 #' \itemize{
@@ -245,7 +245,7 @@ modified_mean_character_difference <- function (x, y) {
 #'
 #' Clark's coefficient of divergence involves summing squares and taking a
 #' square root afterwards:
-#' \deqn{d(x, y) = \sqrt{\frac{1}{n} \Sigma_i (\frac{|x_i - y_i|}{x_i + y_i})^2},}
+#' \deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i \left(\frac{x_i - y_i}{x_i + y_i} \right)^2},}
 #' where \eqn{n} is the number of elements where \code{x > 0}, \code{y > 0}, or
 #' both. Relation of \code{clark_coefficient_of_divergence()} to other
 #' definitions:
@@ -322,15 +322,22 @@ cosine <- function (x, y) {
 
 #' Bray-Curtis distance
 #'
-#' The Bray-Curtis distance is the sum of absolute differences between the
-#' vectors divided by the sum of both vectors.
+#' The Bray-Curtis distance is the Manhattan distance divided by the sum of
+#' both vectors.
 #'
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' Relation to other definitions:
+#' For two vectors \code{x} and \code{y}, the Bray-Curtis distance is defined
+#' as \deqn{d(x, y) = \frac{\sum_i |x_i - y_i|}{\sum_i x_i + y_i}}. The
+#' Bray-Curtis distance is connected to many other distance measures in this
+#' package; we try to list some of the more important connections here. Relation
+#' to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{vegdist()} with \code{method = "bray"}.
+#'   \item Equivalent to the \code{braycurtis()} function in
+#'     \code{scipy.spatial.distance} for positive vectors. They take the
+#'     absolute value of \eqn{x_i + y_i} in the denominator.
 #'   \item Equivalent to \eqn{D_{14} = 1 - S_{17}}{D_14 = 1 - S_17} in
 #'     Legendre & Legendre.
 #' }
@@ -746,7 +753,6 @@ hamming <- function (x, y) {
 # D_17 implemented as hellinger
 # D_13 implemented as sorenson
 # D_14 implemented as bray_curtis
-#   Need to note how Bray-Curtis distance is related to almost everything else.
 # S_1 (simple matching coefficient) is the mean_character_difference
 # S_2 (coefficient of Rogers & Tanimoto) implemented as rogers_tanimoto
 # S_3, S_4, S_5, S_6 (Sokal and Sneath) not implemented
