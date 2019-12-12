@@ -11,7 +11,7 @@ beta_diversities <- c(
   "kulczynski", "kulczynski_cody", "kulczynski_mothur", "kulczynski_scipy",
   "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
   "yule_dissimilarity", "gower", "alt_gower", "minkowski", "morisita", "cao",
-  "millar", "morisita_horn", "jaccard", "sorenson", "whittaker", "hamming")
+  "millar", "morisita_horn", "jaccard", "sorenson", "hamming")
 
 #' Euclidean and related distances
 #'
@@ -642,6 +642,11 @@ koleff_abc <- function (x, y) {
 #'     presence/absence.
 #'   \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
 #'     Legendre.
+#'   \item Equivalent to \eqn{1 - \beta_{sor}} in Koleff (2003). Also
+#'     equivalent to Whittaker's beta diversity
+#'     (the second definition, \eqn{\beta_W = (S / \bar{a}) - 1}),
+#'     \eqn{\beta_{-1}}, \eqn{\beta_t}, \eqn{\beta_{me}}, and
+#'     \eqn{\beta_{hk}}.
 #' }
 #'
 #' The \emph{Kulczynski} distance, as implemented in SciPy, is available as
@@ -785,16 +790,6 @@ yule_dissimilarity <- function (x, y) {
   2 * b * c / (a * d + b * c)
 }
 
-#' Whittaker's beta diversity
-#' @export
-whittaker <- function (x, y) {
-  x <- x > 0
-  y <- y > 0
-  total_species <- sum(x & y)
-  mean_richness <- (sum(x) + sum(y)) / 2
-  total_species / mean_richness
-}
-
 #' Hamming distance
 #'
 #' The Hamming distance is the number of positions where the values are
@@ -851,6 +846,8 @@ hamming <- function (x, y) {
 # TODO: Mountford
 # TODO: Raup
 # TODO: Chao-Jaccard, vegan uses some correction from the paper
+
+# Other functions in scikit-bio?
 
 # Legendre & Legendre notes:
 # D_1 implemented as euclidean

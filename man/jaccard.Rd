@@ -74,6 +74,11 @@ species, counting over each sample individually. Relation of
     presence/absence.
   \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
     Legendre.
+  \item Equivalent to \eqn{1 - \beta_{sor}} in Koleff (2003). Also
+    equivalent to Whittaker's beta diversity
+    (the second definition, \eqn{\beta_W = (S / \bar{a}) - 1}),
+    \eqn{\beta_{-1}}, \eqn{\beta_t}, \eqn{\beta_{me}}, and
+    \eqn{\beta_{hk}}.
 }
 
 The \emph{Kulczynski} distance, as implemented in SciPy, is available as
