@@ -589,12 +589,6 @@ morisita_horn <- function (x, y) {
   1 - 2 * xy_term / (lambda_x + lambda_y)
 }
 
-koleff_abc <- function (x, y) {
-  x <- x > 0
-  y <- y > 0
-  list(c = sum(x & (!y)), b = sum(y & (!x)), a = sum(x & y))
-}
-
 #' Beta diversity for presence/absence data
 #'
 #' These functions transform the input vectors to binary or presence/absence
@@ -899,8 +893,6 @@ hamming <- function (x, y) {
 # TODO: Mountford
 # TODO: Raup
 # TODO: Chao-Jaccard, vegan uses some correction from the paper
-
-# Other functions in scikit-bio?
 
 # Legendre & Legendre notes:
 # D_1 implemented as euclidean
