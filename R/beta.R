@@ -630,6 +630,8 @@ koleff_abc <- function (x, y) {
 #'     \code{scipy.spatial.distance}, except that we always convert vectors to
 #'     presence/absence.
 #'   \item Equivalent to \eqn{1 - S_7} in Legendre & Legendre.
+#'   \item Equivalent to \eqn{1 - \beta_j}, as well as \eqn{\beta_{cc}}, and
+#'     \eqn{\beta_g} in Koleff (2003).
 #' }
 #'
 #' The \emph{\enc{Sørenson}{Sorenson}} or \emph{Dice} index of dissimilarity is
@@ -644,15 +646,15 @@ koleff_abc <- function (x, y) {
 #'     Legendre.
 #'   \item Equivalent to \eqn{1 - \beta_{sor}} in Koleff (2003). Also
 #'     equivalent to Whittaker's beta diversity
-#'     (the second definition, \eqn{\beta_W = (S / \bar{a}) - 1}),
+#'     (the second definition, \eqn{\beta_w = (S / \bar{a}) - 1}), as well as
 #'     \eqn{\beta_{-1}}, \eqn{\beta_t}, \eqn{\beta_{me}}, and
 #'     \eqn{\beta_{hk}}.
 #' }
 #'
 #' The \emph{Kulczynski} distance, as implemented in SciPy, is available as
 #' \code{kulczynski_scipy()}. It is defined as
-#' \eqn{(2b + 2c + d) / (a + 2b + 2c + d)}, where \eqn{n} is the length of the
-#' vectors. Relation of \code{kulczynski_scipy()} to other definitions:
+#' \eqn{(2b + 2c + d) / (a + 2b + 2c + d)}. Relation of
+#' \code{kulczynski_scipy()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to the \code{kulsinski()} function in
 #'     \code{scipy.spatial.distance}, except that we always convert vectors to
@@ -677,7 +679,7 @@ koleff_abc <- function (x, y) {
 #'   \item Equivalent to the \code{russelrao()} function in
 #'     \code{scipy.spatial.distance}, except that we always convert vectors to
 #'     presence/absence.
-#'   \item Equivalent to \code{1 - S_{11}}{1 - S_11} in Legendre & Legendre.
+#'   \item Equivalent to \eqn{1 - S_{11}}{1 - S_11} in Legendre & Legendre.
 #' }
 #'
 #' The \emph{Sokal-Michener} distance is defined as
@@ -840,7 +842,30 @@ hamming <- function (x, y) {
 # yule implemented as yule_dissimilarity
 
 # Koleff notes:
-# TODO
+#  1. \beta_w (Whittaker's beta diversity) implemented as sorenson
+#  2. \beta_{-1} implemented as sorenson
+#  3. \beta_c not implemented
+#  4. \beta_{wb} (Weiher & Boylen) not implemented
+#  5. \beta_r (Routledge) not implemented
+#  6. \beta_I not implemented
+#  7. \beta_e not implemented
+#  8. \beta_t implemented as sorenson
+#  9. \beta_{me} implemented as sorenson
+# 10. \beta_j implemented as jaccard
+# 11. \beta_{sor} implemented as sorenson
+# 12. \beta_m (Magurran) not implemented
+# 13. \beta_{-2} not implemented
+# 14. \beta_{co} not implemented
+# 15. \beta_{cc} implemented as jaccard
+# 16. \beta_g implemented as jaccard
+# 17. \beta_{-3} not implemented
+# 18. \beta_1 not implemented
+# 19. (Williams) not implemented
+# 20. \beta_{hk} (Harte & Kinzig) implemented as sorenson
+# 21. \beta_{rlb} not implemented
+# 22. \beta_{sim} not implemented
+# 23. \beta_{gl} not implemented
+# 24. \beta_z not implemented
 
 # Vegan notes:
 # TODO: Mountford

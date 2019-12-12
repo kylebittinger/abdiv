@@ -62,6 +62,8 @@ together. Relation of \code{jaccard()} to other definitions:
     \code{scipy.spatial.distance}, except that we always convert vectors to
     presence/absence.
   \item Equivalent to \eqn{1 - S_7} in Legendre & Legendre.
+  \item Equivalent to \eqn{1 - \beta_j}, as well as \eqn{\beta_{cc}}, and
+    \eqn{\beta_g} in Koleff (2003).
 }
 
 The \emph{\enc{Sørenson}{Sorenson}} or \emph{Dice} index of dissimilarity is
@@ -76,15 +78,15 @@ species, counting over each sample individually. Relation of
     Legendre.
   \item Equivalent to \eqn{1 - \beta_{sor}} in Koleff (2003). Also
     equivalent to Whittaker's beta diversity
-    (the second definition, \eqn{\beta_W = (S / \bar{a}) - 1}),
+    (the second definition, \eqn{\beta_w = (S / \bar{a}) - 1}), as well as
     \eqn{\beta_{-1}}, \eqn{\beta_t}, \eqn{\beta_{me}}, and
     \eqn{\beta_{hk}}.
 }
 
 The \emph{Kulczynski} distance, as implemented in SciPy, is available as
 \code{kulczynski_scipy()}. It is defined as
-\eqn{(2b + 2c + d) / (a + 2b + 2c + d)}, where \eqn{n} is the length of the
-vectors. Relation of \code{kulczynski_scipy()} to other definitions:
+\eqn{(2b + 2c + d) / (a + 2b + 2c + d)}. Relation of
+\code{kulczynski_scipy()} to other definitions:
 \itemize{
   \item Equivalent to the \code{kulsinski()} function in
     \code{scipy.spatial.distance}, except that we always convert vectors to
@@ -109,7 +111,7 @@ other definitions:
   \item Equivalent to the \code{russelrao()} function in
     \code{scipy.spatial.distance}, except that we always convert vectors to
     presence/absence.
-  \item Equivalent to \code{1 - S_{11}}{1 - S_11} in Legendre & Legendre.
+  \item Equivalent to \eqn{1 - S_{11}}{1 - S_11} in Legendre & Legendre.
 }
 
 The \emph{Sokal-Michener} distance is defined as
