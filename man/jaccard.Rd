@@ -2,22 +2,137 @@
 % Please edit documentation in R/beta.R
 \name{jaccard}
 \alias{jaccard}
-\title{Jaccard index of dissimilarity}
+\alias{sorenson}
+\alias{kulczynski_scipy}
+\alias{rogers_tanimoto}
+\alias{russel_rao}
+\alias{sokal_michener}
+\alias{sokal_sneath}
+\alias{yule_dissimilarity}
+\title{Beta diversity for presence/absence data}
 \usage{
 jaccard(x, y)
+
+sorenson(x, y)
+
+kulczynski_scipy(x, y)
+
+rogers_tanimoto(x, y)
+
+russel_rao(x, y)
+
+sokal_michener(x, y)
+
+sokal_sneath(x, y)
+
+yule_dissimilarity(x, y)
+}
+\arguments{
+\item{x, y}{Numeric vectors}
 }
 \description{
-Jaccard index of dissimilarity
+These functions transform the input vectors to binary or presence/absence
+format, then compute a distance or dissimilarity.
 }
 \details{
-Relation to other definitions:
+Many of these indices are covered in Koleff et al. (2003), so we adopt their
+notation. For two vectors \code{x} and \code{y}, we define three quantities:
+\itemize{
+  \item \eqn{a} is the number of species that are present in both \code{x}
+    and \code{y},
+  \item \eqn{b} is the number of species that are present in \code{y} but
+    not \code{x},
+  \item \eqn{c} is the number of species that are present in \code{x} but
+    not \code{y}, and
+  \item \eqn{d} is the number of species absent in both vectors.
+}
+The quantity \eqn{d} is seldom used in ecology, for good reason. For
+details, please see the discussion on the "double zero problem," in section
+2 of chapter 7.2 in Legendre & Legendre.
+
+The \emph{Jaccard} index of dissimilarity is \eqn{1 - a / (a + b + c)}, or
+one minus the proportion of shared species, counting over both samples
+together. Relation of \code{jaccard()} to other definitions:
 \itemize{
   \item Equivalent to R's built-in \code{dist()} function with
     \code{method = "binary"}.
   \item Equivalent to \code{vegdist()} with \code{method = "jaccard"}
     and \code{binary = TRUE}.
   \item Equivalent to the \code{jaccard()} function in
-    \code{scipy.spatial.distance}.
-  \item Equivalent to \eqn{1 - S_7}{1 - S_7} in Legendre & Legendre.
+    \code{scipy.spatial.distance}, except that we always convert vectors to
+    presence/absence.
+  \item Equivalent to \eqn{1 - S_7} in Legendre & Legendre.
+}
+
+The \emph{\enc{Sørenson}{Sorenson}} or \emph{Dice} index of dissimilarity is
+\eqn{1 - 2a / (2a + b + c)}, or one minus the average proportion of shared
+species, counting over each sample individually. Relation of
+\code{sorenson()} to other definitions:
+\itemize{
+  \item Equivalent to the \code{dice()} function in
+    \code{scipy.spatial.distance}, except that we always convert vectors to
+    presence/absence.
+  \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
+    Legendre.
+}
+
+The \emph{Kulczynski} distance, as implemented in SciPy, is available as
+\code{kulczynski_scipy()}. It is defined as
+\eqn{(2b + 2c + d) / (a + 2b + 2c + d)}, where \eqn{n} is the length of the
+vectors. Relation of \code{kulczynski_scipy()} to other definitions:
+\itemize{
+  \item Equivalent to the \code{kulsinski()} function in
+    \code{scipy.spatial.distance}, except that we always convert vectors to
+    presence/absence.
+}
+
+The \emph{Rogers-Tanimoto} distance is defined as
+\eqn{(2b + 2c) / (a + 2b + 2c + d)}. Relation of \code{rogers_tanimoto()}
+to other definitions:
+\itemize{
+  \item Equivalent to the \code{rogerstanimoto()} function in
+    \code{scipy.spatial.distance}, except that we always convert vectors to
+    presence/absence.
+  \item Equivalent to \eqn{1 - S_2}{1 - S_2} in Legendre & Legendre.
+}
+
+The \emph{Russel-Rao} distance is defined
+\eqn{(b + c + d) / (a + b + c + d)}, or the fraction of elements not present
+in both vectors, counting double absences. Relation of \code{russel_rao()} to
+other definitions:
+\itemize{
+  \item Equivalent to the \code{russelrao()} function in
+    \code{scipy.spatial.distance}, except that we always convert vectors to
+    presence/absence.
+  \item Equivalent to \code{1 - S_{11}}{1 - S_11} in Legendre & Legendre.
+}
+
+The \emph{Sokal-Michener} distance is defined as
+\eqn{(2b + 2c) / (a + 2b + 2c + d)}. Relation of \code{sokal_michener()} to
+other definitions:
+\itemize{
+  \item Equivalent to the \code{sokalmichener()} function in
+    \code{scipy.spatial.distance}, except that we always convert vectors to
+    presence/absence.
+}
+
+The \emph{Sokal-Sneath} distance is defined as
+\eqn{(2b + 2c) / (a + 2b + 2c)}. Relation of \code{sokal_sneath()} to other
+definitions:
+\itemize{
+  \item Equivalent to the \code{sokalsneath()} function in
+    \code{scipy.spatial.distance}, except that we always convert vectors to
+    presence/absence.
+  \item Equivalent to \eqn{1 - S_{10}}{1 - S_10} in Legendre & Legendre.
+}
+
+The \emph{Yule} dissimilarity is defined as \eqn{2bc / (ad + bc)}. Relation
+of \code{yule_dissimilarity()} to other definitions:
+\itemize{
+  \item Equivalent to the \code{yule()} function in
+    \code{scipy.spatial.distance}, except that we always convert vectors to
+    presence/absence.
+  \item Equivalent to \eqn{1 - S}, where \eqn{S} is the Yule coefficient
+    in Legendre & Legendre.
 }
 }

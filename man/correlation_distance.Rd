@@ -17,10 +17,11 @@ The correlation and cosine distances, which are derived from the dot
 product of the two vectors.
 }
 \details{
-For two vectors \code{x} and \code{y}, the cosine distance is defined as
-\deqn{1 - \frac{x \cdot y}{|x| |y|},} where \eqn{|x|} is the magnitude or
-L2 norm of the vector, \eqn{|x| = \sqrt{\sum_i x_i}}. Relation to other
-definitions:
+For vectors \code{x} and \code{y}, the cosine distance is defined as the
+cosine of the angle between the vectors,
+\deqn{d(x, y) = 1 - \frac{x \cdot y}{|x| |y|},} where \eqn{|x|} is the
+magnitude or L2 norm of the vector, \eqn{|x| = \sqrt{\sum_i x_i}}. Relation
+to other definitions:
 \itemize{
   \item Equivalent to the \code{cosine()} function in
     \code{scipy.spatial.distance}.

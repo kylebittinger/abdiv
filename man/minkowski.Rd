@@ -14,7 +14,9 @@ The Minkowski metric is a generalized form of Euclidean (p=2) and Manhattan
 (p=1) distance.
 }
 \details{
-Relation to other definitions:
+For vectors \code{x} and \code{y}, the Minkowski distance is defined as
+\deqn{d(x, y) = \left( \sum_i |x_i - y_i|^p \right)^{1/p}.} Relation to
+other definitions:
 \itemize{
   \item Equivalent to R's built-in \code{dist()} function with
     \code{method = "minkowski"}.

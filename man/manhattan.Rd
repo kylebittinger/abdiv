@@ -21,7 +21,7 @@ between the elements of two vectors. The \emph{mean character} difference
 is a closely related measure.
 }
 \details{
-For two vectors \code{x} and \code{y}, the Manhattan distance is given by
+For vectors \code{x} and \code{y}, the Manhattan distance is given by
 \deqn{d(x, y) = \sum_i |x_i - y_i|.} Relation of \code{manhattan()} to
 other definitions:
 \itemize{

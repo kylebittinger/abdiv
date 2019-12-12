@@ -26,5 +26,12 @@ to other definitions:
     absolute value of \eqn{x_i + y_i} in the denominator.
   \item Equivalent to \eqn{D_{14} = 1 - S_{17}}{D_14 = 1 - S_17} in
     Legendre & Legendre.
+  \item The Bray-Curtis distance on proportions is equal to the Manhattan
+    distance.
+  \item The Bray-Curtis distance on presence/absence vectors is equal to the
+    Sorenson index of dissimilarity.
 }
+#' x <- c(15, 6, 4, 0, 3, 0)
+y <- c(10, 2, 0, 1, 1, 0)
+chebyshev(x, y)
 }

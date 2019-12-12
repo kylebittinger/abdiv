@@ -41,7 +41,7 @@ test_that("Distance functions are consistent with Legendre & Legendre", {
   # Example under 7.19
   q1 <- c(9, 3, 7, 3, 4, 9, 5, 4, 1, 6)
   q2 <- c(2, 3, 2, 1, 2, 9, 3, 2, 1, 6)
-  expect_equal(1 - hamming(q1, q2), 0.4)
+  expect_equal(1 - hamming(q1, q2) / length(q1), 0.4)
   # Example under 7.33
   x1 <- c(0, 4, 8)
   x2 <- c(0, 1, 1)
@@ -185,15 +185,15 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
     1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0,
     1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1)
   expect_equal(jaccard(b1, b2), 6.5714286e-01)
-  expect_equal(hamming(b1, b2), 0.46)
+  expect_equal(hamming(b1, b2), 0.46 * 100)
 
   # Other tests
   # mahalanobis() not tested
   # matching() is deprecated
   expect_equal(jaccard(c(1, 0, 1, 1, 0), c(1, 1, 0, 1, 1)), 0.6)
   expect_equal(jaccard(c(1, 0, 1), c(1, 1, 0)), 2 / 3)
-  expect_equal(yule(c(1, 0, 1, 1, 0), c(1, 1, 0, 1, 1)), 2)
-  expect_equal(yule(c(1, 0, 1), c(1, 1, 0)), 2)
+  expect_equal(yule_dissimilarity(c(1, 0, 1, 1, 0), c(1, 1, 0, 1, 1)), 2)
+  expect_equal(yule_dissimilarity(c(1, 0, 1), c(1, 1, 0)), 2)
   expect_equal(sorenson(c(1, 0, 1, 1, 0), c(1, 1, 0, 1, 1)), 3 / 7)
   expect_equal(sorenson(c(1, 0, 1), c(1, 1, 0)), 0.5)
   expect_equal(sokal_sneath(c(1, 0, 1, 1, 0), c(1, 1, 0, 1, 1)), 0.75)
@@ -245,10 +245,10 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
   # In scipy, Sorenson distance is called dice
   expect_equal(sorenson(c(1, 0, 1, 1, 0), c(1, 1, 0, 1, 1)), 3 / 7)
   expect_equal(sorenson(c(1, 0, 1), c(1, 1, 0)), 0.5)
-  expect_equal(hamming(c(1, 0, 0), c(0, 1, 0)), 2 / 3)
-  expect_equal(hamming(c(1, 0, 0), c(1, 1, 0)), 1 / 3)
-  expect_equal(hamming(c(1, 0, 0), c(2, 0, 0)), 1 / 3)
-  expect_equal(hamming(c(1, 0, 0), c(3, 0, 0)), 1 / 3)
+  expect_equal(hamming(c(1, 0, 0), c(0, 1, 0)), 2) # 2 / 3 in scipy
+  expect_equal(hamming(c(1, 0, 0), c(1, 1, 0)), 1) # 1 / 3 in scipy
+  expect_equal(hamming(c(1, 0, 0), c(2, 0, 0)), 1) # 1 / 3 in scipy
+  expect_equal(hamming(c(1, 0, 0), c(3, 0, 0)), 1) # 1 / 3 in scipy
   expect_equal(jaccard(c(1, 0, 0), c(0, 1, 0)), 1)
   expect_equal(jaccard(c(1, 0, 0), c(1, 1, 0)), 0.5)
   expect_equal(jaccard(c(1, 0, 0), c(1, 2, 0)), 0.5)
@@ -287,8 +287,8 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
   expect_equal(sokal_sneath(c(1, 0, 0), c(2, 1, 0)), 2 / 3)
   # Scipy implementation gives -2, should be 2 / 3, as above
   expect_equal(sokal_sneath(c(1, 0, 0), c(3, 1, 0)), 2 / 3)
-  expect_equal(yule(c(1, 0, 0), c(0, 1, 0)), 2)
-  expect_equal(yule(c(1, 1, 0), c(0, 1, 0)), 0)
+  expect_equal(yule_dissimilarity(c(1, 0, 0), c(0, 1, 0)), 2)
+  expect_equal(yule_dissimilarity(c(1, 1, 0), c(0, 1, 0)), 0)
 })
 
 test_that("Distance functions are consistent with Mothur", {

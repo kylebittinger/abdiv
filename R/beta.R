@@ -9,9 +9,9 @@ beta_diversities <- c(
   "modified_mean_character_difference", "canberra", "chebyshev",
   "correlation_distance", "cosine_distance", "bray_curtis", "hellinger",
   "kulczynski", "kulczynski_cody", "kulczynski_mothur", "kulczynski_scipy",
-  "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath", "yule",
-  "gower", "alt_gower", "minkowski", "morisita", "cao", "millar",
-  "morisita_horn", "jaccard", "sorenson", "whittaker", "hamming")
+  "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
+  "yule_dissimilarity", "gower", "alt_gower", "minkowski", "morisita", "cao",
+  "millar", "morisita_horn", "jaccard", "sorenson", "whittaker", "hamming")
 
 #' Euclidean and related distances
 #'
@@ -39,8 +39,7 @@ beta_diversities <- c(
 #' The \emph{root-mean-square} distance or \emph{average} distance is similar
 #' to Euclidean distance. As the name implies, it is computed as the square
 #' root of the mean of the squared differences between elements of \code{x}
-#' and \code{y}:
-#' \deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i^n (x_i - y_i) ^ 2}.}
+#' and \code{y}: \deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i^n (x_i - y_i) ^ 2}.}
 #' Relation of \code{rms_distance()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to \eqn{D_2}{D_2} in Legendre & Legendre.
@@ -153,7 +152,7 @@ kullback_leibler_divergence <- function (x, y) {
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' For two vectors \code{x} and \code{y}, the Manhattan distance is given by
+#' For vectors \code{x} and \code{y}, the Manhattan distance is given by
 #' \deqn{d(x, y) = \sum_i |x_i - y_i|.} Relation of \code{manhattan()} to
 #' other definitions:
 #' \itemize{
@@ -286,7 +285,7 @@ clark_coefficient_of_divergence <- function (x, y) {
 #'
 #' @details
 #' For vectors \code{x} and \code{y}, the Chebyshev distance is defined as
-#' \deqn{\max_i |x_i - y_i|.} Relation to other definitions:
+#' \deqn{d(x, y) = \max_i |x_i - y_i|.} Relation to other definitions:
 #' \itemize{
 #'   \item Equivalent to the \code{chebyshev()} function in
 #'     \code{scipy.spatial.distance}.
@@ -308,10 +307,11 @@ chebyshev <- function (x, y) {
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' For two vectors \code{x} and \code{y}, the cosine distance is defined as
-#' \deqn{1 - \frac{x \cdot y}{|x| |y|},} where \eqn{|x|} is the magnitude or
-#' L2 norm of the vector, \eqn{|x| = \sqrt{\sum_i x_i}}. Relation to other
-#' definitions:
+#' For vectors \code{x} and \code{y}, the cosine distance is defined as the
+#' cosine of the angle between the vectors,
+#' \deqn{d(x, y) = 1 - \frac{x \cdot y}{|x| |y|},} where \eqn{|x|} is the
+#' magnitude or L2 norm of the vector, \eqn{|x| = \sqrt{\sum_i x_i}}. Relation
+#' to other definitions:
 #' \itemize{
 #'   \item Equivalent to the \code{cosine()} function in
 #'     \code{scipy.spatial.distance}.
@@ -370,7 +370,14 @@ cosine_distance <- function (x, y) {
 #'     absolute value of \eqn{x_i + y_i} in the denominator.
 #'   \item Equivalent to \eqn{D_{14} = 1 - S_{17}}{D_14 = 1 - S_17} in
 #'     Legendre & Legendre.
+#'   \item The Bray-Curtis distance on proportions is equal to the Manhattan
+#'     distance.
+#'   \item The Bray-Curtis distance on presence/absence vectors is equal to the
+#'     Sorenson index of dissimilarity.
 #' }
+#' #' x <- c(15, 6, 4, 0, 3, 0)
+#' y <- c(10, 2, 0, 1, 1, 0)
+#' chebyshev(x, y)
 #' @export
 bray_curtis <- function (x, y) {
   sum(abs(x - y)) / sum(x + y)
@@ -427,18 +434,6 @@ kulczynski_mothur <- function (x, y) {
   1 - a / (sum(x) + sum(y) - 2 * a)
 }
 
-#' Kulczynski distance (scipy implementation)
-#'
-#' @param x,y Numeric vectors
-#'
-#' @export
-kulczynski_scipy <- function (x, y) {
-  n <- length(x)
-  with(scipy_coefficients(x, y), {
-    (cTF + cFT - cTT + n) / (cTF + cFT + n)
-  })
-}
-
 scipy_coefficients <- function (x, y) {
   x <- x > 0
   y <- y > 0
@@ -449,100 +444,7 @@ scipy_coefficients <- function (x, y) {
     cFF = sum((!x) & (!y)))
 }
 
-#' Rogers-Tanimoto distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to the \code{rogerstanimoto()} function in
-#'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \eqn{1 - S_2}{1 - S_2} in Legendre & Legendre.
-#' }
-#' @export
-rogers_tanimoto <- function (x, y) {
-  with(scipy_coefficients(x, y), {
-    R <- 2 * (cTF + cFT)
-    R / (cTT + cFF + R)
-  })
-}
 
-#' Russel-Rao distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to the \code{russelrao()} function in
-#'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \code{1 - S_{11}}{1 - S_11} in Legendre & Legendre.
-#' }
-#' @export
-russel_rao <- function (x, y) {
-  x <- x > 0
-  y <- y > 0
-  cTT <- sum(x & y)
-  n <- length(x)
-  (n - cTT) / n
-}
-
-#' Sokal-Michener distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to... XXXXX
-#' }
-#' @export
-sokal_michener <- function (x, y) {
-  with(scipy_coefficients(x, y), {
-    R <- 2 * (cTF + cFT)
-    S <- cFF + cTT
-    R / (S + R)
-  })
-}
-
-#' Sokal-Sneath distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \code{sokalsneath()} function in
-#'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \eqn{1 - S_{10}}{1 - S_10} in Legendre & Legendre.
-#' }
-#' @export
-sokal_sneath <- function (x, y) {
-  with(scipy_coefficients(x, y), {
-    R <- 2 * (cTF + cFT)
-    R / (cTT + R)
-  })
-}
-
-#' Yule distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to the \code{yule()} function in
-#'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \eqn{1 - S}, where \eqn{S} is the Yule coefficient
-#'     in Legendre & Legendre.
-#' }
-#' @export
-yule <- function (x, y) {
-  with(scipy_coefficients(x, y), {
-    2 * cTF * cFT / (cTT * cFF + cTF * cFT)
-  })
-}
 
 make_range_scale_fcn <- function (x, y) {
   xy_min <- pmin(x, y)
@@ -593,7 +495,9 @@ alt_gower <- function (x, y) {
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' Relation to other definitions:
+#' For vectors \code{x} and \code{y}, the Minkowski distance is defined as
+#' \deqn{d(x, y) = \left( \sum_i |x_i - y_i|^p \right)^{1/p}.} Relation to
+#' other definitions:
 #' \itemize{
 #'   \item Equivalent to R's built-in \code{dist()} function with
 #'     \code{method = "minkowski"}.
@@ -685,18 +589,119 @@ morisita_horn <- function (x, y) {
   1 - 2 * xy_term / (lambda_x + lambda_y)
 }
 
-#' Jaccard index of dissimilarity
+koleff_abc <- function (x, y) {
+  x <- x > 0
+  y <- y > 0
+  list(c = sum(x & (!y)), b = sum(y & (!x)), a = sum(x & y))
+}
+
+#' Beta diversity for presence/absence data
+#'
+#' These functions transform the input vectors to binary or presence/absence
+#' format, then compute a distance or dissimilarity.
+#'
+#' @param x,y Numeric vectors
 #'
 #' @details
-#' Relation to other definitions:
+#' Many of these indices are covered in Koleff et al. (2003), so we adopt their
+#' notation. For two vectors \code{x} and \code{y}, we define three quantities:
+#' \itemize{
+#'   \item \eqn{a} is the number of species that are present in both \code{x}
+#'     and \code{y},
+#'   \item \eqn{b} is the number of species that are present in \code{y} but
+#'     not \code{x},
+#'   \item \eqn{c} is the number of species that are present in \code{x} but
+#'     not \code{y}, and
+#'   \item \eqn{d} is the number of species absent in both vectors.
+#' }
+#' The quantity \eqn{d} is seldom used in ecology, for good reason. For
+#' details, please see the discussion on the "double zero problem," in section
+#' 2 of chapter 7.2 in Legendre & Legendre.
+#'
+#' The \emph{Jaccard} index of dissimilarity is \eqn{1 - a / (a + b + c)}, or
+#' one minus the proportion of shared species, counting over both samples
+#' together. Relation of \code{jaccard()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to R's built-in \code{dist()} function with
 #'     \code{method = "binary"}.
 #'   \item Equivalent to \code{vegdist()} with \code{method = "jaccard"}
 #'     and \code{binary = TRUE}.
 #'   \item Equivalent to the \code{jaccard()} function in
-#'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \eqn{1 - S_7}{1 - S_7} in Legendre & Legendre.
+#'     \code{scipy.spatial.distance}, except that we always convert vectors to
+#'     presence/absence.
+#'   \item Equivalent to \eqn{1 - S_7} in Legendre & Legendre.
+#' }
+#'
+#' The \emph{\enc{Sørenson}{Sorenson}} or \emph{Dice} index of dissimilarity is
+#' \eqn{1 - 2a / (2a + b + c)}, or one minus the average proportion of shared
+#' species, counting over each sample individually. Relation of
+#' \code{sorenson()} to other definitions:
+#' \itemize{
+#'   \item Equivalent to the \code{dice()} function in
+#'     \code{scipy.spatial.distance}, except that we always convert vectors to
+#'     presence/absence.
+#'   \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
+#'     Legendre.
+#' }
+#'
+#' The \emph{Kulczynski} distance, as implemented in SciPy, is available as
+#' \code{kulczynski_scipy()}. It is defined as
+#' \eqn{(2b + 2c + d) / (a + 2b + 2c + d)}, where \eqn{n} is the length of the
+#' vectors. Relation of \code{kulczynski_scipy()} to other definitions:
+#' \itemize{
+#'   \item Equivalent to the \code{kulsinski()} function in
+#'     \code{scipy.spatial.distance}, except that we always convert vectors to
+#'     presence/absence.
+#' }
+#'
+#' The \emph{Rogers-Tanimoto} distance is defined as
+#' \eqn{(2b + 2c) / (a + 2b + 2c + d)}. Relation of \code{rogers_tanimoto()}
+#' to other definitions:
+#' \itemize{
+#'   \item Equivalent to the \code{rogerstanimoto()} function in
+#'     \code{scipy.spatial.distance}, except that we always convert vectors to
+#'     presence/absence.
+#'   \item Equivalent to \eqn{1 - S_2}{1 - S_2} in Legendre & Legendre.
+#' }
+#'
+#' The \emph{Russel-Rao} distance is defined
+#' \eqn{(b + c + d) / (a + b + c + d)}, or the fraction of elements not present
+#' in both vectors, counting double absences. Relation of \code{russel_rao()} to
+#' other definitions:
+#' \itemize{
+#'   \item Equivalent to the \code{russelrao()} function in
+#'     \code{scipy.spatial.distance}, except that we always convert vectors to
+#'     presence/absence.
+#'   \item Equivalent to \code{1 - S_{11}}{1 - S_11} in Legendre & Legendre.
+#' }
+#'
+#' The \emph{Sokal-Michener} distance is defined as
+#' \eqn{(2b + 2c) / (a + 2b + 2c + d)}. Relation of \code{sokal_michener()} to
+#' other definitions:
+#' \itemize{
+#'   \item Equivalent to the \code{sokalmichener()} function in
+#'     \code{scipy.spatial.distance}, except that we always convert vectors to
+#'     presence/absence.
+#' }
+#'
+#' The \emph{Sokal-Sneath} distance is defined as
+#' \eqn{(2b + 2c) / (a + 2b + 2c)}. Relation of \code{sokal_sneath()} to other
+#' definitions:
+#' \itemize{
+#'   \item Equivalent to the \code{sokalsneath()} function in
+#'     \code{scipy.spatial.distance}, except that we always convert vectors to
+#'     presence/absence.
+#'   \item Equivalent to \eqn{1 - S_{10}}{1 - S_10} in Legendre & Legendre.
+#' }
+#'
+#' The \emph{Yule} dissimilarity is defined as \eqn{2bc / (ad + bc)}. Relation
+#' of \code{yule_dissimilarity()} to other definitions:
+#' \itemize{
+#'   \item Equivalent to the \code{yule()} function in
+#'     \code{scipy.spatial.distance}, except that we always convert vectors to
+#'     presence/absence.
+#'   \item Equivalent to \eqn{1 - S}, where \eqn{S} is the Yule coefficient
+#'     in Legendre & Legendre.
 #' }
 #' @export
 jaccard <- function (x, y) {
@@ -705,25 +710,7 @@ jaccard <- function (x, y) {
   sum(xor(x, y)) / sum(x | y)
 }
 
-koleff_abc <- function (x, y) {
-  x <- x > 0
-  y <- y > 0
-  list(c = sum(x & (!y)), b = sum(y & (!x)), a = sum(x & y))
-}
-
-#' Sorenson or Dice index of dissimilarity
-#'
-#' After transforming to presence/absence, the average fraction of species
-#' found in one sample but not the other.
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to the \code{dice()} function in
-#'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
-#'     Legendre.
-#' }
+#' @rdname jaccard
 #' @export
 sorenson <- function (x, y) {
   x <- x > 0
@@ -733,32 +720,103 @@ sorenson <- function (x, y) {
   bc / (2 * a + bc)
 }
 
-#' Whittaker index of dissimilarity
+#' @rdname jaccard
 #' @export
-whittaker <- function (x, y) {
+kulczynski_scipy <- function (x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
   bc <- sum(xor(x, y))
-  (a + bc) / (((2 * a) + bc) / 2)
+  n <- length(x)
+  (bc - a + n) / (bc + n)
+}
+
+#' @rdname jaccard
+#' @export
+rogers_tanimoto <- function (x, y) {
+  x <- x > 0
+  y <- y > 0
+  a <- sum(x & y)
+  bc <- sum(xor(x, y))
+  d <- sum((!x) & (!y))
+  2 * bc / (a + d + 2 * bc)
+}
+
+#' @rdname jaccard
+#' @export
+russel_rao <- function (x, y) {
+  x <- x > 0
+  y <- y > 0
+  a <- sum(x & y)
+  n <- length(x)
+  (n - a) / n
+}
+
+#' @rdname jaccard
+#' @export
+sokal_michener <- function (x, y) {
+  x <- x > 0
+  y <- y > 0
+  a <- sum(x & y)
+  bc <- sum(xor(x, y))
+  d <- sum((!x) & (!y))
+  2 * bc / (a + d + 2 * bc)
+}
+
+#' @rdname jaccard
+#' @export
+sokal_sneath <- function (x, y) {
+  x <- x > 0
+  y <- y > 0
+  a <- sum(x & y)
+  bc <- sum(xor(x, y))
+  2 * bc / (a + 2 * bc)
+}
+
+#' @rdname jaccard
+#' @export
+yule_dissimilarity <- function (x, y) {
+  x <- x > 0
+  y <- y > 0
+  a <- sum(x & y)
+  b = sum((!x) & y)
+  c = sum(x & (!y))
+  d <- sum((!x) & (!y))
+  2 * b * c / (a * d + b * c)
+}
+
+#' Whittaker's beta diversity
+#' @export
+whittaker <- function (x, y) {
+  x <- x > 0
+  y <- y > 0
+  total_species <- sum(x & y)
+  mean_richness <- (sum(x) + sum(y)) / 2
+  total_species / mean_richness
 }
 
 #' Hamming distance
 #'
+#' The Hamming distance is the number of positions where the values are
+#' different.
+#'
 #' @details
+#' For vectors \code{x} and \code{y}, the Hamming distance is defined as
+#' \deqn{d(x, y) = \sum_i [x_i \neq y_i],} where the quantity in the brackets
+#' is 1 if the elements are not equal, and zero if the elements are equal.
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to the \code{hamming()} function in
-#'     \code{scipy.spatial.distance}.
-#'   \item For binary data, equivalent to \code{1 - S_1}{1 - S_1} in Legendre
-#'     & Legendre.
+#'   \item The \code{hamming()} function in \code{scipy.spatial.distance}
+#'     divides the result by the vector length. Our function is equivalent to
+#'     the SciPy version multiplied by the vector length.
 #' }
 #' @export
 hamming <- function (x, y) {
-  sum(x != y) / length(x)
+  sum(x != y)
 }
 
 # Scipy notes:
+# # Distance functions for continuous vectors
 # braycurtis implemented as bray_curtis
 # canberra implemented
 # chebyshev implemented
@@ -766,6 +824,28 @@ hamming <- function (x, y) {
 # correlation implemented
 # cosine implemented
 # euclidean implemented
+# jensenshannon not implemented
+# mahalanobis not implemented, available in R stats module
+# minkowski implemented
+# seuclidean not implemented
+# sqeuclidean not implemented
+# wminkowski not implemented
+# # Distance functions for presence/absence vectors
+# *** We convert the vectors to presence/absence, so our results do not match
+# *** the SciPy tests when elements are greater than 1. The SciPy
+# *** implementation is arguably wrong here.
+# dice implemented as sorenson
+# hamming implemented differently
+# jaccard implemented
+# kulsinski implemented as kulczynski_scipy
+# rogerstanimoto implemented as rogers_tanimoto
+# russelrao implemented as russel_rao
+# sokalmichener implemented as sokal_michener
+# sokalsneath implemented as sokal_sneath
+# yule implemented as yule_dissimilarity
+
+# Koleff notes:
+# TODO
 
 # Vegan notes:
 # TODO: Mountford
@@ -796,7 +876,7 @@ hamming <- function (x, y) {
 # S_2 (coefficient of Rogers & Tanimoto) implemented as rogers_tanimoto
 # S_3, S_4, S_5, S_6 (Sokal and Sneath) not implemented
 # Hamann coefficient not implemented
-# Yule coefficient implemented as yule
+# Yule coefficient implemented as yule_dissimilarity
 # Pearson's phi not implemented
 # S_7 implemented as jaccard
 # S_8 implemented as sorenson

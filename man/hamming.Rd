@@ -7,14 +7,17 @@
 hamming(x, y)
 }
 \description{
-Hamming distance
+The Hamming distance is the number of positions where the values are
+different.
 }
 \details{
+For vectors \code{x} and \code{y}, the Hamming distance is defined as
+\deqn{d(x, y) = \sum_i [x_i \neq y_i],} where the quantity in the brackets
+is 1 if the elements are not equal, and zero if the elements are equal.
 Relation to other definitions:
 \itemize{
-  \item Equivalent to the \code{hamming()} function in
-    \code{scipy.spatial.distance}.
-  \item For binary data, equivalent to \code{1 - S_1}{1 - S_1} in Legendre
-    & Legendre.
+  \item The \code{hamming()} function in \code{scipy.spatial.distance}
+    divides the result by the vector length. Our function is equivalent to
+    the SciPy version multiplied by the vector length.
 }
 }

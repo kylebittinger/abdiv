@@ -2,10 +2,10 @@
 % Please edit documentation in R/beta.R
 \name{whittaker}
 \alias{whittaker}
-\title{Whittaker index of dissimilarity}
+\title{Whittaker's beta diversity}
 \usage{
 whittaker(x, y)
 }
 \description{
-Whittaker index of dissimilarity
+Whittaker's beta diversity
 }

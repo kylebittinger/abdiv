@@ -15,7 +15,7 @@ elements.
 }
 \details{
 For vectors \code{x} and \code{y}, the Chebyshev distance is defined as
-\deqn{\max_i |x_i - y_i|.} Relation to other definitions:
+\deqn{d(x, y) = \max_i |x_i - y_i|.} Relation to other definitions:
 \itemize{
   \item Equivalent to the \code{chebyshev()} function in
     \code{scipy.spatial.distance}.

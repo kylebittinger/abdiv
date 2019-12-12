@@ -44,8 +44,7 @@ Relation of \code{euclidean()} to other definitions:
 The \emph{root-mean-square} distance or \emph{average} distance is similar
 to Euclidean distance. As the name implies, it is computed as the square
 root of the mean of the squared differences between elements of \code{x}
-and \code{y}:
-\deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i^n (x_i - y_i) ^ 2}.}
+and \code{y}: \deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i^n (x_i - y_i) ^ 2}.}
 Relation of \code{rms_distance()} to other definitions:
 \itemize{
   \item Equivalent to \eqn{D_2}{D_2} in Legendre & Legendre.
