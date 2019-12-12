@@ -434,18 +434,6 @@ kulczynski_mothur <- function (x, y) {
   1 - a / (sum(x) + sum(y) - 2 * a)
 }
 
-scipy_coefficients <- function (x, y) {
-  x <- x > 0
-  y <- y > 0
-  list(
-    cTT = sum(x & y),
-    cFT = sum((!x) & y),
-    cTF = sum(x & (!y)),
-    cFF = sum((!x) & (!y)))
-}
-
-
-
 make_range_scale_fcn <- function (x, y) {
   xy_min <- pmin(x, y)
   xy_max <- pmax(x, y)
@@ -835,6 +823,8 @@ hamming <- function (x, y) {
 # sokalsneath implemented as sokal_sneath
 # yule implemented as yule_dissimilarity
 
+# TODO: Mothur notes
+
 # Koleff notes:
 #  1. \beta_w (Whittaker's beta diversity) implemented as sorenson
 #  2. \beta_{-1} implemented as sorenson
@@ -862,6 +852,7 @@ hamming <- function (x, y) {
 # 24. \beta_z not implemented
 
 # Vegan notes:
+# # TODO: document these functions better
 # # Methods in vegdist
 # euclidean implemented
 # euclidean with binary = TRUE not implemented
