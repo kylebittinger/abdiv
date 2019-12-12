@@ -868,6 +868,34 @@ hamming <- function (x, y) {
 # 24. \beta_z not implemented
 
 # Vegan notes:
+# # Methods in vegdist
+# euclidean implemented
+# euclidean with binary = TRUE not implemented
+# manhattan implemented
+# manhattan with binary = TRUE not implemented
+# gower implemented
+# gower with binary = TRUE not implemented
+# altGower implemented as alt_gower
+# altGower with binary = TRUE not implemented
+# canberra implemented
+# canberra with binary = TRUE not implemented
+# clark not implemented?
+# clark with binary = TRUE not implemented
+# bray implemented as bray_curtis
+# bray with binary = TRUE not implemented
+# kulczynski implemented
+# kulczynski with binary = TRUE not implemented
+# morisita implemented
+# morisita with binary = TRUE can't be calculated
+# horn implemented as morisita_horn
+# horn with binary = TRUE not implemented
+# binomial implemented as millar (from Anderson & Millar 2004)
+# cao implemented
+# cao with binary = TRUE not implemented
+# jaccard (abundance weighted) not implemented
+#   Though I don't have a good formula for this
+# jaccard with binary = TRUE implemented
+# # Other stuff
 # TODO: Mountford
 # TODO: Raup
 # TODO: Chao-Jaccard, vegan uses some correction from the paper
