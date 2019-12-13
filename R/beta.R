@@ -11,7 +11,7 @@ beta_diversities <- c(
   "kulczynski", "kulczynski_cody", "kulczynski_mothur", "kulczynski_scipy",
   "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
   "yule_dissimilarity", "gower", "alt_gower", "minkowski", "morisita", "cao",
-  "millar", "morisita_horn", "jaccard", "sorenson", "hamming")
+  "millar", "morisita_horn", "jaccard", "sorenson", "hamming", "ruzicka")
 
 #' Euclidean and related distances
 #'
@@ -370,14 +370,19 @@ cosine_distance <- function (x, y) {
 #'     absolute value of \eqn{x_i + y_i} in the denominator.
 #'   \item Equivalent to \eqn{D_{14} = 1 - S_{17}}{D_14 = 1 - S_17} in
 #'     Legendre & Legendre.
-#'   \item The Bray-Curtis distance on proportions is equal to the Manhattan
-#'     distance.
+#'   \item The Bray-Curtis distance on proportions is equal to half the
+#'     Manhattan distance.
 #'   \item The Bray-Curtis distance on presence/absence vectors is equal to the
 #'     Sorenson index of dissimilarity.
 #' }
-#' #' x <- c(15, 6, 4, 0, 3, 0)
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
 #' y <- c(10, 2, 0, 1, 1, 0)
-#' chebyshev(x, y)
+#' bray_curtis(x, y)
+#'
+#' # For proportions, equal to half the Manhattan distance
+#' bray_curtis(x / sum(x), y / sum(y))
+#' manhattan(x / sum(x), y / sum(y)) / 2
 #' @export
 bray_curtis <- function (x, y) {
   sum(abs(x - y)) / sum(x + y)
@@ -575,6 +580,23 @@ morisita_horn <- function (x, y) {
   lambda_y <- sum(y ^ 2) / (sum(y) ^ 2)
   xy_term <- sum(x * y) / (sum(x) * sum(y))
   1 - 2 * xy_term / (lambda_x + lambda_y)
+}
+
+#' Ruzicka or weighted Jaccard distance
+#'
+#' @param x,y Numeric vectors.
+#' @details
+#' For vectors \code{x} and \code{y}, the Ruzicka distance is defined as
+#' \deqn{d(x, y) = 1 - \frac{\sum_i \min(x, y)}{\sum_i \max(x, y)}.} Relation
+#' to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "jaccard".
+#'   \item Related to the Bray-Curtis distance,
+#'     \eqn{d_r = 2 d_{bc} / (1 + d_{bc})}.
+#' }
+#' @export
+ruzicka <- function (x, y) {
+  1 - sum(pmin(x, y)) / sum(pmax(x, y))
 }
 
 #' Beta diversity for presence/absence data
@@ -877,9 +899,8 @@ hamming <- function (x, y) {
 # binomial implemented as millar (from Anderson & Millar 2004)
 # cao implemented
 # cao with binary = TRUE not implemented
-# jaccard (abundance weighted) not implemented
-#   Though I don't have a good formula for this
-# jaccard with binary = TRUE implemented
+# jaccard implemented as ruzicka
+# jaccard with binary = TRUE implemented as jaccard
 # # Other stuff
 # TODO: Mountford
 # TODO: Raup

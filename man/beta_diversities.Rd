@@ -4,7 +4,7 @@
 \name{beta_diversities}
 \alias{beta_diversities}
 \title{All beta-diversity measures}
-\format{An object of class \code{character} of length 33.}
+\format{An object of class \code{character} of length 34.}
 \usage{
 beta_diversities
 }

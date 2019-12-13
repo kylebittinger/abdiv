@@ -27,6 +27,7 @@ test_that("Distance functions are consistent with vegan::vegdist()", {
   expect_equal(canberra(x1, x2), from_vegdist(x1, x2, "canberra") * sum(x1 | x2))
   expect_equal(bray_curtis(x1, x2), from_vegdist(x1, x2, "bray"))
   expect_equal(kulczynski(x1, x2), from_vegdist(x1, x2, "kulczynski"))
+  expect_equal(ruzicka(x1, x2), from_vegdist(x1, x2, "jaccard"))
   expect_equal(jaccard(x1, x2), from_vegdist(x1, x2, "jaccard", binary=TRUE))
   expect_equal(gower(x1, x2), from_vegdist(x1, x2, "gower"))
   expect_equal(alt_gower(x1, x2), from_vegdist(x1, x2, "altGower"))
