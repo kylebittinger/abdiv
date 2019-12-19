@@ -239,19 +239,15 @@ test_that("Sorenson and Jaccard components match 2012 paper", {
 })
 
 test_that("Bray-Curtis components match figure 1 in 2017 paper", {
+  # No abundance gradient, only balanced variation
   A1 <- c(30, 5, 15, 20)
   A2 <- c(20, 30, 5, 15)
-  A3 <- c(15, 20, 30, 5)
-  A4 <- c(5, 15, 20, 30)
+  expect_equal(bray_curtis_balanced_component(A1, A2), 50 / 140)
+  expect_equal(bray_curtis_gradient_component(A1, A2), 0)
+
+  # Only abundance gradient
   B1 <- c(30, 30, 30, 30)
   B2 <- c(20, 20, 20, 20)
-  B3 <- c(15, 15, 15, 15)
-  B4 <- c(5, 5, 5, 5)
-  C1 <- c(30, 20, 15, 5)
-  C2 <- c(20, 30, 20, 20)
-  C3 <- c(15, 15, 30, 15)
-  C4 <- c(5, 5, 5, 30)
-  obs <- usedist::dist_make(fig1, bray_curtis_balanced_component)
-  obs2 <- usedist::dist_make(fig1, bray_curtis)
   expect_equal(bray_curtis_balanced_component(B1, B2), 0)
+  expect_equal(bray_curtis_gradient_component(B1, B2), 40 / 200)
 })
