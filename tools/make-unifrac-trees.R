@@ -18,6 +18,12 @@ faith_richards_newick %>%
   ggtree::ggtree(ladderize = F) +
   geom_tiplab()
 
+leprieur_newick <- "(((a:1,b:1):1,(c:1,d:1):1):1,((e:1,f:1):1,(g:1,h:1):1):1);"
+leprieur_newick %>%
+  ape::read.tree(text=.) %>%
+  #ape::rotateConstr(letters[4:1]) %>%
+  ggtree::ggtree(ladderize = F) +
+  geom_tiplab()
 
 code_for_tree(
   "skbio_t1",

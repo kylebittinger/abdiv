@@ -87,4 +87,40 @@ ruzicka_gradient_component <- function (x, y) {
   ruzicka(x, y) - ruzicka_balanced_component(x, y)
 }
 
-# TODO: Phylogenetic dissimilarity
+#' Nestedness and turnover components of unweighted UniFrac distance
+#'
+#' @param x,y Numeric vectors of species counts or proportions.
+#' @param tree A phylogenetic tree object.
+#' @param xy_labels A character vector of species labels for \code{x} and
+#'   \code{y}.
+#' @return The nestedness or turnover component of the UniFrac distance
+#'   between communities \code{x} and \code{y}.
+#' @details
+#' Leprieur et al. (2012) showed that measures of phylogenetic beta diversity
+#' could be partitioned into nestedness and turnover components, following the
+#' approach of Baselga (2010) for Sorenson dissimilarity.
+#' @references
+#' Leprieur F, Albouy C, De Bortoli J, Cowman PF, Bellwood DR, Mouillot D.
+#' Quantifying phylogenetic beta diversity: distinguishing between "true"
+#' turnover of lineages and phylogenetic diversity gradients. PLoS One.
+#' 2012;7(8):e42760. 10.1371/journal.pone.0042760
+#' @name unifrac_components
+NULL
+
+#' @rdname unifrac_components
+#' @export
+unweighted_unifrac_turnover_component <- function (x, y, tree, xy_labels = NULL) {
+  xy <- (x > 0) | (y > 0)
+  pd_tot <- faith_pd(xy, tree, xy_labels)
+  pd_x <- faith_pd(x, tree, xy_labels)
+  pd_y <- faith_pd(y, tree, xy_labels)
+  pd_min <- min(pd_tot - pd_x, pd_tot - pd_y)
+  2 * pd_min / (pd_x + pd_y - pd_tot + 2 * pd_min)
+}
+
+#' @rdname unifrac_components
+#' @export
+unweighted_unifrac_nestedness_component <- function (x, y, tree, xy_labels = NULL) {
+  unweighted_unifrac(x, y, tree, xy_labels) -
+    unweighted_unifrac_turnover_component(x, y, tree, xy_labels)
+}

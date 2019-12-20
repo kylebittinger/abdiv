@@ -1,3 +1,5 @@
+context("beta diversity components")
+
 test_that("Components match examples from betapart", {
   # Examples run with betapart 1.5.1
   AL <- c(
@@ -250,4 +252,55 @@ test_that("Bray-Curtis components match figure 1 in 2017 paper", {
   B2 <- c(20, 20, 20, 20)
   expect_equal(bray_curtis_balanced_component(B1, B2), 0)
   expect_equal(bray_curtis_gradient_component(B1, B2), 40 / 200)
+})
+
+leprieur_tree <- structure(list(edge = structure(c(9L, 10L, 11L, 11L, 10L, 12L,
+  12L, 9L, 13L, 14L, 14L, 13L, 15L, 15L, 10L, 11L, 1L, 2L, 12L,
+  3L, 4L, 13L, 14L, 5L, 6L, 15L, 7L, 8L), .Dim = c(14L, 2L)), edge.length = c(1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), Nnode = 7L, tip.label = c("a",
+  "b", "c", "d", "e", "f", "g", "h")), class = "phylo", order = "cladewise")
+
+test_that("Phylogenetic components match Leprieur 2012", {
+  .a <- c(1, 1, 1, 0, 0, 0, 0, 0)
+  .b <- c(0, 1, 1, 1, 0, 0, 0, 0)
+  .c <- c(0, 1, 1, 1, 1, 0, 0, 0)
+  .d <- c(0, 1, 1, 1, 1, 1, 0, 0)
+  .e <- c(0, 1, 1, 1, 1, 1, 1, 0)
+  .f <- c(0, 1, 1, 1, 1, 1, 1, 1)
+
+  expect_equal(unweighted_unifrac(.a, .b, leprieur_tree), 2 / 7)
+  expect_equal(unweighted_unifrac_turnover_component(.a, .b, leprieur_tree), 2 / 7)
+  expect_equal(unweighted_unifrac_nestedness_component(.a, .b, leprieur_tree), 0)
+
+  expect_equal(unweighted_unifrac(.a, .c, leprieur_tree), 1 / 2)
+  expect_equal(unweighted_unifrac_turnover_component(.a, .c, leprieur_tree), 2 / 7)
+  expect_equal(unweighted_unifrac_nestedness_component(.a, .c, leprieur_tree), 3 / 14)
+
+  expect_equal(unweighted_unifrac(.a, .d, leprieur_tree), 6 / 11)
+  expect_equal(unweighted_unifrac_turnover_component(.a, .d, leprieur_tree), 2 / 7)
+  expect_equal(unweighted_unifrac_nestedness_component(.a, .d, leprieur_tree), 20 / 77)
+
+  expect_equal(unweighted_unifrac(.a, .e, leprieur_tree), 8 / 13)
+  expect_equal(unweighted_unifrac_turnover_component(.a, .e, leprieur_tree), 2 / 7)
+  expect_equal(unweighted_unifrac_nestedness_component(.a, .e, leprieur_tree), 30 / 91)
+
+  expect_equal(unweighted_unifrac(.a, .f, leprieur_tree), 9 / 14)
+  expect_equal(unweighted_unifrac_turnover_component(.a, .f, leprieur_tree), 2 / 7)
+  expect_equal(unweighted_unifrac_nestedness_component(.a, .f, leprieur_tree), 5 / 14)
+
+  expect_equal(unweighted_unifrac(.b, .c, leprieur_tree), 3 / 9)
+  expect_equal(unweighted_unifrac_turnover_component(.b, .c, leprieur_tree), 0)
+  expect_equal(unweighted_unifrac_nestedness_component(.b, .c, leprieur_tree), 3 / 9)
+
+  expect_equal(unweighted_unifrac(.b, .d, leprieur_tree), 4 / 10)
+  expect_equal(unweighted_unifrac_turnover_component(.b, .d, leprieur_tree), 0)
+  expect_equal(unweighted_unifrac_nestedness_component(.b, .d, leprieur_tree), 4 / 10)
+
+  expect_equal(unweighted_unifrac(.b, .e, leprieur_tree), 6 / 12)
+  expect_equal(unweighted_unifrac_turnover_component(.b, .e, leprieur_tree), 0)
+  expect_equal(unweighted_unifrac_nestedness_component(.b, .e, leprieur_tree), 6 / 12)
+
+  expect_equal(unweighted_unifrac(.b, .f, leprieur_tree), 7 / 13)
+  expect_equal(unweighted_unifrac_turnover_component(.b, .f, leprieur_tree), 0)
+  expect_equal(unweighted_unifrac_nestedness_component(.b, .f, leprieur_tree), 7 / 13)
 })
