@@ -117,17 +117,34 @@ NULL
 #' @rdname unifrac_components
 #' @export
 unweighted_unifrac_turnover_component <- function (x, y, tree, xy_labels = NULL) {
-  xy <- (x > 0) | (y > 0)
-  pd_tot <- faith_pd(xy, tree, xy_labels)
-  pd_x <- faith_pd(x, tree, xy_labels)
-  pd_y <- faith_pd(y, tree, xy_labels)
-  pd_min <- min(pd_tot - pd_x, pd_tot - pd_y)
-  2 * pd_min / (pd_x + pd_y - pd_tot + 2 * pd_min)
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
+  em <- make_edge_matrix(tree)
+  b <- tree$edge.length
+  px <- get_branch_abundances(em, x) > 0
+  py <- get_branch_abundances(em, y) > 0
+  # Re-write formula 17 with a, b, and c from formulas 12-14.
+  .a <- sum(b[px & py])
+  .b <- sum(b[px & (!py)])
+  .c <- sum(b[(!px) & py])
+  2 * min(.b, .c) / (.a + 2 * min(.b, .c))
 }
 
 #' @rdname unifrac_components
 #' @export
 unweighted_unifrac_nestedness_component <- function (x, y, tree, xy_labels = NULL) {
-  unweighted_unifrac(x, y, tree, xy_labels) -
-    unweighted_unifrac_turnover_component(x, y, tree, xy_labels)
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
+  em <- make_edge_matrix(tree)
+  b <- tree$edge.length
+  px <- get_branch_abundances(em, x) > 0
+  py <- get_branch_abundances(em, y) > 0
+  .a <- sum(b[px & py])
+  .b <- sum(b[px & (!py)])
+  .c <- sum(b[(!px) & py])
+  unifrac_total <- (.b + .c) / (.a + .b + .c)
+  unifrac_turnover <- 2 * min(.b, .c) / (.a + 2 * min(.b, .c))
+  unifrac_total - unifrac_turnover
 }
