@@ -7,6 +7,10 @@
 #' Baselga A. The relationship between species replacement, dissimilarity
 #' derived from nestedness, and nestedness. Global Ecol. Biogeogr.
 #' 2012;21:1223–1232.
+#' @name jaccard_components
+NULL
+
+#' @rdname jaccard_components
 #' @export
 jaccard_turnover_component <- function (x, y) {
     x <- x > 0
@@ -17,7 +21,7 @@ jaccard_turnover_component <- function (x, y) {
     2 * min(b, c) / (a + 2 * min(b, c))
 }
 
-#' @rdname jaccard_turnover_component
+#' @rdname jaccard_components
 #' @export
 jaccard_nestedness_component <- function (x, y) {
   x <- x > 0
@@ -25,7 +29,7 @@ jaccard_nestedness_component <- function (x, y) {
   jaccard(x, y) - jaccard_turnover_component(x, y)
 }
 
-#' @rdname jaccard_turnover_component
+#' @rdname jaccard_components
 #' @export
 sorenson_turnover_component <- function (x, y) {
   x <- x > 0
@@ -36,7 +40,7 @@ sorenson_turnover_component <- function (x, y) {
   min(b, c) / (a + min(b, c))
 }
 
-#' @rdname jaccard_turnover_component
+#' @rdname jaccard_components
 #' @export
 sorenson_nestedness_component <- function (x, y) {
   x <- x > 0
@@ -54,6 +58,9 @@ sorenson_nestedness_component <- function (x, y) {
 #' Baselga A. Partitioning abundance-based multiple-site dissimilarity into
 #' components: balanced variation in abundance and abundance gradients.
 #' Methods in Ecology and Evolution. 2017;8:799–808.
+#' @name bray_curtis_components
+
+#' @rdname bray_curtis_components
 #' @export
 bray_curtis_balanced_component <- function (x, y) {
   # Check implementation between papers
@@ -64,13 +71,13 @@ bray_curtis_balanced_component <- function (x, y) {
   min(B, C) / (A + min(B, C))
 }
 
-#' @rdname bray_curtis_balanced_component
+#' @rdname bray_curtis_components
 #' @export
 bray_curtis_gradient_component <- function (x, y) {
   bray_curtis(x, y) - bray_curtis_balanced_component(x, y)
 }
 
-#' @rdname bray_curtis_balanced_component
+#' @rdname bray_curtis_components
 #' @export
 ruzicka_balanced_component <- function (x, y) {
   # Double check implementation between papers
@@ -81,7 +88,7 @@ ruzicka_balanced_component <- function (x, y) {
   2 * min(B, C) / (A +  2* min(B, C))
 }
 
-#' @rdname bray_curtis_balanced_component
+#' @rdname bray_curtis_components
 #' @export
 ruzicka_gradient_component <- function (x, y) {
   ruzicka(x, y) - ruzicka_balanced_component(x, y)

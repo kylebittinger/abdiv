@@ -10,8 +10,8 @@ Description: This package provides a collection of measures for ecological
   the diversity within a single site or sample, and beta diversity measures
   the diversity across two sites or samples.
   This package overlaps cosiderably with other packages such as
-  vegan, gUniFrac, and fossil. The implementations here are designed to be
-  basic and clear to the reader.
+  vegan, gUniFrac, betapart, and fossil. The implementations here are designed
+  to be basic and clear to the reader.
   We include a wide range of functions implemented in software outside the R
   ecosystem, such as scipy and scikit-bio.
 License: MIT
