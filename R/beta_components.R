@@ -114,6 +114,29 @@ ruzicka_gradient_component <- function (x, y) {
 #' Quantifying phylogenetic beta diversity: distinguishing between "true"
 #' turnover of lineages and phylogenetic diversity gradients. PLoS One.
 #' 2012;7(8):e42760. 10.1371/journal.pone.0042760
+#' @examples
+#' # Vectors x and y have turnover but no nestedness
+#' x <- c(1, 1, 1, 0, 0, 0, 0, 0)
+#' y <- c(0, 1, 1, 1, 0, 0, 0, 0)
+#'
+#' unweighted_unifrac(x, y, leprieur_tree)
+#' unweighted_unifrac_turnover_component(x, y, leprieur_tree)
+#' unweighted_unifrac_nestedness_component(x, y, leprieur_tree)
+#'
+#' phylosor(x, y, leprieur_tree)
+#' phylosor_turnover_component(x, y, leprieur_tree)
+#' phylosor_nestedness_component(x, y, leprieur_tree)
+#'
+#' # Vectors y and z have nestedness but no turnover
+#' z <- c(0, 1, 1, 1, 1, 1, 1, 1)
+#'
+#' unweighted_unifrac(y, z, leprieur_tree)
+#' unweighted_unifrac_turnover_component(y, z, leprieur_tree)
+#' unweighted_unifrac_nestedness_component(y, z, leprieur_tree)
+#'
+#' phylosor(y, z, leprieur_tree)
+#' phylosor_turnover_component(y, z, leprieur_tree)
+#' phylosor_nestedness_component(y, z, leprieur_tree)
 #' @name unifrac_components
 NULL
 
@@ -185,3 +208,22 @@ phylosor_nestedness_component <- function (x, y, tree, xy_labels = NULL) {
   phylosor_turnover <- min(.b, .c) / (.a + min(.b, .c))
   phylosor_total - phylosor_turnover
 }
+
+#' Example data for phylogenetic nestedness and turnover components
+#'
+#' This tree was used in Figure 2 of Leprieur et al. (2005) to demonstrate
+#' the nestedness and turnover components of phylogenetic beta diversity.
+#'
+#' @usage
+#' leprieur_tree
+#'
+#' @format \code{leprieur_tree} is a phylogenetic tree with 8 tips, labeled
+#' a-h. It was created with the \code{ape} library. All edges (branches) in the
+#' tree are of length 1.
+#'
+#' @source
+#' Leprieur F, Albouy C, De Bortoli J, Cowman PF, Bellwood DR, Mouillot D.
+#' Quantifying phylogenetic beta diversity: distinguishing between "true"
+#' turnover of lineages and phylogenetic diversity gradients. PLoS One.
+#' 2012;7(8):e42760. 10.1371/journal.pone.0042760
+"leprieur_tree"

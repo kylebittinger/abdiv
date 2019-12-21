@@ -36,6 +36,30 @@ Leprieur et al. (2012) showed that measures of phylogenetic beta diversity
 could be partitioned into nestedness and turnover components, following the
 approach of Baselga (2010) for Sorenson dissimilarity.
 }
+\examples{
+# Vectors x and y have turnover but no nestedness
+x <- c(1, 1, 1, 0, 0, 0, 0, 0)
+y <- c(0, 1, 1, 1, 0, 0, 0, 0)
+
+unweighted_unifrac(x, y, leprieur_tree)
+unweighted_unifrac_turnover_component(x, y, leprieur_tree)
+unweighted_unifrac_nestedness_component(x, y, leprieur_tree)
+
+phylosor(x, y, leprieur_tree)
+phylosor_turnover_component(x, y, leprieur_tree)
+phylosor_nestedness_component(x, y, leprieur_tree)
+
+# Vectors y and z have nestedness but no turnover
+z <- c(0, 1, 1, 1, 1, 1, 1, 1)
+
+unweighted_unifrac(y, z, leprieur_tree)
+unweighted_unifrac_turnover_component(y, z, leprieur_tree)
+unweighted_unifrac_nestedness_component(y, z, leprieur_tree)
+
+phylosor(y, z, leprieur_tree)
+phylosor_turnover_component(y, z, leprieur_tree)
+phylosor_nestedness_component(y, z, leprieur_tree)
+}
 \references{
 Baselga A. Partitioning the turnover and nestedness components of beta
 diversity. Global Ecol. Biogeogr. 2010;19:134-143.
