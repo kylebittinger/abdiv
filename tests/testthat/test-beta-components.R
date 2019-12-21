@@ -254,12 +254,6 @@ test_that("Bray-Curtis components match figure 1 in 2017 paper", {
   expect_equal(bray_curtis_gradient_component(B1, B2), 40 / 200)
 })
 
-leprieur_tree <- structure(list(edge = structure(c(9L, 10L, 11L, 11L, 10L, 12L,
-  12L, 9L, 13L, 14L, 14L, 13L, 15L, 15L, 10L, 11L, 1L, 2L, 12L,
-  3L, 4L, 13L, 14L, 5L, 6L, 15L, 7L, 8L), .Dim = c(14L, 2L)), edge.length = c(1,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), Nnode = 7L, tip.label = c("a",
-  "b", "c", "d", "e", "f", "g", "h")), class = "phylo", order = "cladewise")
-
 test_that("Phylogenetic components match Leprieur 2012", {
   .a <- c(1, 1, 1, 0, 0, 0, 0, 0)
   .b <- c(0, 1, 1, 1, 0, 0, 0, 0)
