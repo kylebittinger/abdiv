@@ -159,6 +159,11 @@ faith_pd <- function (x, tree, x_labels = NULL) {
 #' \code{information_unifrac} was proposed by Wong et al. (2016) to connect
 #' UniFrac distance with compositional data analysis. They also proposed a
 #' "ratio UniFrac" distance, which is not yet implemented.
+#'
+#' \code{phylosor}, proposed by Bryant et al. (2008), is closely related to
+#' unweighted UniFrac distance. If unweighted UniFrac distance is the analogue
+#' of Jaccard distance using branches on a phylogenetic tree, PhyloSor is the
+#' analogue of Sorenson dissimilarity.
 #' @references
 #' Lozupone C, Knight R. UniFrac: a new phylogenetic method for
 #' comparing microbial communities. Applied and environmental microbiology.
@@ -180,6 +185,11 @@ faith_pd <- function (x, tree, x_labels = NULL) {
 #'
 #' Wong RG, Wu JR, Gloor GB. Expanding the UniFrac Toolbox.
 #' PLOS ONE. 2016;11(9):1–20. 10.1371/journal.pone.0161196
+#'
+#' Bryant JA, Lamanna C, Morlon H, Kerkhoff AJ, Enquist BJ, Green JL.
+#' Microbes on mountainsides: contrasting elevational patterns of bacterial
+#' and plant diversity. Proc Natl Acad Sci U S A. 2008;105 Suppl 1:11505-11.
+#' 10.1073/pnas.0801920105
 #' @examples
 #' # From Lozupone and Knight (2005), Figure 1.
 #' # Panel A
@@ -317,6 +327,23 @@ information_unifrac <- function (x, y, tree, xy_labels = NULL) {
   # log(0) produces infinities; p * log(p) must be zero for formula to work
   plogp <- function (p) ifelse(p > 0, p * log(p), 0)
   sum(b * abs(plogp(px) - plogp(py))) / sum(b)
+}
+
+#' @rdname unifrac
+#' @export
+phylosor <- function (x, y, tree, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
+  em <- make_edge_matrix(tree)
+  b <- tree$edge.length
+  px <- get_branch_abundances(em, x) > 0
+  py <- get_branch_abundances(em, y) > 0
+  # Making this look like the formula in Bryant (2008).
+  BL_ij <- sum(b[px & py])
+  BL_i <- sum(b[px])
+  BL_j <- sum(b[py])
+  1 - (BL_ij / (0.5 * (BL_i + BL_j)))
 }
 
 #' Example data for Faith's phylogenetic diversity

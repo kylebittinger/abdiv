@@ -4,11 +4,17 @@
 \alias{unifrac_components}
 \alias{unweighted_unifrac_turnover_component}
 \alias{unweighted_unifrac_nestedness_component}
+\alias{phylosor_turnover_component}
+\alias{phylosor_nestedness_component}
 \title{Nestedness and turnover components of unweighted UniFrac distance}
 \usage{
 unweighted_unifrac_turnover_component(x, y, tree, xy_labels = NULL)
 
 unweighted_unifrac_nestedness_component(x, y, tree, xy_labels = NULL)
+
+phylosor_turnover_component(x, y, tree, xy_labels = NULL)
+
+phylosor_nestedness_component(x, y, tree, xy_labels = NULL)
 }
 \arguments{
 \item{x, y}{Numeric vectors of species counts or proportions.}
@@ -31,6 +37,9 @@ could be partitioned into nestedness and turnover components, following the
 approach of Baselga (2010) for Sorenson dissimilarity.
 }
 \references{
+Baselga A. Partitioning the turnover and nestedness components of beta
+diversity. Global Ecol. Biogeogr. 2010;19:134-143.
+
 Leprieur F, Albouy C, De Bortoli J, Cowman PF, Bellwood DR, Mouillot D.
 Quantifying phylogenetic beta diversity: distinguishing between "true"
 turnover of lineages and phylogenetic diversity gradients. PLoS One.

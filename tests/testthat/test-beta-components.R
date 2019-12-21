@@ -268,38 +268,72 @@ test_that("Phylogenetic components match Leprieur 2012", {
   .e <- c(0, 1, 1, 1, 1, 1, 1, 0)
   .f <- c(0, 1, 1, 1, 1, 1, 1, 1)
 
+  # The values for total diversity and turnover were obtained by counting
+  # branches on the tree. I did not reduce the fractions, in case someone
+  # wants to re-check by hand.
+
+  # Values for nestedness were obtained by subtraction, and here I did reduce
+  # the fractions for convenience.
+
+  expect_equal(phylosor(.a, .b, leprieur_tree), 2 / 12)
+  expect_equal(phylosor_turnover_component(.a, .b, leprieur_tree), 2 / 12)
+  expect_equal(phylosor_nestedness_component(.a, .b, leprieur_tree), 0)
   expect_equal(unweighted_unifrac(.a, .b, leprieur_tree), 2 / 7)
   expect_equal(unweighted_unifrac_turnover_component(.a, .b, leprieur_tree), 2 / 7)
   expect_equal(unweighted_unifrac_nestedness_component(.a, .b, leprieur_tree), 0)
 
+  expect_equal(phylosor(.a, .c, leprieur_tree), 5 / 15)
+  expect_equal(phylosor_turnover_component(.a, .c, leprieur_tree), 2 / 12)
+  expect_equal(phylosor_nestedness_component(.a, .c, leprieur_tree), 2 / 12)
   expect_equal(unweighted_unifrac(.a, .c, leprieur_tree), 1 / 2)
   expect_equal(unweighted_unifrac_turnover_component(.a, .c, leprieur_tree), 2 / 7)
   expect_equal(unweighted_unifrac_nestedness_component(.a, .c, leprieur_tree), 3 / 14)
 
+  expect_equal(phylosor(.a, .d, leprieur_tree), 6 / 16)
+  expect_equal(phylosor_turnover_component(.a, .d, leprieur_tree), 2 / 12)
+  expect_equal(phylosor_nestedness_component(.a, .d, leprieur_tree), 5 / 24)
   expect_equal(unweighted_unifrac(.a, .d, leprieur_tree), 6 / 11)
   expect_equal(unweighted_unifrac_turnover_component(.a, .d, leprieur_tree), 2 / 7)
   expect_equal(unweighted_unifrac_nestedness_component(.a, .d, leprieur_tree), 20 / 77)
 
+  expect_equal(phylosor(.a, .e, leprieur_tree), 8 / 18)
+  expect_equal(phylosor_turnover_component(.a, .e, leprieur_tree), 2 / 12)
+  expect_equal(phylosor_nestedness_component(.a, .e, leprieur_tree), 5 / 18)
   expect_equal(unweighted_unifrac(.a, .e, leprieur_tree), 8 / 13)
   expect_equal(unweighted_unifrac_turnover_component(.a, .e, leprieur_tree), 2 / 7)
   expect_equal(unweighted_unifrac_nestedness_component(.a, .e, leprieur_tree), 30 / 91)
 
+  expect_equal(phylosor(.a, .f, leprieur_tree), 9 / 19)
+  expect_equal(phylosor_turnover_component(.a, .f, leprieur_tree), 2 / 12)
+  expect_equal(phylosor_nestedness_component(.a, .f, leprieur_tree), 35 / 114)
   expect_equal(unweighted_unifrac(.a, .f, leprieur_tree), 9 / 14)
   expect_equal(unweighted_unifrac_turnover_component(.a, .f, leprieur_tree), 2 / 7)
   expect_equal(unweighted_unifrac_nestedness_component(.a, .f, leprieur_tree), 5 / 14)
 
+  expect_equal(phylosor(.b, .c, leprieur_tree), 3 / 15)
+  expect_equal(phylosor_turnover_component(.b, .c, leprieur_tree), 0)
+  expect_equal(phylosor_nestedness_component(.b, .c, leprieur_tree), 3 / 15)
   expect_equal(unweighted_unifrac(.b, .c, leprieur_tree), 3 / 9)
   expect_equal(unweighted_unifrac_turnover_component(.b, .c, leprieur_tree), 0)
   expect_equal(unweighted_unifrac_nestedness_component(.b, .c, leprieur_tree), 3 / 9)
 
+  expect_equal(phylosor(.b, .d, leprieur_tree), 4 / 16)
+  expect_equal(phylosor_turnover_component(.b, .d, leprieur_tree), 0)
+  expect_equal(phylosor_nestedness_component(.b, .d, leprieur_tree), 4 / 16)
   expect_equal(unweighted_unifrac(.b, .d, leprieur_tree), 4 / 10)
   expect_equal(unweighted_unifrac_turnover_component(.b, .d, leprieur_tree), 0)
   expect_equal(unweighted_unifrac_nestedness_component(.b, .d, leprieur_tree), 4 / 10)
 
+  expect_equal(phylosor(.b, .e, leprieur_tree), 6 / 18)
+  expect_equal(phylosor_turnover_component(.b, .e, leprieur_tree), 0)
+  expect_equal(phylosor_nestedness_component(.b, .e, leprieur_tree), 6 / 18)
   expect_equal(unweighted_unifrac(.b, .e, leprieur_tree), 6 / 12)
   expect_equal(unweighted_unifrac_turnover_component(.b, .e, leprieur_tree), 0)
   expect_equal(unweighted_unifrac_nestedness_component(.b, .e, leprieur_tree), 6 / 12)
 
+  expect_equal(phylosor(.b, .f, leprieur_tree), 7 / 19)
+  expect_equal(phylosor_turnover_component(.b, .f, leprieur_tree), 0)
+  expect_equal(phylosor_nestedness_component(.b, .f, leprieur_tree), 7 / 19)
   expect_equal(unweighted_unifrac(.b, .f, leprieur_tree), 7 / 13)
   expect_equal(unweighted_unifrac_turnover_component(.b, .f, leprieur_tree), 0)
   expect_equal(unweighted_unifrac_nestedness_component(.b, .f, leprieur_tree), 7 / 13)

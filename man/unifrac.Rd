@@ -8,6 +8,7 @@
 \alias{variance_adjusted_unifrac}
 \alias{generalized_unifrac}
 \alias{information_unifrac}
+\alias{phylosor}
 \title{UniFrac distance}
 \usage{
 unweighted_unifrac(x, y, tree, xy_labels = NULL)
@@ -21,6 +22,8 @@ variance_adjusted_unifrac(x, y, tree, xy_labels = NULL)
 generalized_unifrac(x, y, tree, alpha = 0.5, xy_labels = NULL)
 
 information_unifrac(x, y, tree, xy_labels = NULL)
+
+phylosor(x, y, tree, xy_labels = NULL)
 }
 \arguments{
 \item{x, y}{Numeric vectors of species counts or proportions.}
@@ -78,6 +81,11 @@ distances.
 \code{information_unifrac} was proposed by Wong et al. (2016) to connect
 UniFrac distance with compositional data analysis. They also proposed a
 "ratio UniFrac" distance, which is not yet implemented.
+
+\code{phylosor}, proposed by Bryant et al. (2008), is closely related to
+unweighted UniFrac distance. If unweighted UniFrac distance is the analogue
+of Jaccard distance using branches on a phylogenetic tree, PhyloSor is the
+analogue of Sorenson dissimilarity.
 }
 \examples{
 # From Lozupone and Knight (2005), Figure 1.
@@ -123,4 +131,9 @@ using generalized UniFrac distances. Bioinformatics.
 
 Wong RG, Wu JR, Gloor GB. Expanding the UniFrac Toolbox.
 PLOS ONE. 2016;11(9):1–20. 10.1371/journal.pone.0161196
+
+Bryant JA, Lamanna C, Morlon H, Kerkhoff AJ, Enquist BJ, Green JL.
+Microbes on mountainsides: contrasting elevational patterns of bacterial
+and plant diversity. Proc Natl Acad Sci U S A. 2008;105 Suppl 1:11505-11.
+10.1073/pnas.0801920105
 }

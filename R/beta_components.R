@@ -107,6 +107,9 @@ ruzicka_gradient_component <- function (x, y) {
 #' could be partitioned into nestedness and turnover components, following the
 #' approach of Baselga (2010) for Sorenson dissimilarity.
 #' @references
+#' Baselga A. Partitioning the turnover and nestedness components of beta
+#' diversity. Global Ecol. Biogeogr. 2010;19:134-143.
+#'
 #' Leprieur F, Albouy C, De Bortoli J, Cowman PF, Bellwood DR, Mouillot D.
 #' Quantifying phylogenetic beta diversity: distinguishing between "true"
 #' turnover of lineages and phylogenetic diversity gradients. PLoS One.
@@ -147,4 +150,38 @@ unweighted_unifrac_nestedness_component <- function (x, y, tree, xy_labels = NUL
   unifrac_total <- (.b + .c) / (.a + .b + .c)
   unifrac_turnover <- 2 * min(.b, .c) / (.a + 2 * min(.b, .c))
   unifrac_total - unifrac_turnover
+}
+
+#' @rdname unifrac_components
+#' @export
+phylosor_turnover_component <- function (x, y, tree, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
+  em <- make_edge_matrix(tree)
+  b <- tree$edge.length
+  px <- get_branch_abundances(em, x) > 0
+  py <- get_branch_abundances(em, y) > 0
+  .a <- sum(b[px & py])
+  .b <- sum(b[px & (!py)])
+  .c <- sum(b[(!px) & py])
+  min(.b, .c) / (.a + min(.b, .c))
+}
+
+#' @rdname unifrac_components
+#' @export
+phylosor_nestedness_component <- function (x, y, tree, xy_labels = NULL) {
+  check_tree(tree)
+  x <- match_to_tree(x, tree, xy_labels)
+  y <- match_to_tree(y, tree, xy_labels)
+  em <- make_edge_matrix(tree)
+  b <- tree$edge.length
+  px <- get_branch_abundances(em, x) > 0
+  py <- get_branch_abundances(em, y) > 0
+  .a <- sum(b[px & py])
+  .b <- sum(b[px & (!py)])
+  .c <- sum(b[(!px) & py])
+  phylosor_total <- (.b + .c) / (2 * .a + .b + .c)
+  phylosor_turnover <- min(.b, .c) / (.a + min(.b, .c))
+  phylosor_total - phylosor_turnover
 }
