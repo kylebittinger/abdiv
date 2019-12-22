@@ -1,6 +1,6 @@
 context("unifrac")
 
-# Test data
+# Code for trees generated in tools/make-unifrac-trees.R
 
 t_no_branch_lengths <- structure(list(edge = structure(c(6L, 7L, 8L, 9L, 9L, 8L, 6L,
   10L, 10L, 7L, 8L, 9L, 1L, 2L, 3L, 10L, 4L, 5L), .Dim = c(9L,
@@ -26,19 +26,12 @@ skbio_unobs_root <- structure(list(edge = structure(c(5L, 6L, 6L, 5L, 7L, 7L,
   "", ""), tip.label = c("OTU1", "OTU2", "OTU3", "OTU4")), class = "phylo",
   order = "cladewise")
 
-unifrac_tree <- structure(list(edge = structure(c(4L, 5L, 5L, 4L, 5L, 1L, 2L,
-  3L), .Dim = c(4L, 2L)), edge.length = c(0.1, 0.3, 0.3, 0.4),
-  Nnode = 2L, tip.label = c("D", "E", "C")), class = "phylo",
-  order = "cladewise")
-
 b0 <- c(1, 3, 0, 1, 0)
 b1 <- c(0, 2, 0, 4, 4)
 b2 <- c(0, 0, 6, 2, 1)
 b3 <- c(0, 0, 1, 1, 1)
 b4 <- c(5, 3, 5, 0, 0)
 b5 <- c(0, 0, 0, 3, 5)
-
-sk_cts <- rbind(b0=setNames(b0, paste0("OTU", 1:5)), b1, b2, b3, b4, b5)
 
 test_that("match_to_tree generates errors correctly", {
   expect_error(
