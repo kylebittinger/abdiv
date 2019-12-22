@@ -354,6 +354,11 @@ phylosor <- function (x, y, tree, xy_labels = NULL) {
 #' @format \code{faith_tree} is a phylogenetic tree with five tips, labeled
 #' a-e. It was created with the \code{ape} library.
 #'
+#' @details In the paper, they give the total branch length as 41, but they
+#' don't assign a length to the branch leading to species "b" and "c". Looking
+#' at the figure, we estimated that the length should be 4. For that reason,
+#' the total branch length of \code{faith_tree} is 45, rather than 41.
+#'
 #' @source
 #' Faith DP, Richards ZT. Biology (Basel). 2012 Dec 14;1(3):906-32.
 #' 10.3390/biology1030906

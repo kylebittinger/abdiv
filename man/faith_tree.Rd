@@ -17,4 +17,10 @@ faith_tree
 This example was used to illustrate phylogenetic diversity in Faith and
 Richards (2012).
 }
+\details{
+In the paper, they give the total branch length as 41, but they
+don't assign a length to the branch leading to species "b" and "c". Looking
+at the figure, we estimated that the length should be 4. For that reason,
+the total branch length of \code{faith_tree} is 45, rather than 41.
+}
 \keyword{datasets}

@@ -494,10 +494,8 @@ need support when using this library.
 
 ## Footnotes
 
-1.  In the paper, they give the value as 41, but they don’t assign a
-    length to the edge connecting species “b” and “c”. Looking at the
-    figure, I’ve estimated that the length should be 4, so we get 45 for
-    our example, rather than 41.
+1.  The answer here is slightly different than that in the paper. See
+    `faith_tree` documentation for further explanation.
 
 2.  Full disclosure: `usedist` and `abdiv` are authored by the same
     person.
