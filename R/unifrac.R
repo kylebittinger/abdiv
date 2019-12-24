@@ -360,7 +360,7 @@ phylosor <- function (x, y, tree, xy_labels = NULL) {
 #' the total branch length of \code{faith_tree} is 45, rather than 41.
 #'
 #' @source
-#' Faith DP, Richards ZT. Biology (Basel). 2012 Dec 14;1(3):906-32.
+#' Faith DP, Richards ZT. Biology (Basel). 2012;1(3):906-32.
 #' 10.3390/biology1030906
 "faith_tree"
 

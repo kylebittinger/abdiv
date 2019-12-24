@@ -7,7 +7,7 @@
 \format{\code{faith_tree} is a phylogenetic tree with five tips, labeled
 a-e. It was created with the \code{ape} library.}
 \source{
-Faith DP, Richards ZT. Biology (Basel). 2012 Dec 14;1(3):906-32.
+Faith DP, Richards ZT. Biology (Basel). 2012;1(3):906-32.
 10.3390/biology1030906
 }
 \usage{

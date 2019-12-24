@@ -34,7 +34,7 @@ test_that("Distance functions are consistent with vegan::vegdist()", {
   expect_equal(morisita(x1, x2), from_vegdist(x1, x2, "morisita"))
   expect_equal(morisita_horn(x1, x2), from_vegdist(x1, x2, "horn"))
   expect_equal(millar(x1, x2), from_vegdist(x1, x2, "binomial"))
-  expect_equal(cao(x1, x2), from_vegdist(x1, x2, "cao"))
+  expect_equal(cy_dissimilarity(x1, x2, base=exp(1)), from_vegdist(x1, x2, "cao"))
   # We don't implement the "mahalanobis" method
 })
 
@@ -307,4 +307,12 @@ test_that("Distance functions are consistent with Mothur", {
   # Mothur calls the vegan's kulczynski method Kulczynski-Cody
   # https://www.mothur.org/wiki/Kulczynskicody
   expect_equal(kulczynski_cody(forest, pasture), 1 - 0.5 * (9 / 33 + 9 / 31))
+})
+
+test_that("Cao index matches Cao (1997) paper", {
+  # Columns of Table 7
+  expect_equal(cy_dissimilarity(1, 0), 0.6494535986)
+  expect_equal(cy_dissimilarity(10, 0), 1.6834893979)
+  expect_equal(cy_dissimilarity(100, 90), 0.0018064951)
+  expect_equal(cy_dissimilarity(10, 2), 0.3606262540)
 })

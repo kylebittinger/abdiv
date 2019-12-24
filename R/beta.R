@@ -525,27 +525,64 @@ morisita <- function (x, y) {
 }
 
 
-#' Cao index of dissimilarity
+#' CY index of dissimilarity
+#'
+#' The CY or Cao index of dissimilarity
+#'
+#' @param x,y Numeric vectors
+#' @param base Base of the logarithm
+#' @param min_value Replacement for zero or near-zero values
 #'
 #' @details
+#' The CY index was designed to be used with whole-numbered counts, rather than
+#' proportions. It is unbounded, unlike the Bray-Curtis distance, which has an
+#' upper bound of 1. The CY index is defined as
+#' \deqn{
+#'   d(x,y) = \frac{1}{N} \sum_i
+#'   \left (
+#'     \frac{
+#'       (x_i + y_i) \log_{10} ( \frac{x_i + y_i}{2} ) +
+#'       x_i \log_{10}(y_i) + y_i \log_{10}(x_i)
+#'     }{
+#'       x_i + y_i
+#'     }
+#'   \right ),
+#' }
+#' where \eqn{N} is the total number of species in vectors \eqn{x} and \eqn{y}.
+#' Double zeros are not considered in the measure. When either \eqn{x_i} or
+#' \eqn{y_i} are zero, they need to be replaced by another value to avoid
+#' infinite values in the sum. Cao suggested replacing zero values with
+#' \eqn{0.1}, which is one log lower than the minimum value for whole-numbered
+#' counts.
+#'
+#' It probably doesn't make sense to use this index with species proportions,
+#' since the measure was created to measure log-scale differences in species
+#' counts.
+#'
 #' Relation to other definitions:
 #' \itemize{
-#'   \item Equivalent to vegdist() with method = "cao".
+#'   \item Equivalent to the vegdist() function with method = "cao", if
+#'   \code{base = exp(1)}.
 #' }
+#' @references
+#' Cao Y, Williams WP, Bark AW. Similarity measure bias in river benthic
+#' Aufwuchs community analysis. Water Environment Research 1997;69(1):95-106.
 #' @export
-cao <- function (x, y) {
+cy_dissimilarity <- function (x, y, base = 10, min_value = 0.1) {
+   # Remove double zeros
   keep <- (x > 0) | (y > 0)
   x <- x[keep]
   y <- y[keep]
-  # using truncation at 0.1, just like vegan
-  x_trunc <- ifelse(x > 0.1, x, 0.1)
-  y_trunc <- ifelse(y > 0.1, y, 0.1)
-  s <- length(x)
-  n <- x_trunc + y_trunc
-  t1 <- log(n) - log(2)
-  t2 <- x_trunc * log(y_trunc)
-  t3 <- y_trunc * log(x_trunc)
-  sum(t1 - (t2 + t3) / n) / s
+  # Substitute individual zeros with 0.1, just like vegan
+  x <- ifelse(x > min_value, x, min_value)
+  y <- ifelse(y > min_value, y, min_value)
+  N <- length(x)
+  xy_sum <- x + y
+  t1 <- xy_sum * log(xy_sum / 2, base = base)
+  t2 <- x * log(y, base = base)
+  t3 <- y * log(x, base = base)
+  # Formula 12 in the Cao paper
+  (1 / N) * sum((t1 - t2 - t3) / xy_sum)
 }
 
 #' Binomial index of dissimilarity
