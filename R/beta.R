@@ -505,23 +505,69 @@ minkowski <- function (x, y, p = 1) {
   sum(abs(x - y) ^ p) ^ (1 / p)
 }
 
-#' Morisita index of dissimilarity
+#' The Morisita index and Horn-Morisita index
+#'
+#' The Morisita and the Horn-Morisita indices measure the probability that
+#' individuals drawn one from each vector will belong to different species,
+#' relative to drawing from each vector separately. The Morisita index is
+#' formulated for count data only, whereas the Horn-Morisita index can be
+#' used with transformed counts or proportions.
 #'
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' Relation to other definitions:
+#' For two vectors \code{x} and \code{y}, the Morisita index of dissimilarity
+#' is
+#' \deqn{d(x,y) = 1 - \frac{2 \sum_i x_i y_i}{(\lambda_x + \lambda_y) N_x N_y},}
+#' where \deqn{\lambda_x = \frac{\sum_i x_i (x_i - 1)}{N_x (N_x - 1)}.} The
+#' formula for \eqn{\lambda_x} is the unbiased estimate for the probability of
+#' drawing two individuals of the same species from \code{x}, without
+#' replacement. The correction for sampling without replacement only makes
+#' sense for species count data.
+#'
+#' Relation of \code{morisita()} to other definitions:
 #' \itemize{
-#'   \item Equivalent to vegdist() with method = "morisita".
+#'   \item Equivalent to \code{vegdist()} with \code{method = "morisita"}.
 #' }
+#'
+#' Horn (1966) reformulated the index to use the equations for sampling with
+#' replacement in \eqn{\lambda_x} and \eqn{\lambda_y}:
+#' \deqn{\lambda_x = \frac{\sum_i x_i^2}{N_x^2}} With this modification,
+#' the index is valid for proportions or transformed count data.
+#'
+#' Relation of \code{horn_morisita()} to other definitions:
+#' \itemize{
+#'   \item Equivalent to \code{vegdist()} with \code{method = "horn"}.
+#' }
+#' @references
+#' Mosrisita M. Measuring of interspecific association and similarity between
+#' communities. Memoirs of the Faculty of Science, Kyushu Univ., Series E
+#' (Biology). 1959;3:65-80.
+#'
+#' Horn HS. Measurement of "Overlap" in Comparative Ecological Studies. The
+#' American Naturalist, 1966;100(914):419-424.
 #' @export
 morisita <- function (x, y) {
-  # BUG IN VEGAN?!?!?!
-  # Documentation says denominator of lambda should be sum(x) * sum(x - 1)
-  lambda_x <- sum(x * (x - 1)) / (sum(x) * (sum(x) - 1))
-  lambda_y <- sum(y * (y - 1)) / (sum(y) * (sum(y) - 1))
-  xy_term <- sum(x * y) / (sum(x) * sum(y))
-  1 - 2 * xy_term / (lambda_x + lambda_y)
+  # Vegan docs not consistent with the paper, but implementation is correct
+  Nx <- sum(x)
+  Ny <- sum(y)
+  # Eqn 1
+  lambda_x <- sum(x * (x - 1)) / (Nx * (Nx - 1))
+  # Eqn 2
+  lambda_y <- sum(y * (y - 1)) / (Ny * (Ny - 1))
+  # Eqn 3
+  1 - 2 * sum(x * y) / ((lambda_x + lambda_y) * Nx * Ny)
+}
+
+#' @rdname morisita
+#' @export
+horn_morisita <- function (x, y) {
+  Nx <- sum(x)
+  Ny <- sum(y)
+  # Horn defines new lambda estimates in middle of page 420
+  lambda_x <- sum(x ^ 2) / (Nx ^ 2)
+  lambda_y <- sum(y ^ 2) / (Ny ^ 2)
+  1 - 2 * sum(x * y) / ((lambda_x + lambda_y) * Nx * Ny)
 }
 
 
@@ -628,21 +674,6 @@ cy_dissimilarity <- function (x, y, base = 10, min_value = 0.1) {
   t3 <- y * log(x, base = base)
   # Formula 12 in the Cao paper
   (1 / N) * sum((t1 - t2 - t3) / xy_sum)
-}
-
-#' Morisita-Horn index of dissimilarity
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to vegdist() with method = "horn".
-#' }
-#' @export
-morisita_horn <- function (x, y) {
-  lambda_x <- sum(x ^ 2) / (sum(x) ^ 2)
-  lambda_y <- sum(y ^ 2) / (sum(y) ^ 2)
-  xy_term <- sum(x * y) / (sum(x) * sum(y))
-  1 - 2 * xy_term / (lambda_x + lambda_y)
 }
 
 #' Ruzicka or weighted Jaccard distance
@@ -957,7 +988,7 @@ hamming <- function (x, y) {
 # kulczynski with binary = TRUE not implemented
 # morisita implemented
 # morisita with binary = TRUE can't be calculated
-# horn implemented as morisita_horn
+# horn implemented as horn_morisita
 # horn with binary = TRUE not implemented
 # binomial implemented as millar (from Anderson & Millar 2004)
 # cao implemented

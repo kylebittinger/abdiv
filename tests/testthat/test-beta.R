@@ -32,7 +32,7 @@ test_that("Distance functions are consistent with vegan::vegdist()", {
   expect_equal(gower(x1, x2), from_vegdist(x1, x2, "gower"))
   expect_equal(alt_gower(x1, x2), from_vegdist(x1, x2, "altGower"))
   expect_equal(morisita(x1, x2), from_vegdist(x1, x2, "morisita"))
-  expect_equal(morisita_horn(x1, x2), from_vegdist(x1, x2, "horn"))
+  expect_equal(horn_morisita(x1, x2), from_vegdist(x1, x2, "horn"))
   expect_equal(binomial_deviance(x1, x2), from_vegdist(x1, x2, "binomial"))
   expect_equal(cy_dissimilarity(x1, x2, base=exp(1)), from_vegdist(x1, x2, "cao"))
   # We don't implement the "mahalanobis" method

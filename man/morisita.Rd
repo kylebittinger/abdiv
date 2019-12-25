@@ -2,19 +2,53 @@
 % Please edit documentation in R/beta.R
 \name{morisita}
 \alias{morisita}
-\title{Morisita index of dissimilarity}
+\alias{horn_morisita}
+\title{The Morisita index and Horn-Morisita index}
 \usage{
 morisita(x, y)
+
+horn_morisita(x, y)
 }
 \arguments{
 \item{x, y}{Numeric vectors}
 }
 \description{
-Morisita index of dissimilarity
+The Morisita and the Horn-Morisita indices measure the probability that
+individuals drawn one from each vector will belong to different species,
+relative to drawing from each vector separately. The Morisita index is
+formulated for count data only, whereas the Horn-Morisita index can be
+used with transformed counts or proportions.
 }
 \details{
-Relation to other definitions:
+For two vectors \code{x} and \code{y}, the Morisita index of dissimilarity
+is
+\deqn{d(x,y) = 1 - \frac{2 \sum_i x_i y_i}{(\lambda_x + \lambda_y) N_x N_y},}
+where \deqn{\lambda_x = \frac{\sum_i x_i (x_i - 1)}{N_x (N_x - 1)}.} The
+formula for \eqn{\lambda_x} is the unbiased estimate for the probability of
+drawing two individuals of the same species from \code{x}, without
+replacement. The correction for sampling without replacement only makes
+sense for species count data.
+
+Relation of \code{morisita()} to other definitions:
 \itemize{
-  \item Equivalent to vegdist() with method = "morisita".
+  \item Equivalent to \code{vegdist()} with \code{method = "morisita"}.
 }
+
+Horn (1966) reformulated the index to use the equations for sampling with
+replacement in \eqn{\lambda_x} and \eqn{\lambda_y}:
+\deqn{\lambda_x = \frac{\sum_i x_i^2}{N_x^2}} With this modification,
+the index is valid for proportions or transformed count data.
+
+Relation of \code{horn_morisita()} to other definitions:
+\itemize{
+  \item Equivalent to \code{vegdist()} with \code{method = "horn"}.
+}
+}
+\references{
+Mosrisita M. Measuring of interspecific association and similarity between
+communities. Memoirs of the Faculty of Science, Kyushu Univ., Series E
+(Biology). 1959;3:65-80.
+
+Horn HS. Measurement of "Overlap" in Comparative Ecological Studies. The
+American Naturalist, 1966;100(914):419-424.
 }
