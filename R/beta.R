@@ -525,18 +525,44 @@ morisita <- function (x, y) {
 }
 
 
-#' CY index of dissimilarity
+#' Binomial deviance and CY index of dissimilarity
 #'
-#' The CY or Cao index of dissimilarity
+#' The binomial deviance dissimilarity and the CY (or Cao) index of
+#' dissimilarity were created to compare species counts at sites with moderate
+#' to large differences.
 #'
 #' @param x,y Numeric vectors
 #' @param base Base of the logarithm
-#' @param min_value Replacement for zero or near-zero values
+#' @param min_value Replacement for zero or near-zero values. Values less than
+#'   \code{min_value} are replaced with \code{min_value}.
 #'
 #' @details
-#' The CY index was designed to be used with whole-numbered counts, rather than
-#' proportions. It is unbounded, unlike the Bray-Curtis distance, which has an
-#' upper bound of 1. The CY index is defined as
+#' Both of these measures were designed to be used with whole-numbered counts,
+#' and may not make sense for comparing normalized vectors or vectors of
+#' species proportions.
+#'
+#' For two vectors \code{x} and \code{y}, the binomial deviance dissimilarity
+#' is
+#' \deqn{
+#'   d(x,y) = \sum_i{
+#'     \frac{1}{n_i}
+#'     \left (
+#'       x_i \log{\frac{x_i}{n_i}} +
+#'       y_i \log{\frac{y_i}{n_i}} -
+#'       (x_i + y_i) log{2}
+#'     \right )
+#'   },
+#' }
+#' where \eqn{n_i = x_i + y_i}. This value is the weighted average of the
+#' deviance for each species, under a binomial model where the expected counts
+#' are \eqn{n_i / 2} at each site. It was proposed by Anderson and Millar in
+#' 2004. Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to vegdist() with method = "binomial".
+#' }
+#'
+#' The CY index was proposed by Cao, Williams, and Bark in 1997. For two
+#' vectors \code{x} and \code{y}, the CY index is
 #' \deqn{
 #'   d(x,y) = \frac{1}{N} \sum_i
 #'   \left (
@@ -549,27 +575,46 @@ morisita <- function (x, y) {
 #'   \right ),
 #' }
 #' where \eqn{N} is the total number of species in vectors \eqn{x} and \eqn{y}.
-#' Double zeros are not considered in the measure. When either \eqn{x_i} or
-#' \eqn{y_i} are zero, they need to be replaced by another value to avoid
-#' infinite values in the sum. Cao suggested replacing zero values with
-#' \eqn{0.1}, which is one log lower than the minimum value for whole-numbered
-#' counts.
+#' Double zeros are not considered in the measure.
 #'
-#' It probably doesn't make sense to use this index with species proportions,
-#' since the measure was created to measure log-scale differences in species
-#' counts.
+#' When either \eqn{x_i} or \eqn{y_i} are zero, they need to be replaced by
+#' another value in the CY index to avoid infinities. Cao suggested replacing
+#' zero values with \eqn{0.1}, which is one log lower than the minimum value
+#' for whole-numbered counts. Here, we use a \code{min_value} argument to allow
+#' the user set a lower limit on the values. For vectors of species counts,
+#' this function follows the formulation of Cao by default.
 #'
-#' Relation to other definitions:
+#' Relation of the CY index to other definitions:
 #' \itemize{
-#'   \item Equivalent to the vegdist() function with method = "cao", if
-#'   \code{base = exp(1)}.
+#'   \item Equivalent to the \code{vegdist()} function with
+#'     \code{method = "cao"}, if \code{base = exp(1)}.
 #' }
 #' @references
+#' Anderson MJ, Millar RB. Spatial variation and effects of habitat on
+#' temperate reef fish assemblages in northeastern New Zealand. Journal of
+#' Experimental Marine Biology and Ecology 2004;305:191–221.
+#'
 #' Cao Y, Williams WP, Bark AW. Similarity measure bias in river benthic
 #' Aufwuchs community analysis. Water Environment Research 1997;69(1):95-106.
 #' @export
+binomial_deviance <- function (x, y) {
+  keep <- (x > 0) | (y > 0)
+  x <- x[keep]
+  y <- y[keep]
+  n <- x + y
+  # Formula at top of page 199
+  t1 <- ifelse(x > 0, x * log(x / n), 0)
+  t2 <- ifelse(y > 0, y * log(y / n), 0)
+  t3 <- (x + y) * log(2)
+  # BUG IN VEGAN?!?!?!
+  # Formula in paper subtracts t3, vegan function adds this term
+  sum((1 / n) * (t1 + t2 + t3))
+}
+
+#' @rdname binomial_deviance
+#' @export
 cy_dissimilarity <- function (x, y, base = 10, min_value = 0.1) {
-   # Remove double zeros
+  # Remove double zeros
   keep <- (x > 0) | (y > 0)
   x <- x[keep]
   y <- y[keep]
@@ -583,25 +628,6 @@ cy_dissimilarity <- function (x, y, base = 10, min_value = 0.1) {
   t3 <- y * log(x, base = base)
   # Formula 12 in the Cao paper
   (1 / N) * sum((t1 - t2 - t3) / xy_sum)
-}
-
-#' Binomial index of dissimilarity
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to vegdist() with method = "binomial".
-#' }
-#' @export
-millar <- function (x, y) {
-  keep <- (x > 0) | (y > 0)
-  x <- x[keep]
-  y <- y[keep]
-  n <- x + y
-  t1 <- ifelse(x > 0, x * log(x / n), 0)
-  t2 <- ifelse(y > 0, y * log(y / n), 0)
-  t3 <- n * log(2)
-  sum((t1 + t2 + t3) / n)
 }
 
 #' Morisita-Horn index of dissimilarity
