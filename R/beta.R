@@ -567,8 +567,8 @@ morisita <- function (x, y) {
 #'   d(x,y) = \frac{1}{N} \sum_i
 #'   \left (
 #'     \frac{
-#'       (x_i + y_i) \log_{10} ( \frac{x_i + y_i}{2} ) +
-#'       x_i \log_{10}(y_i) + y_i \log_{10}(x_i)
+#'       (x_i + y_i) \log_{10} ( \frac{x_i + y_i}{2} ) -
+#'       x_i \log_{10}(y_i) - y_i \log_{10}(x_i)
 #'     }{
 #'       x_i + y_i
 #'     }
