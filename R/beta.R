@@ -183,6 +183,7 @@ kullback_leibler_divergence <- function (x, y) {
 #' definitions:
 #' \itemize{
 #'   \item Equivalent to \eqn{D_{19}} in Legendre & Legendre.
+#'   \item Equivalent to \code{vegdist()} with \code{method = "altGower"}.
 #'   \item For binary data, it is equivalent to the Jaccard distance.
 #' }
 #' @examples
@@ -412,47 +413,6 @@ bray_curtis <- function (x, y) {
 weighted_kulczynski_second <- function (x, y) {
   xy_min <- sum(pmin(x, y))
   1 - (1 / 2) * (xy_min / sum(x) + xy_min / sum(y))
-}
-
-make_range_scale_fcn <- function (x, y) {
-  xy_min <- pmin(x, y)
-  xy_max <- pmax(x, y)
-  xy_range <- xy_max - xy_min
-  xy_range_is_zero <- xy_range == 0
-  function (z) {
-    ifelse(xy_range_is_zero, 0, (z - xy_min) / xy_range)
-  }
-}
-
-#' Gower distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to vegdist() with method = "gower".
-#' }
-#' @export
-gower <- function (x, y) {
-  range_scale <- make_range_scale_fcn(x, y)
-  x <- range_scale(x)
-  y <- range_scale(y)
-  sum(abs(x - y)) / length(x)
-}
-
-#' Alternate Gower distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to vegdist() with method = "altGower".
-#' }
-#' @export
-alt_gower <- function (x, y) {
-  sum(abs(x - y)) / sum((x > 0) | (y > 0))
 }
 
 #' Minkowski distance
@@ -939,6 +899,7 @@ hamming <- function (x, y) {
 # yule implemented as yule_dissimilarity
 
 # TODO: Mothur notes
+# https://www.mothur.org/wiki/Calculators
 
 # Koleff notes:
 #  1. \beta_w (Whittaker's beta diversity) implemented as sorenson
@@ -969,7 +930,7 @@ hamming <- function (x, y) {
 # Hayek notes
 # 1. Simpson ???
 # 2. Kulczynski implemented as kulczynski_second
-# 3. Ochiai implemented as ochiai
+# TODO: finish
 
 # Vegan notes:
 # # TODO: document these functions better
@@ -978,9 +939,9 @@ hamming <- function (x, y) {
 # euclidean with binary = TRUE not implemented
 # manhattan implemented
 # manhattan with binary = TRUE not implemented
-# gower implemented
+# gower not implemented, needs full matrix
 # gower with binary = TRUE not implemented
-# altGower implemented as alt_gower
+# altGower implemented as modified_mean_character_difference
 # altGower with binary = TRUE not implemented
 # canberra implemented
 # canberra with binary = TRUE not implemented

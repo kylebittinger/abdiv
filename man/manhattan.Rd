@@ -51,6 +51,7 @@ Relation of \code{modified_mean_character_difference()} to other
 definitions:
 \itemize{
   \item Equivalent to \eqn{D_{19}} in Legendre & Legendre.
+  \item Equivalent to \code{vegdist()} with \code{method = "altGower"}.
   \item For binary data, it is equivalent to the Jaccard distance.
 }
 }

@@ -32,8 +32,9 @@ test_that("Distance functions are consistent with vegan::vegdist()", {
     kulczynski_second(x1, x2), from_vegdist(x1, x2, "kulczynski", binary = TRUE))
   expect_equal(ruzicka(x1, x2), from_vegdist(x1, x2, "jaccard"))
   expect_equal(jaccard(x1, x2), from_vegdist(x1, x2, "jaccard", binary = TRUE))
-  expect_equal(gower(x1, x2), from_vegdist(x1, x2, "gower"))
-  expect_equal(alt_gower(x1, x2), from_vegdist(x1, x2, "altGower"))
+  # gower not implemented
+  expect_equal(
+    modified_mean_character_difference(x1, x2), from_vegdist(x1, x2, "altGower"))
   expect_equal(morisita(x1, x2), from_vegdist(x1, x2, "morisita"))
   expect_equal(horn_morisita(x1, x2), from_vegdist(x1, x2, "horn"))
   expect_equal(binomial_deviance(x1, x2), from_vegdist(x1, x2, "binomial"))
