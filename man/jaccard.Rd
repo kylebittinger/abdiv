@@ -3,7 +3,8 @@
 \name{jaccard}
 \alias{jaccard}
 \alias{sorenson}
-\alias{kulczynski_scipy}
+\alias{kulczynski_first}
+\alias{kulczynski_second}
 \alias{rogers_tanimoto}
 \alias{russel_rao}
 \alias{sokal_michener}
@@ -15,7 +16,9 @@ jaccard(x, y)
 
 sorenson(x, y)
 
-kulczynski_scipy(x, y)
+kulczynski_first(x, y)
+
+kulczynski_second(x, y)
 
 rogers_tanimoto(x, y)
 
@@ -83,14 +86,30 @@ species, counting over each sample individually. Relation of
     \eqn{\beta_{hk}}.
 }
 
-The \emph{Kulczynski} distance, as implemented in SciPy, is available as
-\code{kulczynski_scipy()}. It is defined as
-\eqn{(2b + 2c + d) / (a + 2b + 2c + d)}. Relation of
-\code{kulczynski_scipy()} to other definitions:
+I have not been able to track down the original reference for the first and
+second Kulczynski indices, but we have good formulas from Legendre &
+Legendre. The \emph{first Kulczynski index} is \eqn{1 - a / (b + c)}, or
+one minus the ratio of shared to unshared species.
+
+Relation of \code{kulczynski_first} to other definitions:
 \itemize{
-  \item Equivalent to the \code{kulsinski()} function in
-    \code{scipy.spatial.distance}, except that we always convert vectors to
-    presence/absence.
+  \item Equivalent to \eqn{1 - S_{12}}{1 - S_12} in Legendre & Legendre.
+  \item Equivalent to the \code{kulczynski} calculator in Mothur.
+}
+
+Some people refer to the \emph{second Kulczynski index} as the
+Kulczynski-Cody index. It is defined as one minus the average proportion of
+shared species in each vector,
+\deqn{
+  d = 1 - \frac{1}{2} \left ( \frac{a}{a + b} + \frac{a}{a + c} \right ).
+}
+Relation of \code{kulczynski_second} to other definitions:
+\itemize{
+  \item Equivalent to \eqn{1 - S_{13}}{1 - S_13} in Legendre & Legendre.
+  \item Equivalent to the \code{kulczynskicody} calculator in Mothur.
+  \item Equivalent to one minus the Kulczynski similarity in Hayek (1994).
+  \item Equivalent to \code{vegdist()} with \code{method = "kulczynski"} and
+    \code{binary = TRUE}.
 }
 
 The \emph{Rogers-Tanimoto} distance is defined as

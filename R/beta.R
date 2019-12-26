@@ -8,10 +8,11 @@ beta_diversities <- c(
   "geodesic_metric", "manhattan", "mean_character_difference",
   "modified_mean_character_difference", "canberra", "chebyshev",
   "correlation_distance", "cosine_distance", "bray_curtis", "hellinger",
-  "kulczynski", "kulczynski_cody", "kulczynski_mothur", "kulczynski_scipy",
-  "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
-  "yule_dissimilarity", "gower", "alt_gower", "minkowski", "morisita", "cao",
-  "millar", "morisita_horn", "jaccard", "sorenson", "hamming", "ruzicka")
+  "kulczynski_first", "kulczynski_second", "weighted_kulczynski_second",
+  "rogers_tanimoto", "russel_rao", "sokal_michener",
+  "sokal_sneath", "yule_dissimilarity", "gower", "alt_gower", "minkowski",
+  "morisita", "cao", "millar", "horn_morisita", "jaccard", "sorenson",
+  "hamming", "ruzicka")
 
 #' Euclidean and related distances
 #'
@@ -388,55 +389,29 @@ bray_curtis <- function (x, y) {
   sum(abs(x - y)) / sum(x + y)
 }
 
-#' Kulczynski distance
+#' Weighted Kulczynski distance
+#'
+#' The quantitative version of the second Kulczynski index
 #'
 #' @param x,y Numeric vectors
 #'
 #' @details
-#' Relation to other definitions:
+#' The quantitative version of the second Kulczynski index is defined as
+#' \deqn{
+#'   d(x, y) = 1 - \frac{1}{2} \left (
+#'     \frac{\sum_i \min{(x_i, y_i)}}{\sum_i x_i} +
+#'     \frac{\sum_i \min{(x_i, y_i)}}{\sum_i y_i}
+#'   \right ).
+#' }
+#' Relation of \code{weighted_kulczynski_second()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{vegdist()} with \code{method = "kulczynski"}.
+#'   \item Equivalent to \eqn{1 - S_{18}} in Legendre & Legendre.
 #' }
 #' @export
-kulczynski <- function (x, y) {
-  min_sum <- sum(pmin(x, y))
-  x_sum <- sum(x)
-  y_sum <- sum(y)
-  1 - 0.5 * ((min_sum / x_sum) + (min_sum / y_sum))
-}
-
-#' Kulczynski-Cody distance
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{1 - S_{13}}{1 - S_13} in Legendre & Legendre.
-#' }
-#' @export
-kulczynski_cody <- function (x, y) {
-  x <- x > 0
-  y <- y > 0
-  a <- sum(x & y)
-  1 - 0.5 * (a / sum(x) + a / sum(y))
-}
-
-#' Kulczynski distance (Mothur implementation)
-#'
-#' @param x,y Numeric vectors
-#'
-#' @details
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \eqn{1 - S_{12}}{1 - S_12} in Legendre & Legendre.
-#' }
-#' @export
-kulczynski_mothur <- function (x, y) {
-  x <- x > 0
-  y <- y > 0
-  a <- sum(x & y)
-  1 - a / (sum(x) + sum(y) - 2 * a)
+weighted_kulczynski_second <- function (x, y) {
+  xy_min <- sum(pmin(x, y))
+  1 - (1 / 2) * (xy_min / sum(x) + xy_min / sum(y))
 }
 
 make_range_scale_fcn <- function (x, y) {
@@ -749,14 +724,30 @@ ruzicka <- function (x, y) {
 #'     \eqn{\beta_{hk}}.
 #' }
 #'
-#' The \emph{Kulczynski} distance, as implemented in SciPy, is available as
-#' \code{kulczynski_scipy()}. It is defined as
-#' \eqn{(2b + 2c + d) / (a + 2b + 2c + d)}. Relation of
-#' \code{kulczynski_scipy()} to other definitions:
+#' I have not been able to track down the original reference for the first and
+#' second Kulczynski indices, but we have good formulas from Legendre &
+#' Legendre. The \emph{first Kulczynski index} is \eqn{1 - a / (b + c)}, or
+#' one minus the ratio of shared to unshared species.
+#'
+#' Relation of \code{kulczynski_first} to other definitions:
 #' \itemize{
-#'   \item Equivalent to the \code{kulsinski()} function in
-#'     \code{scipy.spatial.distance}, except that we always convert vectors to
-#'     presence/absence.
+#'   \item Equivalent to \eqn{1 - S_{12}}{1 - S_12} in Legendre & Legendre.
+#'   \item Equivalent to the \code{kulczynski} calculator in Mothur.
+#' }
+#'
+#' Some people refer to the \emph{second Kulczynski index} as the
+#' Kulczynski-Cody index. It is defined as one minus the average proportion of
+#' shared species in each vector,
+#' \deqn{
+#'   d = 1 - \frac{1}{2} \left ( \frac{a}{a + b} + \frac{a}{a + c} \right ).
+#' }
+#' Relation of \code{kulczynski_second} to other definitions:
+#' \itemize{
+#'   \item Equivalent to \eqn{1 - S_{13}}{1 - S_13} in Legendre & Legendre.
+#'   \item Equivalent to the \code{kulczynskicody} calculator in Mothur.
+#'   \item Equivalent to one minus the Kulczynski similarity in Hayek (1994).
+#'   \item Equivalent to \code{vegdist()} with \code{method = "kulczynski"} and
+#'     \code{binary = TRUE}.
 #' }
 #'
 #' The \emph{Rogers-Tanimoto} distance is defined as
@@ -827,13 +818,21 @@ sorenson <- function (x, y) {
 
 #' @rdname jaccard
 #' @export
-kulczynski_scipy <- function (x, y) {
+kulczynski_first <- function (x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
   bc <- sum(xor(x, y))
-  n <- length(x)
-  (bc - a + n) / (bc + n)
+  1 - a / bc
+}
+
+#' @rdname jaccard
+#' @export
+kulczynski_second <- function (x, y) {
+  x <- x > 0
+  y <- y > 0
+  a <- sum(x & y)
+  1 - 0.5 * (a / sum(x) + a / sum(y))
 }
 
 #' @rdname jaccard
@@ -932,7 +931,7 @@ hamming <- function (x, y) {
 # dice implemented as sorenson
 # hamming implemented differently
 # jaccard implemented
-# kulsinski implemented as kulczynski_scipy
+# kulsinski not implemented, not sure measure is correct in SciPy
 # rogerstanimoto implemented as rogers_tanimoto
 # russelrao implemented as russel_rao
 # sokalmichener implemented as sokal_michener
@@ -967,6 +966,11 @@ hamming <- function (x, y) {
 # 23. \beta_{gl} not implemented
 # 24. \beta_z not implemented
 
+# Hayek notes
+# 1. Simpson ???
+# 2. Kulczynski implemented as kulczynski_second
+# 3. Ochiai implemented as ochiai
+
 # Vegan notes:
 # # TODO: document these functions better
 # # Methods in vegdist
@@ -984,8 +988,8 @@ hamming <- function (x, y) {
 # clark with binary = TRUE not implemented
 # bray implemented as bray_curtis
 # bray with binary = TRUE not implemented
-# kulczynski implemented
-# kulczynski with binary = TRUE not implemented
+# kulczynski implemented as weighted_kulczynski_second
+# kulczynski with binary = TRUE implemented as kulczynski_second
 # morisita implemented
 # morisita with binary = TRUE can't be calculated
 # horn implemented as horn_morisita
@@ -1031,16 +1035,15 @@ hamming <- function (x, y) {
 # S_9 = 3a / (3a + b + c) not implemented
 # S_10 implemented as sokal_sneath
 # S_11 implemented as russel_rao
-# S_12 implemented as kulczynski_mothur
-# S_13 implemented as kulczynski_cody
-#   The Kulczynski distances are a mess!
+# S_12 implemented as kulczynski_first
+# S_13 implemented as kulczynski_second
 # S_14 (name unclear) not implemented. It should be noted that S_14 as a
 #   distance is proportional to sqrt of chord or Hellinger for binary data.
 # S_26 (name unclear) not implemented
 # S_15 (Gower coefficient) not implemented. Equivalent to Hamming distance?
 # S_16 (Estabrook and Rogers) not implemented
 # S_17 (Steinhaus coefficient) implemented as bray_curtis
-# S_18 (yet another Kulcynski coefficient) is equivalent to kulczynski, I think
+# S_18 (quantitative Kulcynski) implemented as weighted_kulczynski_second
 # S_19 (modified Gower) not implemented
 # S_20 (Legendre & Chodorowski) not implemented, also similar to Gower
 # S_21 (Chi-square similarity) not implemented, see D_15

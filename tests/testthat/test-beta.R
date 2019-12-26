@@ -26,9 +26,12 @@ test_that("Distance functions are consistent with vegan::vegdist()", {
   expect_equal(euclidean(x1, x2), from_vegdist(x1, x2, "euclidean"))
   expect_equal(canberra(x1, x2), from_vegdist(x1, x2, "canberra") * sum(x1 | x2))
   expect_equal(bray_curtis(x1, x2), from_vegdist(x1, x2, "bray"))
-  expect_equal(kulczynski(x1, x2), from_vegdist(x1, x2, "kulczynski"))
+  expect_equal(
+    weighted_kulczynski_second(x1, x2), from_vegdist(x1, x2, "kulczynski"))
+  expect_equal(
+    kulczynski_second(x1, x2), from_vegdist(x1, x2, "kulczynski", binary = TRUE))
   expect_equal(ruzicka(x1, x2), from_vegdist(x1, x2, "jaccard"))
-  expect_equal(jaccard(x1, x2), from_vegdist(x1, x2, "jaccard", binary=TRUE))
+  expect_equal(jaccard(x1, x2), from_vegdist(x1, x2, "jaccard", binary = TRUE))
   expect_equal(gower(x1, x2), from_vegdist(x1, x2, "gower"))
   expect_equal(alt_gower(x1, x2), from_vegdist(x1, x2, "altGower"))
   expect_equal(morisita(x1, x2), from_vegdist(x1, x2, "morisita"))
@@ -254,15 +257,6 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
   expect_equal(jaccard(c(1, 0, 0), c(1, 1, 0)), 0.5)
   expect_equal(jaccard(c(1, 0, 0), c(1, 2, 0)), 0.5)
   expect_equal(jaccard(c(1, 0, 0), c(1, 1, 1)), 2 / 3)
-  expect_equal(kulczynski_scipy(c(1, 0, 0), c(0, 1, 0)), 1)
-  expect_equal(kulczynski_scipy(c(1, 0, 0), c(1, 1, 0)), 0.75)
-  # Scipy says this is 1 / 3 based on their weird transformation
-  # With a reasonable transformation, the answer should be 0.75, same as above
-  expect_equal(kulczynski_scipy(c(1, 0, 0), c(2, 1, 0)), 0.75)
-  # Same here. Scipy gets -0.5, should be 0.75, as above
-  expect_equal(kulczynski_scipy(c(1, 0, 0), c(3, 1, 0)), 0.75)
-  # Example from https://github.com/scipy/scipy/issues/2009
-  expect_equal(kulczynski_scipy(c(1, 1, 0, 0), c(0, 1, 1, 0)), 5 / 6)
   expect_equal(rogers_tanimoto(c(1, 0, 0), c(0, 1, 0)), 0.8)
   expect_equal(rogers_tanimoto(c(1, 0, 0), c(1, 1, 0)), 0.5)
   # Scipy gets a value of -1 with their implementation
@@ -303,10 +297,10 @@ test_that("Distance functions are consistent with Mothur", {
     1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1)
   # Mothur has a different definition of Kulczynski dissimilarity
   # https://www.mothur.org/wiki/Kulczynski
-  expect_equal(kulczynski_mothur(forest, pasture), 1 - 9 / (33 + 31 - 2 * 9))
+  expect_equal(kulczynski_first(forest, pasture), 1 - 9 / (33 + 31 - 2 * 9))
   # Mothur calls the vegan's kulczynski method Kulczynski-Cody
   # https://www.mothur.org/wiki/Kulczynskicody
-  expect_equal(kulczynski_cody(forest, pasture), 1 - 0.5 * (9 / 33 + 9 / 31))
+  expect_equal(kulczynski_second(forest, pasture), 1 - 0.5 * (9 / 33 + 9 / 31))
 })
 
 test_that("Cao index matches Cao (1997) paper", {
