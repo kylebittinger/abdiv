@@ -23,11 +23,11 @@ used with transformed counts or proportions.
 For two vectors \code{x} and \code{y}, the Morisita index of dissimilarity
 is
 \deqn{d(x,y) = 1 - \frac{2 \sum_i x_i y_i}{(\lambda_x + \lambda_y) N_x N_y},}
-where \deqn{\lambda_x = \frac{\sum_i x_i (x_i - 1)}{N_x (N_x - 1)}.} The
-formula for \eqn{\lambda_x} is the unbiased estimate for the probability of
-drawing two individuals of the same species from \code{x}, without
-replacement. The correction for sampling without replacement only makes
-sense for species count data.
+where \deqn{\lambda_x = \frac{\sum_i x_i (x_i - 1)}{N_x (N_x - 1)}} and
+\eqn{N_x = \sum_i x_i} The formula for \eqn{\lambda_x} is the unbiased
+estimate for the probability of drawing two individuals of the same species
+from \code{x}, without replacement. The correction for sampling without
+replacement only makes sense for species count data.
 
 Relation of \code{morisita()} to other definitions:
 \itemize{
