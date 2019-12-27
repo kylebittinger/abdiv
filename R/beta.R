@@ -984,11 +984,6 @@ hamming <- function (x, y) {
 # 23. \beta_{gl} not implemented
 # 24. \beta_z not implemented
 
-# Hayek notes
-# 1. Simpson ???
-# 2. Kulczynski implemented as kulczynski_second
-# TODO: finish
-
 # Vegan notes:
 # # TODO: document these functions better
 # # Methods in vegdist
