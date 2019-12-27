@@ -30,8 +30,9 @@ other definitions:
   \item Equivalent to \code{vegdist()} with \code{method = "manhattan"}.
   \item Equivalent to the \code{cityblock()} function in
     \code{scipy.spatial.distance}.
+  \item Equivalent to \code{manhattan} calculator in Mothur.
   \item Equivalent to \eqn{D_7}{D_7} in Legendre & Legendre.
-  \item Whittaker's index of assiciation (\eqn{D_9}{D_9} in Legendre &
+  \item Whittaker's index of association (\eqn{D_9}{D_9} in Legendre &
     Legendre) is the Manhattan distance computed after transforming to
     proportions and dividing by 2.
 }

@@ -24,6 +24,8 @@ to other definitions:
   \item Equivalent to the \code{braycurtis()} function in
     \code{scipy.spatial.distance} for positive vectors. They take the
     absolute value of \eqn{x_i + y_i} in the denominator.
+  \item Equivalent to the \code{braycurtis} and \code{odum} calculators in
+    Mothur.
   \item Equivalent to \eqn{D_{14} = 1 - S_{17}}{D_14 = 1 - S_17} in
     Legendre & Legendre.
   \item The Bray-Curtis distance on proportions is equal to half the

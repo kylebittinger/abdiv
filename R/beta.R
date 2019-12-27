@@ -31,6 +31,10 @@ beta_diversities <- c(
 #'   \item Equivalent to \code{vegdist()} with \code{method = "euclidean"}.
 #'   \item Equivalent to the \code{euclidean()} function in
 #'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \code{structeuclidean} calculator in Mothur, to
+#'     \code{speciesprofile} if \code{x} and \code{y} are transformed to
+#'     relative abundance, and to \code{memeuclidean} if \code{x} and \code{y}
+#'     are transformed to presence/absence.
 #'   \item Equivalent to \eqn{D_1}{D_1} in Legendre & Legendre.
 #'   \item Equivalent to the \emph{distance between species profiles},
 #'     \eqn{D_{18}}{D_18} in Legendre & Legendre if \code{x} and \code{y} are
@@ -59,6 +63,7 @@ beta_diversities <- c(
 #' definitions:
 #' \itemize{
 #'   \item Equivalent to \eqn{D_{17}}{D_17} in Legendre & Legendre.
+#'   \item Equivalent to \code{hellinger} calculator in Mothur.
 #' }
 #'
 #' The \emph{geodesic metric} is a transformed version of the chord distance.
@@ -162,8 +167,9 @@ kullback_leibler_divergence <- function (x, y) {
 #'   \item Equivalent to \code{vegdist()} with \code{method = "manhattan"}.
 #'   \item Equivalent to the \code{cityblock()} function in
 #'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \code{manhattan} calculator in Mothur.
 #'   \item Equivalent to \eqn{D_7}{D_7} in Legendre & Legendre.
-#'   \item Whittaker's index of assiciation (\eqn{D_9}{D_9} in Legendre &
+#'   \item Whittaker's index of association (\eqn{D_9}{D_9} in Legendre &
 #'     Legendre) is the Manhattan distance computed after transforming to
 #'     proportions and dividing by 2.
 #' }
@@ -242,6 +248,8 @@ modified_mean_character_difference <- function (x, y) {
 #'   \item Equivalent to the \code{canberra()} function in
 #'     \code{scipy.spatial.distance} for positive vectors. They take the
 #'     absolute value of \eqn{x_i} and \eqn{y_i} in the denominator.
+#'   \item Equivalent to the \code{canberra} calculator in Mothur, multiplied
+#'     by the total number of species in \code{x} and \code{y}.
 #'   \item Equivalent to \eqn{D_{10}} in Legendre & Legendre.
 #' }
 #'
@@ -326,6 +334,7 @@ chebyshev <- function (x, y) {
 #' \itemize{
 #'   \item Equivalent to the \code{correlation()} function in
 #'     \code{scipy.spatial.distance}.
+#'   \item Equivalent to \code{1 - mempearson} calculator in Mothur.
 #' }
 #' @examples
 #' x <- c(2, 0)
@@ -370,6 +379,8 @@ cosine_distance <- function (x, y) {
 #'   \item Equivalent to the \code{braycurtis()} function in
 #'     \code{scipy.spatial.distance} for positive vectors. They take the
 #'     absolute value of \eqn{x_i + y_i} in the denominator.
+#'   \item Equivalent to the \code{braycurtis} and \code{odum} calculators in
+#'     Mothur.
 #'   \item Equivalent to \eqn{D_{14} = 1 - S_{17}}{D_14 = 1 - S_17} in
 #'     Legendre & Legendre.
 #'   \item The Bray-Curtis distance on proportions is equal to half the
@@ -407,6 +418,7 @@ bray_curtis <- function (x, y) {
 #' Relation of \code{weighted_kulczynski_second()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{vegdist()} with \code{method = "kulczynski"}.
+#'   \item Equivalent to \code{structkulczynski} in Mothur.
 #'   \item Equivalent to \eqn{1 - S_{18}} in Legendre & Legendre.
 #' }
 #' @export
@@ -473,6 +485,7 @@ minkowski <- function (x, y, p = 1) {
 #' Relation of \code{horn_morisita()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{vegdist()} with \code{method = "horn"}.
+#'   \item Equivalent to \code{morisitahorn} calculator in Mothur.
 #' }
 #' @references
 #' Mosrisita M. Measuring of interspecific association and similarity between
@@ -675,6 +688,8 @@ ruzicka <- function (x, y) {
 #'   \item Equivalent to the \code{dice()} function in
 #'     \code{scipy.spatial.distance}, except that we always convert vectors to
 #'     presence/absence.
+#'   \item Equivalent to \code{sorclass} calculator in Mothur, and to
+#'     \code{1 - whittaker}.
 #'   \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
 #'     Legendre.
 #'   \item Equivalent to \eqn{1 - \beta_{sor}} in Koleff (2003). Also
@@ -747,6 +762,7 @@ ruzicka <- function (x, y) {
 #'   \item Equivalent to the \code{sokalsneath()} function in
 #'     \code{scipy.spatial.distance}, except that we always convert vectors to
 #'     presence/absence.
+#'   \item Equivalent to \code{anderberg} calculator in Mothur.
 #'   \item Equivalent to \eqn{1 - S_{10}}{1 - S_10} in Legendre & Legendre.
 #' }
 #'
@@ -863,6 +879,8 @@ yule_dissimilarity <- function (x, y) {
 #'   \item The \code{hamming()} function in \code{scipy.spatial.distance}
 #'     divides the result by the vector length. Our function is equivalent to
 #'     the SciPy version multiplied by the vector length.
+#'   \item Equivalent to \code{hamming} calculator in Mothur for
+#'     presence/absence vectors.
 #' }
 #' @export
 hamming <- function (x, y) {
@@ -875,7 +893,7 @@ hamming <- function (x, y) {
 # canberra implemented
 # chebyshev implemented
 # cityblock implemented as manhattan
-# correlation implemented
+# correlation implemented as correlation_distance
 # cosine implemented
 # euclidean implemented
 # jensenshannon not implemented
@@ -898,8 +916,47 @@ hamming <- function (x, y) {
 # sokalsneath implemented as sokal_sneath
 # yule implemented as yule_dissimilarity
 
-# TODO: Mothur notes
+# Mothur notes
 # https://www.mothur.org/wiki/Calculators
+# ## Community membership
+# anderberg implemented as sokal_sneath
+# hamming implemented as hamming for presence/absence vectors
+# jclass implemented as jaccard (Mothur docs give formula for similarity)
+# jest (Jaccard with Chao estimates) not implemented
+# kulczynski implemented as kulczynski_first
+# kulczynskicody implemented as kulczynski_second
+# lennon not implemented, TODO
+# memchi2 not implemented, needs full matrix
+# memchord not implemented, Mothur docs seem off
+#   If the terms in the denominator were squared, this would be the chord
+#   distance for presence/absence data. Must check source code.
+# memeuclidean equivalent to euclidean on presence/absence vectors
+# mempearson equivalent to 1 - correlation_distance
+# ochiai not implemented, TODO
+# sorclass implemented as sorenson
+# sorest not implemented
+# whittaker equivalent to 1 - sorenson
+# ## Community structure
+# braycurtis implemented as bray_curtis
+# canberra implemented, see note
+# gower not implemented, needs full matrix
+# hellinger implemented
+# jabund (Chao-Jaccard or abundance-Jaccard) not implemented, TODO
+# manhattan implemented
+# morisitahorn implemented as horn_morisita
+# odum is equivalent to bray_curtis
+# soergel not implemented, TODO
+# sorabund (Chao-Sorenson or abundance-Sorenson) not implemented, TODO
+# spearman not implemented
+# speciesprofile equivalent to Euclidean on proportions, noted
+# structchi2 not implemented, needs full matrix
+# structchord implemented as chord
+# structeuclidean implemented as euclidean
+# structkulczynski implemented as weighted_kulczynski_second
+# structpearson implemented as correlation_distance
+# thetan (community Jaccard index of Smith aka the Θn of Yue) not implemented,
+#   TODO
+# thetayc (Yue & Clayton measure) not implemented, TODO
 
 # Koleff notes:
 #  1. \beta_w (Whittaker's beta diversity) implemented as sorenson

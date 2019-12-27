@@ -34,6 +34,7 @@ Relation to other definitions:
 \itemize{
   \item Equivalent to the \code{correlation()} function in
     \code{scipy.spatial.distance}.
+  \item Equivalent to \code{1 - mempearson} calculator in Mothur.
 }
 }
 \examples{

@@ -296,12 +296,53 @@ test_that("Distance functions are consistent with Mothur", {
     0, 0, 0, 1, 0, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3,
     0, 0, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 1, 7, 1,
     1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1)
-  # Mothur has a different definition of Kulczynski dissimilarity
+  # https://www.mothur.org/wiki/Anderberg
+  expect_equal(sokal_sneath(forest, pasture), 1 - 9 / (2 * 33 + 2 * 31 - 3 * 9))
+  # https://www.mothur.org/wiki/Hamming
+  expect_equal(hamming(forest > 0, pasture > 0), 33 + 31 - 2 * 9)
+  # https://www.mothur.org/wiki/Jclass
+  expect_equal(jaccard(forest, pasture), 1 - 9 / (33 + 31 - 9))
+  # jest not implemented
   # https://www.mothur.org/wiki/Kulczynski
   expect_equal(kulczynski_first(forest, pasture), 1 - 9 / (33 + 31 - 2 * 9))
-  # Mothur calls the vegan's kulczynski method Kulczynski-Cody
   # https://www.mothur.org/wiki/Kulczynskicody
   expect_equal(kulczynski_second(forest, pasture), 1 - 0.5 * (9 / 33 + 9 / 31))
+  # lennon not implemented
+  # memchi2 not implemented
+  # memchord has no example
+  # https://www.mothur.org/wiki/Memeuclidean
+  expect_equal(euclidean(forest > 0, pasture > 0), 6.7823299831)
+  # https://www.mothur.org/wiki/Mempearson
+  expect_equal(correlation_distance(forest > 0, pasture > 0), 1.7184212081)
+  # ochiai not implemented
+  # https://www.mothur.org/wiki/Sorclass
+  expect_equal(sorenson(forest, pasture), 1 - 2 * 9 / (33 + 31))
+  # sorest not implemented
+  # https://www.mothur.org/wiki/Whittaker
+  expect_equal(sorenson(forest, pasture), 1 - (2 - 2 * 55 / (33 + 31)))
+  # https://www.mothur.org/wiki/Braycurtis
+  expect_equal(bray_curtis(forest, pasture), 1 - 2 * 11 / (49 + 49))
+  # canberra has no example
+  # gower not implemented
+  # hellinger has no example
+  # jabund not implemented
+  # manhattan has no example
+  # https://www.mothur.org/wiki/Morisitahorn
+  expect_equal(
+    horn_morisita(forest, pasture),
+    1 - 2 * (33 / (49 * 49)) / (99 / (49 ^ 2) + 131 / (49 ^ 2)))
+  # odum has no example
+  # soergel has no example
+  # sorabund not implemented
+  # spearman has no example
+  # speciesprofile has no example
+  # structchi2 has no example
+  # structchord has no example
+  # structeuclidean has no example
+  # structkulczynski has no example
+  # structpearson has no example
+  # thetan not implemented
+  # thetayc not implemented
 })
 
 test_that("Cao index matches Cao (1997) paper", {

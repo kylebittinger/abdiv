@@ -31,6 +31,8 @@ For vectors \code{x} and \code{y}, the Canberra distance is defined as
   \item Equivalent to the \code{canberra()} function in
     \code{scipy.spatial.distance} for positive vectors. They take the
     absolute value of \eqn{x_i} and \eqn{y_i} in the denominator.
+  \item Equivalent to the \code{canberra} calculator in Mothur, multiplied
+    by the total number of species in \code{x} and \code{y}.
   \item Equivalent to \eqn{D_{10}} in Legendre & Legendre.
 }
 

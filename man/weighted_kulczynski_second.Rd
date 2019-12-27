@@ -23,6 +23,7 @@ The quantitative version of the second Kulczynski index is defined as
 Relation of \code{weighted_kulczynski_second()} to other definitions:
 \itemize{
   \item Equivalent to \code{vegdist()} with \code{method = "kulczynski"}.
+  \item Equivalent to \code{structkulczynski} in Mothur.
   \item Equivalent to \eqn{1 - S_{18}} in Legendre & Legendre.
 }
 }

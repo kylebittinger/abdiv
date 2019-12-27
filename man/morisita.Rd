@@ -42,6 +42,7 @@ the index is valid for proportions or transformed count data.
 Relation of \code{horn_morisita()} to other definitions:
 \itemize{
   \item Equivalent to \code{vegdist()} with \code{method = "horn"}.
+  \item Equivalent to \code{morisitahorn} calculator in Mothur.
 }
 }
 \references{

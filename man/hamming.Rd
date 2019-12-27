@@ -19,5 +19,7 @@ Relation to other definitions:
   \item The \code{hamming()} function in \code{scipy.spatial.distance}
     divides the result by the vector length. Our function is equivalent to
     the SciPy version multiplied by the vector length.
+  \item Equivalent to \code{hamming} calculator in Mothur for
+    presence/absence vectors.
 }
 }

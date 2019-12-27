@@ -35,6 +35,10 @@ Relation of \code{euclidean()} to other definitions:
   \item Equivalent to \code{vegdist()} with \code{method = "euclidean"}.
   \item Equivalent to the \code{euclidean()} function in
     \code{scipy.spatial.distance}.
+  \item Equivalent to \code{structeuclidean} calculator in Mothur, to
+    \code{speciesprofile} if \code{x} and \code{y} are transformed to
+    relative abundance, and to \code{memeuclidean} if \code{x} and \code{y}
+    are transformed to presence/absence.
   \item Equivalent to \eqn{D_1}{D_1} in Legendre & Legendre.
   \item Equivalent to the \emph{distance between species profiles},
     \eqn{D_{18}}{D_18} in Legendre & Legendre if \code{x} and \code{y} are
@@ -63,6 +67,7 @@ a square-root transformation. Relation of \code{hellinger()} to other
 definitions:
 \itemize{
   \item Equivalent to \eqn{D_{17}}{D_17} in Legendre & Legendre.
+  \item Equivalent to \code{hellinger} calculator in Mothur.
 }
 
 The \emph{geodesic metric} is a transformed version of the chord distance.
