@@ -4,15 +4,15 @@
 #' values.
 #' @export
 beta_diversities <- c(
-  "euclidean", "rms_distance", "chord", "clark_coefficient_of_divergence",
-  "geodesic_metric", "manhattan", "mean_character_difference",
-  "modified_mean_character_difference", "canberra", "chebyshev",
-  "correlation_distance", "cosine_distance", "bray_curtis", "hellinger",
-  "kulczynski_first", "kulczynski_second", "weighted_kulczynski_second",
-  "rogers_tanimoto", "russel_rao", "sokal_michener",
-  "sokal_sneath", "yule_dissimilarity", "gower", "alt_gower", "minkowski",
-  "morisita", "cao", "millar", "horn_morisita", "jaccard", "sorenson",
-  "hamming", "ruzicka")
+  "euclidean", "rms_distance", "chord", "hellinger", "geodesic_metric",
+  "kullback_leibler_divergence", "manhattan", "mean_character_difference",
+  "modified_mean_character_difference", "canberra",
+  "clark_coefficient_of_divergence", "chebyshev", "correlation_distance",
+  "cosine_distance", "bray_curtis", "weighted_kulczynski_second", "minkowski",
+  "morisita", "horn_morisita", "binomial_deviance", "cy_dissimilarity",
+  "ruzicka", "jaccard", "sorenson", "kulczynski_first", "kulczynski_second",
+  "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
+  "yule_dissimilarity", "hamming")
 
 #' Euclidean and related distances
 #'

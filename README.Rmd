@@ -122,7 +122,7 @@ bray_curtis(site1, site2)
 Again, we'll use a vector called `beta_diversities` to compute every dissimilarity
 measure in the library.
 
-```{r beta-diversity}
+```{r beta-diversity, warning=FALSE}
 tibble(Measure = beta_diversities) %>%
   group_by(Measure) %>%
   mutate(value = get(Measure)(site1, site2)) %>%
