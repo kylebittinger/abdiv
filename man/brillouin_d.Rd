@@ -7,5 +7,25 @@
 brillouin_d(x)
 }
 \description{
-Brillouin index
+The Brillouin index is similar to Shannon's index, but accounts for sampling
+without replacement.
+}
+\details{
+For a vector of species counts \code{x}, the Brillouin index is
+\deqn{
+  \frac{1}{N}\log{\frac{N!}{\prod_i x_i!}} =
+  \frac{\log{N!} - \sum_i \log{x_i!}}{N}
+} where \eqn{N = \sum_i x_i}. The index accounts for the total number of
+individuals sampled, and should be used on raw count data, not proportions.
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+brillouin_d(x)
+
+# Should be almost identical to Shannon index for large N
+brillouin_d(10000 * x)
+shannon(10000 * x)
+}
+\references{
+Brillouin L. Science and Information Theory. 1956;Academic Press, New York.
 }

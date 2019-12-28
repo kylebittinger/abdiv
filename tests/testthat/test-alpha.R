@@ -3,7 +3,7 @@ context("alpha diversity")
 test_that("Alpha diversity values are consistent with QIIME2 tests", {
   x_qiime2 <- c(0, 1, 1, 4, 2, 5, 2, 4, 1, 2)
   expect_equal(berger_parker_d(x_qiime2), 5 / 22)
-  expect_equal(brillouin_d(c(1, 2, 0, 0, 3, 1)), 0.863, tol=0.001)
+  expect_equal(brillouin_d(c(1, 2, 0, 0, 3, 1)), 0.8628935302)
   expect_equal(chao1(x_qiime2), 9.75)
   expect_equal(chao1(x_qiime2, bias_corrected=FALSE), 10.5)
   x_no_singles <- c(0, 2, 2, 4, 5, 0, 0, 0, 0, 0)

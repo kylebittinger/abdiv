@@ -16,9 +16,18 @@ alpha_diversities <- c(
     "pielou_e", "richness", "robbins", "shannon", "simpson", "simpson_e",
     "singles", "strong")
 
-# TODO: ace
-
 #' Berger-Parker dominance
+#'
+#' The Berger-Parker dominance is the proportion of the most abundant species.
+#'
+#' @details
+#' Equivalent to \code{berger_parker_d()} in \code{skbio.diversity.alpha}.
+#' @references
+#' Berger WH, Parker FL. Diversity of Planktonic Foraminifera in Deep-Sea
+#' Sediments. Science. 1970;168(3937):1345-1347.
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' berger_parker_d(x) # 15 / 28
 #' @export
 berger_parker_d <- function (x) {
   check_positive(x)
@@ -30,6 +39,31 @@ berger_parker_d <- function (x) {
 }
 
 #' Brillouin index
+#'
+#' The Brillouin index is similar to Shannon's index, but accounts for sampling
+#' without replacement.
+#'
+#' @details
+#' For a vector of species counts \code{x}, the Brillouin index is
+#' \deqn{
+#'   \frac{1}{N}\log{\frac{N!}{\prod_i x_i!}} =
+#'   \frac{\log{N!} - \sum_i \log{x_i!}}{N}
+#' } where \eqn{N = \sum_i x_i}. The index accounts for the total number of
+#' individuals sampled, and should be used on raw count data, not proportions.
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to \code{brillouin_d()} in \code{skbio.diversity.alpha}.
+#' }
+#'
+#' @references
+#' Brillouin L. Science and Information Theory. 1956;Academic Press, New York.
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' brillouin_d(x)
+#'
+#' # Should be almost identical to Shannon index for large N
+#' brillouin_d(10000 * x)
+#' shannon(10000 * x)
 #' @export
 brillouin_d <- function (x) {
   check_positive(x)
@@ -39,10 +73,10 @@ brillouin_d <- function (x) {
   }
   n <- sum(x)
   nz <- x[x > 0]
-  (lgamma(n + 1) - sum(lgamma(nz + 1))) / n
+  (lfactorial(n) - sum(lfactorial(nz))) / n
 }
 
-#' Chao1 index
+#' Chao's richness estimator
 #' @export
 chao1 <- function (x, bias_corrected = TRUE) {
   s <- sum(x > 0)
@@ -330,3 +364,9 @@ strong <- function (x) {
   idx <- seq_along(x)
   max((sorted_sum / n) - (idx / s))
 }
+
+# Scikit-bio notes
+# ace not implemented, TODO
+# berger_parker_d implemented
+# brillouin_d implemented
+#

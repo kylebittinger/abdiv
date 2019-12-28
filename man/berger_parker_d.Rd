@@ -7,5 +7,16 @@
 berger_parker_d(x)
 }
 \description{
-Berger-Parker dominance
+The Berger-Parker dominance is the proportion of the most abundant species.
+}
+\details{
+Equivalent to \code{berger_parker_d()} in \code{skbio.diversity.alpha}.
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+berger_parker_d(x) # 15 / 28
+}
+\references{
+Berger WH, Parker FL. Diversity of Planktonic Foraminifera in Deep-Sea
+Sediments. Science. 1970;168(3937):1345-1347.
 }
