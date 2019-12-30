@@ -488,18 +488,18 @@ strong <- function (x) {
 # ace not implemented, TODO
 # berger_parker_d implemented
 # brillouin_d implemented
-# chao1 implemented but not documented
+# chao1 not implemented, out of scope
 # dominance implemented
-# doubles not implemented
+# doubles not implemented, out of scope
 # enspie implemented as invsimpson
-# etsy_ci not implemented (removed)
+# etsy_ci not implemented, out of scope
 # faith_pd implemented
 # fisher_alpha not implemented, TODO
 # gini_index not implemented, TODO
-# goods_coverage implemented
+# goods_coverage not implemented, out of scope
 # heip_e implemented
-# kempton_taylor_q implemented, needs work
-# lladser_ci not implemented
+# kempton_taylor_q implemented, but needs work
+# lladser_ci not implemented, out of scope
 # lladser_pe not implemented
 # margalef implemented
 # mcintosh_d implemented
@@ -507,11 +507,11 @@ strong <- function (x) {
 # menhinick implemented
 # michaelis_menten_fit not implemented
 # observed_otus implemented as richness
-# osd (obs. OTUs, singletons, doubletons) not implemented
+# osd (obs. OTUs, singletons, doubletons) not implemented, out of scope
 # pielou_e implemented
-# robbins implemented
+# robbins not implemented, out of scope
 # shannon implemented
 # simpson implemented
 # simpson_e implemented
-# singles not implemented
+# singles not implemented, out of scope
 # strong implemented
