@@ -4,7 +4,7 @@
 # abdiv
 
 This package re-implements measures of ecological diversity from several
-other software packages, including `vegan`, `scikit-bio`, and
+other software packages, including `vegan`, `scikit-bio`, `Mothur`, and
 `GUniFrac`.
 
 ## Installation
