@@ -19,7 +19,11 @@ alpha_diversities <- c(
 #' The Berger-Parker dominance is the proportion of the most abundant species.
 #'
 #' @details
-#' Equivalent to \code{berger_parker_d()} in \code{skbio.diversity.alpha}.
+#' \itemize{
+#'   \item Equivalent to \code{berger_parker_d()} in
+#'     \code{skbio.diversity.alpha}.
+#'   \item Equivalent to \code{bergerparker} calculator in Mothur.
+#' }
 #' @references
 #' Berger WH, Parker FL. Diversity of Planktonic Foraminifera in Deep-Sea
 #' Sediments. Science. 1970;168(3937):1345-1347.
@@ -47,16 +51,18 @@ berger_parker_d <- function (x) {
 #' @details
 #' For a vector of species counts \code{x}, the dominance index is defined as
 #' \deqn{D = \sum_i p_i,} where \eqn{p_i} is the species proportion,
-#' \eqn{p_i = x_i / \sum_i x_i}. This is equal to the probability of selecting
-#' two individuals from the same species, with replacement. Relation to other
-#' definitions:
+#' \eqn{p_i = x_i / N}, and \eqn{N} is the total number of counts. This is
+#' equal to the probability of selecting two individuals from the same species,
+#' with replacement. Relation to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{dominance()} in \code{skbio.diversity.alpha}.
+#'   \item Similar to \code{simpson} calculator in Mothur, though they use the
+#'     unbiased estimate \eqn{p_i = x_i (x_i - 1) / (N (N -1))}.
 #' }
 #'
-#' Simpson's index is defined as \eqn{1 - D}, or the probability of selecting
-#' two individuals from different species, with replacement. Relation to other
-#' definitions:
+#' Simpson's index is defined here as \eqn{1 - D}, or the probability of
+#' selecting two individuals from different species, with replacement. Relation
+#' to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{diversity()} in \code{vegan} with
 #'     \code{index = "simpson"}.
@@ -68,6 +74,8 @@ berger_parker_d <- function (x) {
 #'   \item Equivalent to \code{diversity()} in \code{vegan} with
 #'     \code{index = "invsimpson"}.
 #'   \item Equivalent to \code{enspie()} in \code{skbio.diversity.alpha}.
+#'   \item Similar to \code{invsimpson} calculator in Mothur, though they use
+#'     the unbiased estimate \eqn{p_i = x_i (x_i - 1) / (N (N -1))}.
 #' }
 #'
 #' Simpson's evenness index is the inverse Simpson index divided by the
@@ -170,7 +178,12 @@ simpson_e <- function (x) {
 #' values, taking the number of species and log-abundance values at these data
 #' points exactly.
 #'
-#' Equivalent to \code{kempton_taylor_q()} in \code{skbio.diversity.alpha}.
+#' \itemize{
+#'   \item Equivalent to \code{kempton_taylor_q()} in
+#'     \code{skbio.diversity.alpha}.
+#'   \item Similar to \code{qstat} calculator in Mothur, though the
+#'     implementation differs slightly, and affects the result.
+#' }
 #' @references
 #' Kempton RA, Taylor LR. Models and statistics for species diversity. Nature.
 #' 1976;262:818-820.
@@ -318,6 +331,7 @@ menhinick <- function (x) {
 #' \itemize{
 #'   \item Equivalent to \code{observed_otus()} in \code{skbio.diversity.alpha}.
 #'   \item Equivalent to \code{specnumber} in \code{vegan}.
+#'   \item Equivalent to \code{sobs} calculator in Mothur.
 #' }
 #' @examples
 #' x <- c(15, 6, 4, 0, 3, 0)
@@ -354,6 +368,7 @@ richness <- function (x) {
 #' } where \eqn{N} is the total number of counts. Relation to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{brillouin_d()} in \code{skbio.diversity.alpha}.
+#'   \item Equivalent to \code{shannon} calculator in Mothur.
 #' }
 #'
 #' The Brillouin index accounts for the total number of individuals sampled,
@@ -515,3 +530,29 @@ strong <- function (x) {
 # simpson_e implemented
 # singles not implemented, out of scope
 # strong implemented
+
+# Mothur notes
+# ## Community richness
+# sobs implemented as richness
+# chao not implemented, out of scope
+# ace not implemented, out of scope
+# jack not implemented, out of scope
+# bootstrap not implemented, out of scope
+# ## Community evenness
+# simpsoneven need to look at implementation, TODO
+# shannoneven need to look at implementation, TODO
+# heip need to look at implementation, TODO
+# smithwilson need to look at implementation, TODO
+# ## Community diversity
+# bergerparker implemented as berger_parker_d
+# shannon implemented
+# npshannon not implemented, TODO
+# simpson implemented (biased version) as dominance
+# invsimpson implemented (biased version)
+# coverage (aka Good's coverage) not implemented, out of scope
+# qstat implemented as kempton_taylor_q, implementation does not match
+# ## Estimates of number of additional OTUs
+# boneh not implemented, out of scope
+# efron not implemented, out of scope
+# shen not implemented, out of scope
+# solow not implemented, out of scope

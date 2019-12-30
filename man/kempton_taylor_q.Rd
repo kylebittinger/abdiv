@@ -34,7 +34,12 @@ implementation in \code{scikit-bio} and round inwards to find the quantile
 values, taking the number of species and log-abundance values at these data
 points exactly.
 
-Equivalent to \code{kempton_taylor_q()} in \code{skbio.diversity.alpha}.
+\itemize{
+  \item Equivalent to \code{kempton_taylor_q()} in
+    \code{skbio.diversity.alpha}.
+  \item Similar to \code{qstat} calculator in Mothur, though the
+    implementation differs slightly, and affects the result.
+}
 }
 \references{
 Kempton RA, Taylor LR. Models and statistics for species diversity. Nature.

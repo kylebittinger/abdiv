@@ -67,6 +67,27 @@ test_that("Alpha diversity values are consistent with vegan", {
   expect_equal(invsimpson(bci19), vegan::diversity(bci19, index = "invsimpson"))
 })
 
+test_that("Alpha diversity values are consistent with Mothur", {
+  mothur_cluster_cts <- function (x) {
+    rep(seq_along(x), times=x)
+  }
+  # https://www.mothur.org/wiki/Sobs
+  amazonian10 <- mothur_cluster_cts(c(34, 13, 3, 2, 0, 0, 3))
+  expect_equal(richness(amazonian10), 55)
+  # https://www.mothur.org/wiki/Bergerparker
+  amazonian03 <- mothur_cluster_cts(c(75, 6, 1, 2))
+  expect_equal(berger_parker_d(amazonian03), 4 / 98)
+  # https://www.mothur.org/wiki/Shannon
+  expect_equal(shannon(amazonian03), 4.3532944387)
+  # https://www.mothur.org/wiki/Simpson
+  # dominance does not match, we don't use the ubiased version
+  expect_equal(dominance(amazonian03), 0.0145772595) # 0.004418262 in Mothur
+  # no examplee for invsimpson
+  # https://www.mothur.org/wiki/Qstat
+  # kempton_taylor_q does not match, need to work on this
+  expect_equal(kempton_taylor_q(amazonian10), 38.9527661040) # 33.90 in Mothur
+})
+
 test_that("Invalid count vectors are detected", {
   expect_true(check_positive(c(0, 0, 1, 2))) # counts pass
   expect_true(check_positive(c(0, 0.1))) # proportions pass

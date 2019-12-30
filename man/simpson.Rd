@@ -25,16 +25,18 @@ of species.
 \details{
 For a vector of species counts \code{x}, the dominance index is defined as
 \deqn{D = \sum_i p_i,} where \eqn{p_i} is the species proportion,
-\eqn{p_i = x_i / \sum_i x_i}. This is equal to the probability of selecting
-two individuals from the same species, with replacement. Relation to other
-definitions:
+\eqn{p_i = x_i / N}, and \eqn{N} is the total number of counts. This is
+equal to the probability of selecting two individuals from the same species,
+with replacement. Relation to other definitions:
 \itemize{
   \item Equivalent to \code{dominance()} in \code{skbio.diversity.alpha}.
+  \item Similar to \code{simpson} calculator in Mothur, though they use the
+    unbiased estimate \eqn{p_i = x_i (x_i - 1) / (N (N -1))}.
 }
 
-Simpson's index is defined as \eqn{1 - D}, or the probability of selecting
-two individuals from different species, with replacement. Relation to other
-definitions:
+Simpson's index is defined here as \eqn{1 - D}, or the probability of
+selecting two individuals from different species, with replacement. Relation
+to other definitions:
 \itemize{
   \item Equivalent to \code{diversity()} in \code{vegan} with
     \code{index = "simpson"}.
@@ -46,6 +48,8 @@ The inverse Simpson index is \eqn{1/D}. Relation to other definitions:
   \item Equivalent to \code{diversity()} in \code{vegan} with
     \code{index = "invsimpson"}.
   \item Equivalent to \code{enspie()} in \code{skbio.diversity.alpha}.
+  \item Similar to \code{invsimpson} calculator in Mothur, though they use
+    the unbiased estimate \eqn{p_i = x_i (x_i - 1) / (N (N -1))}.
 }
 
 Simpson's evenness index is the inverse Simpson index divided by the

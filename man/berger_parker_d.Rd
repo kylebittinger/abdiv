@@ -10,7 +10,11 @@ berger_parker_d(x)
 The Berger-Parker dominance is the proportion of the most abundant species.
 }
 \details{
-Equivalent to \code{berger_parker_d()} in \code{skbio.diversity.alpha}.
+\itemize{
+  \item Equivalent to \code{berger_parker_d()} in
+    \code{skbio.diversity.alpha}.
+  \item Equivalent to \code{bergerparker} calculator in Mothur.
+}
 }
 \examples{
 x <- c(15, 6, 4, 0, 3, 0)

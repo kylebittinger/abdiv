@@ -4,7 +4,7 @@
 \name{alpha_diversities}
 \alias{alpha_diversities}
 \title{All alpha diversity measures}
-\format{An object of class \code{character} of length 22.}
+\format{An object of class \code{character} of length 16.}
 \usage{
 alpha_diversities
 }
