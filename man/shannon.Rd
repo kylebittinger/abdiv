@@ -2,10 +2,86 @@
 % Please edit documentation in R/alpha.R
 \name{shannon}
 \alias{shannon}
-\title{Shannon diversity}
+\alias{brillouin_d}
+\alias{heip_e}
+\alias{pielou_e}
+\title{Shannon diversity and related measures}
 \usage{
 shannon(x, base = exp(1))
+
+brillouin_d(x)
+
+heip_e(x)
+
+pielou_e(x)
+}
+\arguments{
+\item{x}{A numeric vector of species counts or proportions.}
+
+\item{base}{Base of the logarithm to use in the calculation.}
 }
 \description{
-Shannon diversity
+The Shannon index of diversity
+}
+\details{
+The Shannon index of diversity or Shannon information entropy has deep roots
+in information theory. It is defined as \deqn{H = - \sum_i p_i \log{p_i},}
+where \eqn{p_i} is the species proportion. Relation to other definitions:
+\itemize{
+  \item Equivalent to \code{diversity()} in \code{vegan} with
+    \code{index = "shannon"}.
+  \item Equivalent to \code{shannon()} in \code{skbio.diversity.alpha}.
+}
+
+The Brillouin index (Brillouin 1956) is similar to Shannon's index, but
+accounts for sampling without replacement. For a vector of species counts
+\code{x}, the Brillouin index is
+\deqn{
+  \frac{1}{N}\log{\frac{N!}{\prod_i x_i!}} =
+  \frac{\log{N!} - \sum_i \log{x_i!}}{N}
+} where \eqn{N} is the total number of counts. Relation to other definitions:
+\itemize{
+  \item Equivalent to \code{brillouin_d()} in \code{skbio.diversity.alpha}.
+}
+
+The Brillouin index accounts for the total number of individuals sampled,
+and should be used on raw count data, not proportions.
+
+Heip's evenness measure is \deqn{\frac{e^H - 1}{S - 1},} where \eqn{S} is
+the total number of species observed. Relation to other definitions:
+\itemize{
+  \item Equivalent to \code{heip_e()} in \code{skbio.diversity.alpha}.
+}
+
+Pielou's Evenness index \eqn{J = H / \log{S}}. Relation to other
+definitions:
+\itemize{
+  \item Equivalent to \code{peilou_e()} in \code{skbio.diversity.alpha}.
+}
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+shannon(x)
+
+# Using a different base is the same as dividing by the log of that base
+shannon(x, base = 10)
+shannon(x) / log(10)
+
+brillouin_d(x)
+
+# Brillouin index should be almost identical to Shannon index for large N
+brillouin_d(10000 * x)
+shannon(10000 * x)
+
+heip_e(x)
+(exp(shannon(x)) - 1) / (richness(x) - 1)
+
+pielou_e(x)
+shannon(x) / log(richness(x))
+}
+\references{
+Brillouin L. Science and Information Theory. 1956;Academic Press, New York.
+
+Pielou EC. The Measurement of Diversity in Different Types of Biological
+Collections. Journal of Theoretical Biology. 1966;13:131-144.
 }

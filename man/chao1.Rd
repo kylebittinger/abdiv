@@ -2,10 +2,10 @@
 % Please edit documentation in R/alpha.R
 \name{chao1}
 \alias{chao1}
-\title{Chao1 index}
+\title{Chao's richness estimator}
 \usage{
 chao1(x, bias_corrected = TRUE)
 }
 \description{
-Chao1 index
+Chao's richness estimator
 }

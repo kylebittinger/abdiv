@@ -13,22 +13,18 @@ test_that("Alpha diversity values are consistent with QIIME2 tests", {
   expect_equal(chao1(x_no_doubles), 5)
   expect_equal(chao1(x_no_doubles, bias_corrected=FALSE), 5)
   expect_equal(dominance(c(1, 0, 2, 5, 2)), 0.340, tol=0.001)
-  expect_equal(doubles(x_qiime2), 3)
-  expect_equal(doubles(c(0, 3, 4)), 0)
-  expect_equal(doubles(2), 1)
-  expect_equal(enspie(c(1, 1, 1, 1, 1, 1)), 6)
-  expect_equal(enspie(c(13, 13, 13, 13)), 4)
+  # scikit-bio enspie implemented as invsimpson
+  expect_equal(invsimpson(c(1, 1, 1, 1, 1, 1)), 6)
+  expect_equal(invsimpson(c(13, 13, 13, 13)), 4)
   x_enspie1 <- c(1, 41, 0, 0, 12, 13)
-  expect_equal(enspie(x_enspie1), 2.250, tol=0.001)
-  expect_equal(enspie(x_enspie1), 1 / dominance(x_enspie1))
+  expect_equal(invsimpson(x_enspie1), 2.250, tol=0.001)
+  expect_equal(invsimpson(x_enspie1), 1 / dominance(x_enspie1))
   x_enspie2 <- c(1, 0, 2, 5, 2)
-  expect_equal(enspie(x_enspie2), 1 / dominance(x_enspie2))
-  # TODO: esty_ci
+  expect_equal(invsimpson(x_enspie2), 1 / dominance(x_enspie2))
   #expect_equal(fisher_alpha(c(4, 3, 4, 0, 1, 0, 2)), 2.782, tol=0.001)
   #expect_equal(fisher_alpha(c(1, 6, 1, 0, 1, 0, 5)), 2.782, tol=0.001)
   #expect_equal(fisher_alpha(c(61, 0, 0, 1)), 0.395, tol=0.001)
   #expect_equal(fisher_alpha(c(999, 0, 10)), 0.240, tol=0.001)
-  # TODO: gini_index
   arr_good <- c(rep(1, 75), 2, 2, 2, 2, 2, 2, 3, 4, 4)
   expect_equal(goods_coverage(arr_good), 0.235, tol=0.001)
   x_heip <- c(1, 2, 3, 1)
@@ -44,7 +40,6 @@ test_that("Alpha diversity values are consistent with QIIME2 tests", {
   expect_equal(mcintosh_d(c(1, 2, 3)), 0.636, tol=0.001)
   expect_equal(mcintosh_e(c(1, 2, 3, 1)), sqrt(15 / 19))
   expect_equal(menhinick(x_qiime2), 9 / sqrt(22))
-  # TODO: michaelis_menten_fit
   expect_equal(richness(c(4, 3, 4, 0, 1, 0, 2)), 5)
   expect_equal(richness(x_qiime2), 9)
   x_pielou <- c(1, 2, 3, 1)
@@ -61,10 +56,26 @@ test_that("Alpha diversity values are consistent with QIIME2 tests", {
   expect_equal(simpson(5), 0)
   expect_equal(simpson_e(c(1, 1, 1, 1, 1, 1, 1)), 1)
   expect_equal(simpson_e(c(500, 400, 600, 500)), 0.980, tol=0.001)
-  expect_equal(singles(x_qiime2), 3)
-  expect_equal(singles(c(0, 3, 4)), 0)
-  expect_equal(singles(1), 1)
   expect_equal(strong(c(1, 2, 3, 1)), 0.214, tol=0.001)
+})
+
+test_that("Alpha diversity values are consistent with vegan", {
+  bci19 <- c(
+    0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 13, 0, 0, 2, 1, 13, 1, 0, 2,
+    0, 0, 0, 2, 4, 0, 1, 0, 4, 0, 0, 1, 2, 0, 8, 3, 0, 0, 1, 0, 0,
+    0, 0, 0, 0, 1, 0, 0, 0, 5, 8, 4, 3, 1, 1, 0, 0, 1, 3, 1, 0, 1,
+    1, 1, 1, 0, 0, 2, 1, 1, 6, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+    0, 0, 3, 0, 0, 2, 3, 1, 1, 6, 0, 3, 0, 7, 0, 24, 0, 1, 0, 2,
+    0, 1, 0, 0, 0, 0, 0, 0, 3, 1, 1, 7, 1, 4, 1, 3, 4, 2, 0, 3, 1,
+    4, 0, 1, 0, 0, 1, 0, 0, 1, 2, 0, 1, 0, 0, 0, 0, 0, 2, 0, 1, 1,
+    24, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 4, 0, 0, 10, 5, 5, 0,
+    2, 5, 0, 0, 0, 1, 2, 0, 2, 0, 1, 0, 0, 6, 0, 1, 1, 3, 0, 1, 0,
+    0, 0, 1, 6, 4, 0, 0, 0, 9, 2, 0, 0, 0, 0, 9, 0, 0, 0, 0, 3, 1,
+    0, 1, 44, 0, 1, 0, 3, 0, 4, 0, 12, 1, 0, 0, 1, 3, 1, 3, 0, 0)
+  expect_equal(richness(bci19), vegan::specnumber(bci19))
+  expect_equal(shannon(bci19), vegan::diversity(bci19, index = "shannon"))
+  expect_equal(simpson(bci19), vegan::diversity(bci19, index = "simpson"))
+  expect_equal(invsimpson(bci19), vegan::diversity(bci19, index = "invsimpson"))
 })
 
 test_that("Invalid count vectors are detected", {
@@ -80,10 +91,7 @@ test_that("Empty count vectors produce warnings or valid result", {
   expect_warning(brillouin_d(x_empty), "not defined")
   expect_equal(chao1(x_empty), 0)
   expect_warning(dominance(x_empty), "not defined")
-  expect_equal(doubles(x_empty), 0)
-  expect_warning(enspie(x_empty), "not defined")
-  expect_warning(etsy_ci(x_empty), "not defined")
-  #expect_equal(fisher_alpha(x_empty), 1)
+  expect_warning(invsimpson(x_empty), "not defined")
   expect_warning(goods_coverage(x_empty), "not defined")
   expect_warning(heip_e(x_empty), "not defined")
   expect_warning(invsimpson(x_empty), "not defined")
@@ -92,14 +100,12 @@ test_that("Empty count vectors produce warnings or valid result", {
   expect_warning(mcintosh_d(x_empty), "not defined")
   expect_warning(mcintosh_e(x_empty), "not defined")
   expect_warning(menhinick(x_empty), "not defined")
-  # TODO: michaelis_menten_fit
   expect_warning(pielou_e(x_empty), "not defined")
   expect_equal(richness(x_empty), 0)
   expect_warning(robbins(x_empty), "not defined")
   expect_warning(shannon(x_empty), "not defined")
   expect_warning(simpson(x_empty), "not defined")
   expect_warning(simpson_e(x_empty), "not defined")
-  expect_equal(singles(x_empty), 0)
   expect_warning(strong(x_empty), "not defined")
 })
 
@@ -108,10 +114,7 @@ test_that("Empty count vectors give correct values", {
   expect_equal(suppressWarnings(berger_parker_d(x_empty)), NA)
   expect_equal(suppressWarnings(brillouin_d(x_empty)), NA)
   expect_equal(suppressWarnings(dominance(x_empty)), NA)
-  expect_equal(doubles(x_empty), 0)
-  expect_equal(suppressWarnings(enspie(x_empty)), NA)
-  expect_equal(suppressWarnings(etsy_ci(x_empty)), NA)
-  #expect_equal(fisher_alpha(x_empty), 1)
+  expect_equal(suppressWarnings(invsimpson(x_empty)), NA)
   expect_equal(suppressWarnings(goods_coverage(x_empty)), NA)
   expect_equal(suppressWarnings(heip_e(x_empty)), NA)
   expect_equal(suppressWarnings(invsimpson(x_empty)), NA)
@@ -120,14 +123,12 @@ test_that("Empty count vectors give correct values", {
   expect_equal(suppressWarnings(mcintosh_d(x_empty)), NA)
   expect_equal(suppressWarnings(mcintosh_e(x_empty)), NA)
   expect_equal(suppressWarnings(menhinick(x_empty)), NA)
-  # TODO: michaelis_menten_fit
   expect_equal(suppressWarnings(pielou_e(x_empty)), NA)
   expect_equal(richness(x_empty), 0)
   expect_equal(suppressWarnings(robbins(x_empty)), NA)
   expect_equal(suppressWarnings(shannon(x_empty)), NA)
   expect_equal(suppressWarnings(simpson(x_empty)), NA)
   expect_equal(suppressWarnings(simpson_e(x_empty)), NA)
-  expect_equal(singles(x_empty), 0)
   expect_equal(suppressWarnings(strong(x_empty)), NA)
 })
 
@@ -136,10 +137,6 @@ test_that("Alpha diversity values are correct for simple example", {
   expect_equal(berger_parker_d(x_simple), 4 / 11)
   expect_equal(brillouin_d(x_simple), 1.076, tol=0.001)
   expect_equal(dominance(x_simple), 0.256, tol=0.001)
-  expect_equal(doubles(x_simple), 1)
-  expect_equal(enspie(x_simple), invsimpson(x_simple))
-  expect_equal(etsy_ci(x_simple), c(-0.158, 0.522), tol=0.001)
-  #expect_equal(fisher_alpha(x_simple), 3.538, tol=0.001)
   expect_equal(goods_coverage(x_simple), 0.818, tol=0.001)
   expect_equal(heip_e(x_simple), 0.835, tol=0.001)
   expect_equal(invsimpson(x_simple), 3.903, tol=0.001)
@@ -148,14 +145,12 @@ test_that("Alpha diversity values are correct for simple example", {
   expect_equal(mcintosh_d(x_simple), 0.707, tol=0.01)
   expect_equal(mcintosh_e(x_simple), 0.765, tol=0.001)
   expect_equal(menhinick(x_simple), 1.508, tol=0.001)
-  # TODO: michaelis_menten_fit
   expect_equal(pielou_e(x_simple), 0.912, tol=0.001)
   expect_equal(richness(x_simple), 5)
   expect_equal(robbins(x_simple), 2 /11)
   expect_equal(shannon(x_simple), 1.468, tol=0.001)
   expect_equal(simpson(x_simple), 0.744, tol=0.001)
   expect_equal(simpson_e(x_simple), 0.781, tol=0.001)
-  expect_equal(singles(x_simple), 2)
   expect_equal(strong(x_simple), 0.236, tol=0.001)
 })
 

@@ -6,6 +6,27 @@
 \usage{
 mcintosh_d(x)
 }
+\arguments{
+\item{x}{A numeric vector of species counts.}
+}
 \description{
 McIntosh dominance index D
+}
+\details{
+For a vector \code{x} of raw species counts, the McIntosh dominance index is
+defined as \deqn{D = \frac{N - U}{N - \sqrt{N}},} where \eqn{N} is the total
+number of counts and \eqn{U = \sqrt{\sum_i x_i^2}}.
+
+This index is approriate only for raw counts, not transformed counts or
+proportions.
+
+Equivalent to \code{mcintosh_d()} in \code{skbio.diversity.alpha}.
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+mcintosh_d(x)
+}
+\references{
+McIntosh RP. An index of diversity and the relation of certain concepts to
+diversity. Ecology. 1967;48:1115-1126.
 }

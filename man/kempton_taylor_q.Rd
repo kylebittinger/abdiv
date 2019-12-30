@@ -6,6 +6,37 @@
 \usage{
 kempton_taylor_q(x, lower_quantile = 0.25, upper_quantile = 0.75)
 }
+\arguments{
+\item{x}{A numeric vector of species counts or proportions.}
+
+\item{lower_quantile, upper_quantile}{Lower and upper quantiles of the
+abundance distribution. Default values are the ones suggested by Kempton
+and Taylor.}
+}
 \description{
-Kempton-Taylor Q index
+The Kempton-Taylor Q index is designed to measure species in the middle of
+the abundance distribution.
+}
+\details{
+For a vector of species counts \code{x}, the Kempton-Taylor Q statistic is
+equal to the slope of the cumulative abundance curve across a specified
+quantile range. The cumulative abundance curve is the plot of the number of
+species against the log-abundance.
+
+Kempton and Taylor originally defined the index as
+\deqn{Q = \frac{\frac{1}{2}S}{\log{R_2} - \log{R_1}},} where \eqn{S} is the
+total number of species observed, \eqn{R_1} is the abundance at the lower
+quantile, and \eqn{R_2} is the abundance at the upper quantile. However,
+this definition only holds if one uses the interquartile range. Because we
+allow the user to adjust the upper and lower quantiles, we have to find the
+number of species at these abundance values. Here, we follow the
+implementation in \code{scikit-bio} and round inwards to find the quantile
+values, taking the number of species and log-abundance values at these data
+points exactly.
+
+Equivalent to \code{kempton_taylor_q()} in \code{skbio.diversity.alpha}.
+}
+\references{
+Kempton RA, Taylor LR. Models and statistics for species diversity. Nature.
+1976;262:818-820.
 }

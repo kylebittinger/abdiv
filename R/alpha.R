@@ -38,44 +38,6 @@ berger_parker_d <- function (x) {
   max(x) / sum(x)
 }
 
-#' Brillouin index
-#'
-#' The Brillouin index is similar to Shannon's index, but accounts for sampling
-#' without replacement.
-#'
-#' @details
-#' For a vector of species counts \code{x}, the Brillouin index is
-#' \deqn{
-#'   \frac{1}{N}\log{\frac{N!}{\prod_i x_i!}} =
-#'   \frac{\log{N!} - \sum_i \log{x_i!}}{N}
-#' } where \eqn{N = \sum_i x_i}. The index accounts for the total number of
-#' individuals sampled, and should be used on raw count data, not proportions.
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \code{brillouin_d()} in \code{skbio.diversity.alpha}.
-#' }
-#'
-#' @references
-#' Brillouin L. Science and Information Theory. 1956;Academic Press, New York.
-#' @examples
-#' x <- c(15, 6, 4, 0, 3, 0)
-#' brillouin_d(x)
-#'
-#' # Should be almost identical to Shannon index for large N
-#' brillouin_d(10000 * x)
-#' shannon(10000 * x)
-#' @export
-brillouin_d <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Brillouin index not defined for zero total counts")
-    return(NA)
-  }
-  n <- sum(x)
-  nz <- x[x > 0]
-  (lfactorial(n) - sum(lfactorial(nz))) / n
-}
-
 #' Chao's richness estimator
 #' @export
 chao1 <- function (x, bias_corrected = TRUE) {
@@ -90,7 +52,77 @@ chao1 <- function (x, bias_corrected = TRUE) {
   }
 }
 
-#' Dominance
+#' Simpson's index and related measures
+#'
+#' These measures are based on the sum of squared species proportions. The
+#' function \code{dominance()} gives this quantity, \code{simpson()} gives one
+#' minus this quantity, \code{invsimpson()} gives the reciprocal of the
+#' quantity, and \code{simpson_e} gives the reciprocal divided by the number
+#' of species.
+#'
+#' @details
+#' For a vector of species counts \code{x}, the dominance index is defined as
+#' \deqn{D = \sum_i p_i,} where \eqn{p_i} is the species proportion,
+#' \eqn{p_i = x_i / \sum_i x_i}. This is equal to the probability of selecting
+#' two individuals from the same species, with replacement. Relation to other
+#' definitions:
+#' \itemize{
+#'   \item Equivalent to \code{dominance()} in \code{skbio.diversity.alpha}.
+#' }
+#'
+#' Simpson's index is defined as \eqn{1 - D}, or the probability of selecting
+#' two individuals from different species, with replacement. Relation to other
+#' definitions:
+#' \itemize{
+#'   \item Equivalent to \code{diversity()} in \code{vegan} with
+#'     \code{index = "simpson"}.
+#'   \item Equivalent to \code{simpson()} in \code{skbio.diversity.alpha}.
+#' }
+#'
+#' The inverse Simpson index is \eqn{1/D}. Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to \code{diversity()} in \code{vegan} with
+#'     \code{index = "invsimpson"}.
+#'   \item Equivalent to \code{enspie()} in \code{skbio.diversity.alpha}.
+#' }
+#'
+#' Simpson's evenness index is the inverse Simpson index divided by the
+#' number of species observed, \eqn{1 / (D S)}. Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to \code{simpson_e()} in \code{skbio.diversity.alpha}.
+#' }
+#'
+#' Please be warned that the naming conventions vary between sources. For
+#' example Wikipedia calls \eqn{D} the Simpson index and \eqn{1 - D} the
+#' Gini-Simpson index. We have followed the convention from \code{vegan}, to
+#' avoid confusion within the \code{R} ecosystem.
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' dominance(x)
+#'
+#' # Simpson is 1 - D
+#' simpson(x)
+#' 1 - dominance(x)
+#'
+#' # Inverse Simpson is 1/D
+#' invsimpson(x)
+#' 1 / dominance(x)
+#'
+#' # Simpson's evenness is 1 / (D * S)
+#' simpson_e(x)
+#' 1 / (dominance(x) * richness(x))
+#' @export
+simpson <- function (x) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("Simpson diversity not defined for zero total counts")
+    return(NA)
+  }
+  p <- x / sum(x)
+  1 - sum(p ** 2)
+}
+
+#' @rdname simpson
 #' @export
 dominance <- function (x) {
   check_positive(x)
@@ -102,61 +134,364 @@ dominance <- function (x) {
   sum(p ** 2)
 }
 
-#' Number of doubletons
+#' @rdname simpson
 #' @export
-doubles <- function (x) {
-  check_positive(x)
-  sum(x == 2)
-}
-
-#' ENS diversity
-#'
-#' This is equivalent to inverse Simpson
-#' @export
-enspie <- function (x) {
-  invsimpson(x)
-}
-
-#' Etsy's confidence interval
-#'
-#' The output has not been checked
-#' @export
-etsy_ci <- function (x, conf=0.975) {
+invsimpson <- function (x) {
   check_positive(x)
   if (sum(x) == 0) {
-    warning("Etsy's CI not defined for zero total counts")
+    warning("Inverse simpson not defined for zero total counts")
     return(NA)
   }
-  f1 <- sum(x == 1)
-  f2 <- sum(x == 2)
-  n <- sum(x)
-  w <- (f1 * (n - f1) + 2 * n * f2) / (n ^ 3)
-  z <- qnorm(conf)
-  ci_center <- f1 / n
-  ci_halfwidth <- z * sqrt(w)
-  c(ci_center - ci_halfwidth, ci_center + ci_halfwidth)
+  p <- x / sum(x)
+  1 / sum(p ** 2)
 }
 
-# TODO: faith_pd
+#' @rdname simpson
+#' @export
+simpson_e <- function (x) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("Simpson's evenness not defined for zero total counts")
+    return(NA)
+  }
+  p <- x / sum(x)
+  D <- sum(p ** 2)
+  S <- sum(x > 0)
+  1 / (D * S)
+}
 
-# TODO: Fisher's alpha
-
-# TODO: Gini-Simpson
-
-#' Good's coverage of counts
+#' Good's coverage estimator
+#'
+#' @details
+#' For a vector of species counts \code{x}, Good's coverage estimator is
+#' \eqn{1 - n_1 / N}, where \eqn{n_1} is the number of species with a count
+#' value of 1, and \eqn{N} is the total number of counts in the vector. This
+#' function makes sense only for raw count data, not proportions.
+#'
+#' Equivalent to \code{goods_coverage()} in \code{skbio.diversity.alpha}.
+#' @references
+#' Good IJ. The Population Frequencies of Species and the Estimation of
+#' Population Parameters. Biometrika. 1953;40:237-264.
+#' @examples
+#' x <- c(9, 0, 1, 2, 5, 2, 1, 1, 0, 7, 2, 1, 0, 1, 1)
+#' goods_coverage(x) # 1 - 6 / 33
+#' goods_coverage(c(5, 4, 3, 2, 1)) # 1 - 1 / 15
 #' @export
 goods_coverage <- function (x) {
   check_positive(x)
   if (sum(x) == 0) {
-   warning("Good's coverage not defined for zero total counts")
-   return(NA)
+    warning("Good's coverage not defined for zero total counts")
+    return(NA)
   }
   f1 <- sum(x == 1)
   n <- sum(x)
   1 - (f1 / n)
 }
 
-#' Heip's evenness measure
+#' Kempton-Taylor Q index
+#'
+#' The Kempton-Taylor Q index is designed to measure species in the middle of
+#' the abundance distribution.
+#'
+#' @param x A numeric vector of species counts or proportions.
+#' @param lower_quantile,upper_quantile Lower and upper quantiles of the
+#'   abundance distribution. Default values are the ones suggested by Kempton
+#'   and Taylor.
+#' @details
+#' For a vector of species counts \code{x}, the Kempton-Taylor Q statistic is
+#' equal to the slope of the cumulative abundance curve across a specified
+#' quantile range. The cumulative abundance curve is the plot of the number of
+#' species against the log-abundance.
+#'
+#' Kempton and Taylor originally defined the index as
+#' \deqn{Q = \frac{\frac{1}{2}S}{\log{R_2} - \log{R_1}},} where \eqn{S} is the
+#' total number of species observed, \eqn{R_1} is the abundance at the lower
+#' quantile, and \eqn{R_2} is the abundance at the upper quantile. However,
+#' this definition only holds if one uses the interquartile range. Because we
+#' allow the user to adjust the upper and lower quantiles, we have to find the
+#' number of species at these abundance values. Here, we follow the
+#' implementation in \code{scikit-bio} and round inwards to find the quantile
+#' values, taking the number of species and log-abundance values at these data
+#' points exactly.
+#'
+#' Equivalent to \code{kempton_taylor_q()} in \code{skbio.diversity.alpha}.
+#' @references
+#' Kempton RA, Taylor LR. Models and statistics for species diversity. Nature.
+#' 1976;262:818-820.
+#' @export
+kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("Kempton-Taylor Q index not defined for zero total counts")
+    return(NA)
+  }
+  # I'm sure there is a better way to do this with R's quantile function,
+  # but not sure how to guarantee that the result always replicates the one
+  # obtained via this algorithm.
+  # !!!! The scikit-bio implementation seems to not match the paper here.
+  # Must check this and make sure the answers line up with their results.
+  n <- length(x)
+  lower_idx <- ceiling(n * lower_quantile) + 1
+  upper_idx <- floor(n * upper_quantile) + 1
+  print(c(upper_idx, lower_idx))
+  x_sorted <- sort(x)
+  x_upper <- x_sorted[upper_idx]
+  x_lower <- x_sorted[lower_idx]
+  (upper_idx - lower_idx) / log(x_upper / x_lower)
+}
+
+#' Margalef's richness index
+#'
+#' @details
+#' For a vector \code{x} of species counts, Margalef's index is
+#' \deqn{D = \frac{S -1}{\log N},} where \eqn{S} is the total number of species
+#' observed and \eqn{N} is the total number of counts.
+#'
+#' This index is approriate only for raw counts, not transformed counts or
+#' proportions.
+#'
+#' Equivalent to \code{margalef()} in \code{skbio.diversity.alpha}.
+#' @references
+#' Margalef R. Information theory in ecology. General Systems 3. 1958;36-71.
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' margalef(x)
+#' @export
+margalef <- function (x) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("Margalef's richness not defined for zero total counts")
+    return(NA)
+  }
+  s <- sum(x > 0)
+  n <- sum(x)
+  (s - 1) / log(n)
+}
+
+#' McIntosh dominance index D
+#' @param x A numeric vector of species counts.
+#' @details
+#' For a vector \code{x} of raw species counts, the McIntosh dominance index is
+#' defined as \deqn{D = \frac{N - U}{N - \sqrt{N}},} where \eqn{N} is the total
+#' number of counts and \eqn{U = \sqrt{\sum_i x_i^2}}.
+#'
+#' This index is approriate only for raw counts, not transformed counts or
+#' proportions.
+#'
+#' Equivalent to \code{mcintosh_d()} in \code{skbio.diversity.alpha}.
+#' @references
+#' McIntosh RP. An index of diversity and the relation of certain concepts to
+#' diversity. Ecology. 1967;48:1115-1126.
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' mcintosh_d(x)
+#' @export
+mcintosh_d <- function (x) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("McIntosh dominance not defined for zero total counts")
+    return(NA)
+  }
+  # Equation 4
+  n <- sum(x)
+  u <- sqrt(sum(x ^ 2))
+  (n - u) / (n - sqrt(n))
+}
+
+#' McIntosh's evenness measure E
+#' @param x A numeric vector of species counts.
+#' @details
+#' For a vector \code{x} of raw species counts, the McIntosh evenness measure
+#' is \deqn{E = \frac{\sqrt{\sum_i x_i^2}}{\sqrt{(N - S + 1)^2 + S - 1},}}
+#' where \eqn{N} is the total number of counts and \eqn{S} is the total
+#' number of species observed.
+#'
+#' This index is approriate only for raw counts, not transformed counts or
+#' proportions.
+#'
+#' Equivalent to \code{mcintosh_e()} in \code{skbio.diversity.alpha}.
+#' @references
+#' Heip C, Engels P. Comparing Species Diversity and Evenness Indices. J. Mar.
+#' Bioi. Ass. U.K. 1974;54:559-563.
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' mcintosh_e(x)
+#' @export
+mcintosh_e <- function (x) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("McIntosh evenness not defined for zero total counts")
+    return(NA)
+  }
+  n <- sum(x)
+  s <- sum(x > 0)
+  numerator <- sqrt(sum(x ^ 2))
+  denominator <- sqrt((n - s + 1) ^ 2 + s - 1)
+  numerator / denominator
+}
+
+#' Menhinick's richness index
+#' @param x A numeric vector of species counts.
+#' @details
+#' For a vector \code{x} of raw species counts, the Menhinick's richness index
+#' is \eqn{\frac{S}{\sqrt{N}}}, where \eqn{N} is the total number
+#' of counts and \eqn{S} is the total number of species observed.
+#'
+#' This index is approriate only for raw counts, not transformed counts or
+#' proportions.
+#'
+#' Equivalent to \code{menhinick()} in \code{skbio.diversity.alpha}.
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' menhinick(x)
+#' @export
+menhinick <- function (x) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("Menhinick's richness not defined for zero total counts")
+    return(NA)
+  }
+  n <- sum(x)
+  s <- sum(x > 0)
+  s / sqrt(n)
+}
+
+#' Richness or number of observed species
+#' @param x A numeric vector of species counts or proportions.
+#' @details The richness is simply the number of nonzero elements in \code{x}.
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to \code{observed_otus()} in \code{skbio.diversity.alpha}.
+#'   \item Equivalent to \code{specnumber} in \code{vegan}.
+#' }
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' richness(x) # 4
+#' @export
+richness <- function (x) {
+  check_positive(x)
+  sum(x > 0)
+}
+
+#' Robbins' estimator for the probability of unobserved outcomes
+#' @param x A numeric vector of raw species counts.
+#' @details
+#' Robbins' estimator is \eqn{F_1 / (N + 1)}, where \eqn{F_1} is the number of
+#' species observed only once, and \eqn{N} is the total number of counts.
+#' Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to \code{robbins()} in \code{skbio.diversity.alpha}.
+#'   \item Equivalent to \code{1 - goods_estimator(x)}.
+#' }
+#' @examples
+#' x <- c(9, 0, 1, 2, 5, 2, 1, 1, 0, 7, 2, 1, 0, 1, 1)
+#' robbins(x) # 6 / 33
+#' @export
+robbins <- function (x) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("Robbins' estimator not defined for zero total counts")
+    return(NA)
+  }
+  f1 <- sum(x == 1)
+  n <- sum(x)
+  f1 / n
+}
+
+#' Shannon diversity and related measures
+#'
+#' The Shannon index of diversity
+#'
+#' @param x A numeric vector of species counts or proportions.
+#' @param base Base of the logarithm to use in the calculation.
+#'
+#' @details
+#' The Shannon index of diversity or Shannon information entropy has deep roots
+#' in information theory. It is defined as \deqn{H = - \sum_i p_i \log{p_i},}
+#' where \eqn{p_i} is the species proportion. Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to \code{diversity()} in \code{vegan} with
+#'     \code{index = "shannon"}.
+#'   \item Equivalent to \code{shannon()} in \code{skbio.diversity.alpha}.
+#' }
+#'
+#' The Brillouin index (Brillouin 1956) is similar to Shannon's index, but
+#' accounts for sampling without replacement. For a vector of species counts
+#' \code{x}, the Brillouin index is
+#' \deqn{
+#'   \frac{1}{N}\log{\frac{N!}{\prod_i x_i!}} =
+#'   \frac{\log{N!} - \sum_i \log{x_i!}}{N}
+#' } where \eqn{N} is the total number of counts. Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to \code{brillouin_d()} in \code{skbio.diversity.alpha}.
+#' }
+#'
+#' The Brillouin index accounts for the total number of individuals sampled,
+#' and should be used on raw count data, not proportions.
+#'
+#' Heip's evenness measure is \deqn{\frac{e^H - 1}{S - 1},} where \eqn{S} is
+#' the total number of species observed. Relation to other definitions:
+#' \itemize{
+#'   \item Equivalent to \code{heip_e()} in \code{skbio.diversity.alpha}.
+#' }
+#'
+#' Pielou's Evenness index \eqn{J = H / \log{S}}. Relation to other
+#' definitions:
+#' \itemize{
+#'   \item Equivalent to \code{peilou_e()} in \code{skbio.diversity.alpha}.
+#' }
+#'
+#' @references
+#' Brillouin L. Science and Information Theory. 1956;Academic Press, New York.
+#'
+#' Pielou EC. The Measurement of Diversity in Different Types of Biological
+#' Collections. Journal of Theoretical Biology. 1966;13:131-144.
+#' @examples
+#' x <- c(15, 6, 4, 0, 3, 0)
+#' shannon(x)
+#'
+#' # Using a different base is the same as dividing by the log of that base
+#' shannon(x, base = 10)
+#' shannon(x) / log(10)
+#'
+#' brillouin_d(x)
+#'
+#' # Brillouin index should be almost identical to Shannon index for large N
+#' brillouin_d(10000 * x)
+#' shannon(10000 * x)
+#'
+#' heip_e(x)
+#' (exp(shannon(x)) - 1) / (richness(x) - 1)
+#'
+#' pielou_e(x)
+#' shannon(x) / log(richness(x))
+#' @export
+shannon <- function (x, base=exp(1)) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("Shannon diversity not defined zero total counts")
+    return(NA)
+  }
+  # Remove zero values; they produce NaN's in the log function
+  x <- x[x > 0]
+  p <- x / sum(x)
+  -sum(p * log(p, base=base))
+}
+
+#' @rdname shannon
+#' @export
+brillouin_d <- function (x) {
+  check_positive(x)
+  if (sum(x) == 0) {
+    warning("Brillouin index not defined for zero total counts")
+    return(NA)
+  }
+  n <- sum(x)
+  nz <- x[x > 0]
+  (lfactorial(n) - sum(lfactorial(nz))) / n
+}
+
+#' @rdname shannon
 #' @export
 heip_e <- function (x) {
   check_positive(x)
@@ -173,102 +508,7 @@ heip_e <- function (x) {
   (exp(h) - 1) / (s - 1)
 }
 
-#' Inverse Simpson
-#'
-#' Defined to be 1 / D, like vegan.
-#' @export
-invsimpson <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Inverse simpson not defined for zero total counts")
-    return(NA)
-  }
-  p <- x / sum(x)
-  1 / sum(p ** 2)
-}
-
-#' Kempton-Taylor Q index
-#' @export
-kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Kempton-Taylor Q index not defined for zero total counts")
-    return(NA)
-  }
-  # I'm sure there is a better way to do this with R's quantile function,
-  # but not sure how to guarantee that the result always replicates the one
-  # obtained via this algorithm.
-  n <- length(x)
-  lower_idx <- ceiling(n * lower_quantile) + 1
-  upper_idx <- floor(n * upper_quantile) + 1
-  x_sorted <- sort(x)
-  x_upper <- x_sorted[upper_idx]
-  x_lower <- x_sorted[lower_idx]
-  (upper_idx - lower_idx) / log(x_upper / x_lower)
-}
-
-# TODO: lladser_pe
-
-#' Margalef's richness index
-#' @export
-margalef <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Margalef's richness not defined for zero total counts")
-    return(NA)
-  }
-  s <- sum(x > 0)
-  n <- sum(x)
-  (s - 1) / log(n)
-}
-
-#' McIntosh dominance index D
-#' @export
-mcintosh_d <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("McIntosh dominance not defined for zero total counts")
-    return(NA)
-  }
-  n <- sum(x)
-  u <- sqrt(sum(x ^ 2))
-  (n - u) / (n - sqrt(n))
-}
-
-#' McIntosh's evenness measure E
-#' @export
-mcintosh_e <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("McIntosh evenness not defined for zero total counts")
-    return(NA)
-  }
-  n <- sum(x)
-  s <- sum(x > 0)
-  numerator <- sqrt(sum(x ^ 2))
-  denominator <- sqrt((n - s + 1) ^ 2 + s - 1)
-  numerator / denominator
-}
-
-#' Menhinick's richness index
-#' @export
-menhinick <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Menhinick's richness not defined for zero total counts")
-    return(NA)
-  }
-  n <- sum(x)
-  s <- sum(x > 0)
-  s / sqrt(n)
-}
-
-#TODO
-michaelis_menten_fit <- function (x) {
-  NA
-}
-
-#' Pielou's Evenness index J
+#' @rdname shannon
 #' @export
 pielou_e <- function (x) {
   check_positive(x)
@@ -281,76 +521,25 @@ pielou_e <- function (x) {
   h / log(s)
 }
 
-#' Richness
-#' @export
-richness <- function (x) {
-  check_positive(x)
-  sum(x > 0)
-}
-
-#' Robbins' estimator for the probability of unobserved outcomes
-#' @export
-robbins <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Robbins' estimator not defined for zero total counts")
-    return(NA)
-  }
-  f1 <- sum(x == 1)
-  n <- sum(x)
-  f1 / n
-}
-
-#' Shannon diversity
-#' @export
-shannon <- function (x, base=exp(1)) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Shannon diversity not defined zero total counts")
-    return(NA)
-  }
-  # Remove zero values; they produce NaN's in the log function
-  x <- x[x > 0]
-  p <- x / sum(x)
-  -sum(p * log(p, base=base))
-}
-
-#' Simpson's index
-#'
-#' Defined to be 1 - D, like vegan.
-#' @export
-simpson <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Simpson diversity not defined for zero total counts")
-    return(NA)
-  }
-  p <- x / sum(x)
-  1 - sum(p ** 2)
-}
-
-#' Simpson's evenness index
-#' @export
-simpson_e <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Simpson's evenness not defined for zero total counts")
-    return(NA)
-  }
-  p <- x / sum(x)
-  D <- sum(p ** 2)
-  S <- sum(x > 0)
-  1 / (D * S)
-}
-
-#' Number of singletons
-#' @export
-singles <- function (x) {
-  check_positive(x)
-  sum(x == 1)
-}
-
 #' Strong's dominance index
+#'
+#' Strong's dominance index measures the maximum departure between the observed
+#' proportions and a perfectly even community.
+#' @param x A numeric vector of species counts.
+#' @details
+#' Strong's dominance index is defined as
+#' \deqn{D_W = \max_i \left [ \frac{b_i}{N} - \frac{i}{S} \right ],} where
+#' \eqn{b_i} is the abundance of the \eqn{i}th species, ordered from smallest
+#' to largest, \eqn{N} is the total number of counts, and \eqn{S} is the number
+#' of species observed.
+#'
+#' Equivalent to \code{strong()} in \code{skbio.diversity.alpha}.
+#' @references
+#' Strong WL. Assessing species abundance uneveness within and between plant
+#' communities. Community Ecology. 2002;3:237-246.
+#' @examples
+#' x <- c(9, 0, 1, 2, 5, 2, 1, 1, 0, 7, 2, 1, 0, 1, 1)
+#' strong(x)
 #' @export
 strong <- function (x) {
   check_positive(x)
@@ -369,4 +558,30 @@ strong <- function (x) {
 # ace not implemented, TODO
 # berger_parker_d implemented
 # brillouin_d implemented
-#
+# chao1 implemented but not documented
+# dominance implemented
+# doubles not implemented
+# enspie implemented as invsimpson
+# etsy_ci not implemented (removed)
+# faith_pd implemented
+# fisher_alpha not implemented, TODO
+# gini_index not implemented, TODO
+# goods_coverage implemented
+# heip_e implemented
+# kempton_taylor_q implemented, needs work
+# lladser_ci not implemented
+# lladser_pe not implemented
+# margalef implemented
+# mcintosh_d implemented
+# mcintosh_e implemented
+# menhinick implemented
+# michaelis_menten_fit not implemented
+# observed_otus implemented as richness
+# osd (obs. OTUs, singletons, doubletons) not implemented
+# pielou_e implemented
+# robbins implemented
+# shannon implemented
+# simpson implemented
+# simpson_e implemented
+# singles not implemented
+# strong implemented

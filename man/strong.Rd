@@ -6,6 +6,27 @@
 \usage{
 strong(x)
 }
+\arguments{
+\item{x}{A numeric vector of species counts.}
+}
 \description{
-Strong's dominance index
+Strong's dominance index measures the maximum departure between the observed
+proportions and a perfectly even community.
+}
+\details{
+Strong's dominance index is defined as
+\deqn{D_W = \max_i \left [ \frac{b_i}{N} - \frac{i}{S} \right ],} where
+\eqn{b_i} is the abundance of the \eqn{i}th species, ordered from smallest
+to largest, \eqn{N} is the total number of counts, and \eqn{S} is the number
+of species observed.
+
+Equivalent to \code{strong()} in \code{skbio.diversity.alpha}.
+}
+\examples{
+x <- c(9, 0, 1, 2, 5, 2, 1, 1, 0, 7, 2, 1, 0, 1, 1)
+strong(x)
+}
+\references{
+Strong WL. Assessing species abundance uneveness within and between plant
+communities. Community Ecology. 2002;3:237-246.
 }

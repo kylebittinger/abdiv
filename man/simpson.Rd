@@ -2,10 +2,76 @@
 % Please edit documentation in R/alpha.R
 \name{simpson}
 \alias{simpson}
-\title{Simpson's index}
+\alias{dominance}
+\alias{invsimpson}
+\alias{simpson_e}
+\title{Simpson's index and related measures}
 \usage{
 simpson(x)
+
+dominance(x)
+
+invsimpson(x)
+
+simpson_e(x)
 }
 \description{
-Defined to be 1 - D, like vegan.
+These measures are based on the sum of squared species proportions. The
+function \code{dominance()} gives this quantity, \code{simpson()} gives one
+minus this quantity, \code{invsimpson()} gives the reciprocal of the
+quantity, and \code{simpson_e} gives the reciprocal divided by the number
+of species.
+}
+\details{
+For a vector of species counts \code{x}, the dominance index is defined as
+\deqn{D = \sum_i p_i,} where \eqn{p_i} is the species proportion,
+\eqn{p_i = x_i / \sum_i x_i}. This is equal to the probability of selecting
+two individuals from the same species, with replacement. Relation to other
+definitions:
+\itemize{
+  \item Equivalent to \code{dominance()} in \code{skbio.diversity.alpha}.
+}
+
+Simpson's index is defined as \eqn{1 - D}, or the probability of selecting
+two individuals from different species, with replacement. Relation to other
+definitions:
+\itemize{
+  \item Equivalent to \code{diversity()} in \code{vegan} with
+    \code{index = "simpson"}.
+  \item Equivalent to \code{simpson()} in \code{skbio.diversity.alpha}.
+}
+
+The inverse Simpson index is \eqn{1/D}. Relation to other definitions:
+\itemize{
+  \item Equivalent to \code{diversity()} in \code{vegan} with
+    \code{index = "invsimpson"}.
+  \item Equivalent to \code{enspie()} in \code{skbio.diversity.alpha}.
+}
+
+Simpson's evenness index is the inverse Simpson index divided by the
+number of species observed, \eqn{1 / (D S)}. Relation to other definitions:
+\itemize{
+  \item Equivalent to \code{simpson_e()} in \code{skbio.diversity.alpha}.
+}
+
+Please be warned that the naming conventions vary between sources. For
+example Wikipedia calls \eqn{D} the Simpson index and \eqn{1 - D} the
+Gini-Simpson index. We have followed the convention from \code{vegan}, to
+avoid confusion within the \code{R} ecosystem.
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+dominance(x)
+
+# Simpson is 1 - D
+simpson(x)
+1 - dominance(x)
+
+# Inverse Simpson is 1/D
+invsimpson(x)
+1 / dominance(x)
+
+# Simpson's evenness is 1 / (D * S)
+simpson_e(x)
+1 / (dominance(x) * richness(x))
 }

@@ -9,3 +9,20 @@ margalef(x)
 \description{
 Margalef's richness index
 }
+\details{
+For a vector \code{x} of species counts, Margalef's index is
+\deqn{D = \frac{S -1}{\log N},} where \eqn{S} is the total number of species
+observed and \eqn{N} is the total number of counts.
+
+This index is approriate only for raw counts, not transformed counts or
+proportions.
+
+Equivalent to \code{margalef()} in \code{skbio.diversity.alpha}.
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+margalef(x)
+}
+\references{
+Margalef R. Information theory in ecology. General Systems 3. 1958;36-71.
+}

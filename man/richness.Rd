@@ -2,10 +2,25 @@
 % Please edit documentation in R/alpha.R
 \name{richness}
 \alias{richness}
-\title{Richness}
+\title{Richness or number of observed species}
 \usage{
 richness(x)
 }
+\arguments{
+\item{x}{A numeric vector of species counts or proportions.}
+}
 \description{
-Richness
+Richness or number of observed species
+}
+\details{
+The richness is simply the number of nonzero elements in \code{x}.
+Relation to other definitions:
+\itemize{
+  \item Equivalent to \code{observed_otus()} in \code{skbio.diversity.alpha}.
+  \item Equivalent to \code{specnumber} in \code{vegan}.
+}
+}
+\examples{
+x <- c(15, 6, 4, 0, 3, 0)
+richness(x) # 4
 }
