@@ -10,11 +10,9 @@ check_positive <- function (x) {
 #' We exclude functions that return multiple values.
 #' @export
 alpha_diversities <- c(
-    "berger_parker_d", "brillouin_d", "chao1", "dominance", "doubles",
-    "enspie", "goods_coverage", "heip_e", "invsimpson",
+    "berger_parker_d", "brillouin_d", "dominance", "heip_e", "invsimpson",
     "kempton_taylor_q", "margalef", "mcintosh_d", "mcintosh_e", "menhinick",
-    "pielou_e", "richness", "robbins", "shannon", "simpson", "simpson_e",
-    "singles", "strong")
+    "pielou_e", "richness", "shannon", "simpson", "simpson_e", "strong")
 
 #' Berger-Parker dominance
 #'
@@ -36,20 +34,6 @@ berger_parker_d <- function (x) {
     return(NA)
   }
   max(x) / sum(x)
-}
-
-#' Chao's richness estimator
-#' @export
-chao1 <- function (x, bias_corrected = TRUE) {
-  s <- sum(x > 0)
-  f1 <- sum(x == 1)
-  f2 <- sum(x == 2)
-
-  if ((!bias_corrected) & (f1 > 0) & (f2 > 0)) {
-    s + (f1 ^ 2) / (f2 * 2)
-  } else {
-    s + f1 * (f1 - 1) / (2 * (f2 + 1))
-  }
 }
 
 #' Simpson's index and related measures
@@ -160,34 +144,6 @@ simpson_e <- function (x) {
   1 / (D * S)
 }
 
-#' Good's coverage estimator
-#'
-#' @details
-#' For a vector of species counts \code{x}, Good's coverage estimator is
-#' \eqn{1 - n_1 / N}, where \eqn{n_1} is the number of species with a count
-#' value of 1, and \eqn{N} is the total number of counts in the vector. This
-#' function makes sense only for raw count data, not proportions.
-#'
-#' Equivalent to \code{goods_coverage()} in \code{skbio.diversity.alpha}.
-#' @references
-#' Good IJ. The Population Frequencies of Species and the Estimation of
-#' Population Parameters. Biometrika. 1953;40:237-264.
-#' @examples
-#' x <- c(9, 0, 1, 2, 5, 2, 1, 1, 0, 7, 2, 1, 0, 1, 1)
-#' goods_coverage(x) # 1 - 6 / 33
-#' goods_coverage(c(5, 4, 3, 2, 1)) # 1 - 1 / 15
-#' @export
-goods_coverage <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Good's coverage not defined for zero total counts")
-    return(NA)
-  }
-  f1 <- sum(x == 1)
-  n <- sum(x)
-  1 - (f1 / n)
-}
-
 #' Kempton-Taylor Q index
 #'
 #' The Kempton-Taylor Q index is designed to measure species in the middle of
@@ -233,7 +189,6 @@ kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
   n <- length(x)
   lower_idx <- ceiling(n * lower_quantile) + 1
   upper_idx <- floor(n * upper_quantile) + 1
-  print(c(upper_idx, lower_idx))
   x_sorted <- sort(x)
   x_upper <- x_sorted[upper_idx]
   x_lower <- x_sorted[lower_idx]
@@ -371,31 +326,6 @@ menhinick <- function (x) {
 richness <- function (x) {
   check_positive(x)
   sum(x > 0)
-}
-
-#' Robbins' estimator for the probability of unobserved outcomes
-#' @param x A numeric vector of raw species counts.
-#' @details
-#' Robbins' estimator is \eqn{F_1 / (N + 1)}, where \eqn{F_1} is the number of
-#' species observed only once, and \eqn{N} is the total number of counts.
-#' Relation to other definitions:
-#' \itemize{
-#'   \item Equivalent to \code{robbins()} in \code{skbio.diversity.alpha}.
-#'   \item Equivalent to \code{1 - goods_estimator(x)}.
-#' }
-#' @examples
-#' x <- c(9, 0, 1, 2, 5, 2, 1, 1, 0, 7, 2, 1, 0, 1, 1)
-#' robbins(x) # 6 / 33
-#' @export
-robbins <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Robbins' estimator not defined for zero total counts")
-    return(NA)
-  }
-  f1 <- sum(x == 1)
-  n <- sum(x)
-  f1 / n
 }
 
 #' Shannon diversity and related measures
