@@ -20,7 +20,7 @@ software packages, including `vegan`, `scikit-bio`, `Mothur`, and `GUniFrac`.
 
 ## Installation
 
-You can install abdiv from github with:
+You can install `abdiv` from github with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
