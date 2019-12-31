@@ -37,8 +37,8 @@ points exactly.
 \itemize{
   \item Equivalent to \code{kempton_taylor_q()} in
     \code{skbio.diversity.alpha}.
-  \item Similar to \code{qstat} calculator in Mothur, though the
-    implementation differs slightly, and affects the result.
+  \item Similar to the \code{qstat} calculator in Mothur. Our implementation
+    differs slightly, and this difference affects the result.
 }
 }
 \references{

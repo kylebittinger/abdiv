@@ -15,7 +15,7 @@
 #'   \item Equivalent to \code{vegdist()} with \code{method = "euclidean"}.
 #'   \item Equivalent to the \code{euclidean()} function in
 #'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \code{structeuclidean} calculator in Mothur, to
+#'   \item Equivalent to the \code{structeuclidean} calculator in Mothur, to
 #'     \code{speciesprofile} if \code{x} and \code{y} are transformed to
 #'     relative abundance, and to \code{memeuclidean} if \code{x} and \code{y}
 #'     are transformed to presence/absence.
@@ -47,7 +47,7 @@
 #' definitions:
 #' \itemize{
 #'   \item Equivalent to \eqn{D_{17}}{D_17} in Legendre & Legendre.
-#'   \item Equivalent to \code{hellinger} calculator in Mothur.
+#'   \item Equivalent to the \code{hellinger} calculator in Mothur.
 #' }
 #'
 #' The \emph{geodesic metric} is a transformed version of the chord distance.
@@ -151,7 +151,7 @@ kullback_leibler_divergence <- function (x, y) {
 #'   \item Equivalent to \code{vegdist()} with \code{method = "manhattan"}.
 #'   \item Equivalent to the \code{cityblock()} function in
 #'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \code{manhattan} calculator in Mothur.
+#'   \item Equivalent to the \code{manhattan} calculator in Mothur.
 #'   \item Equivalent to \eqn{D_7}{D_7} in Legendre & Legendre.
 #'   \item Whittaker's index of association (\eqn{D_9}{D_9} in Legendre &
 #'     Legendre) is the Manhattan distance computed after transforming to
@@ -318,7 +318,7 @@ chebyshev <- function (x, y) {
 #' \itemize{
 #'   \item Equivalent to the \code{correlation()} function in
 #'     \code{scipy.spatial.distance}.
-#'   \item Equivalent to \code{1 - mempearson} calculator in Mothur.
+#'   \item Equivalent to the \code{1 - mempearson} calculator in Mothur.
 #' }
 #' @examples
 #' x <- c(2, 0)
@@ -469,7 +469,7 @@ minkowski <- function (x, y, p = 1) {
 #' Relation of \code{horn_morisita()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{vegdist()} with \code{method = "horn"}.
-#'   \item Equivalent to \code{morisitahorn} calculator in Mothur.
+#'   \item Equivalent to the \code{morisitahorn} calculator in Mothur.
 #' }
 #' @references
 #' Mosrisita M. Measuring of interspecific association and similarity between
@@ -672,7 +672,7 @@ ruzicka <- function (x, y) {
 #'   \item Equivalent to the \code{dice()} function in
 #'     \code{scipy.spatial.distance}, except that we always convert vectors to
 #'     presence/absence.
-#'   \item Equivalent to \code{sorclass} calculator in Mothur, and to
+#'   \item Equivalent to the \code{sorclass} calculator in Mothur, and to
 #'     \code{1 - whittaker}.
 #'   \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
 #'     Legendre.
@@ -746,7 +746,7 @@ ruzicka <- function (x, y) {
 #'   \item Equivalent to the \code{sokalsneath()} function in
 #'     \code{scipy.spatial.distance}, except that we always convert vectors to
 #'     presence/absence.
-#'   \item Equivalent to \code{anderberg} calculator in Mothur.
+#'   \item Equivalent to the \code{anderberg} calculator in Mothur.
 #'   \item Equivalent to \eqn{1 - S_{10}}{1 - S_10} in Legendre & Legendre.
 #' }
 #'
@@ -863,7 +863,7 @@ yule_dissimilarity <- function (x, y) {
 #'   \item The \code{hamming()} function in \code{scipy.spatial.distance}
 #'     divides the result by the vector length. Our function is equivalent to
 #'     the SciPy version multiplied by the vector length.
-#'   \item Equivalent to \code{hamming} calculator in Mothur for
+#'   \item Equivalent to the \code{hamming} calculator in Mothur for
 #'     presence/absence vectors.
 #' }
 #' @export

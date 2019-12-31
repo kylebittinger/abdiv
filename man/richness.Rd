@@ -18,7 +18,7 @@ Relation to other definitions:
 \itemize{
   \item Equivalent to \code{observed_otus()} in \code{skbio.diversity.alpha}.
   \item Equivalent to \code{specnumber} in \code{vegan}.
-  \item Equivalent to \code{sobs} calculator in Mothur.
+  \item Equivalent to the \code{sobs} calculator in Mothur.
 }
 }
 \examples{

@@ -42,7 +42,7 @@ accounts for sampling without replacement. For a vector of species counts
 } where \eqn{N} is the total number of counts. Relation to other definitions:
 \itemize{
   \item Equivalent to \code{brillouin_d()} in \code{skbio.diversity.alpha}.
-  \item Equivalent to \code{shannon} calculator in Mothur.
+  \item Equivalent to the \code{shannon} calculator in Mothur.
 }
 
 The Brillouin index accounts for the total number of individuals sampled,

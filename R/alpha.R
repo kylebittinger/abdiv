@@ -13,7 +13,7 @@ check_positive <- function (x) {
 #' \itemize{
 #'   \item Equivalent to \code{berger_parker_d()} in
 #'     \code{skbio.diversity.alpha}.
-#'   \item Equivalent to \code{bergerparker} calculator in Mothur.
+#'   \item Equivalent to the \code{bergerparker} calculator in Mothur.
 #' }
 #' @references
 #' Berger WH, Parker FL. Diversity of Planktonic Foraminifera in Deep-Sea
@@ -47,7 +47,7 @@ berger_parker_d <- function (x) {
 #' with replacement. Relation to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{dominance()} in \code{skbio.diversity.alpha}.
-#'   \item Similar to \code{simpson} calculator in Mothur, though they use the
+#'   \item Similar to the \code{simpson} calculator in Mothur. They use the
 #'     unbiased estimate \eqn{p_i = x_i (x_i - 1) / (N (N -1))}.
 #' }
 #'
@@ -65,7 +65,7 @@ berger_parker_d <- function (x) {
 #'   \item Equivalent to \code{diversity()} in \code{vegan} with
 #'     \code{index = "invsimpson"}.
 #'   \item Equivalent to \code{enspie()} in \code{skbio.diversity.alpha}.
-#'   \item Similar to \code{invsimpson} calculator in Mothur, though they use
+#'   \item Similar to the \code{invsimpson} calculator in Mothur. They use
 #'     the unbiased estimate \eqn{p_i = x_i (x_i - 1) / (N (N -1))}.
 #' }
 #'
@@ -172,8 +172,8 @@ simpson_e <- function (x) {
 #' \itemize{
 #'   \item Equivalent to \code{kempton_taylor_q()} in
 #'     \code{skbio.diversity.alpha}.
-#'   \item Similar to \code{qstat} calculator in Mothur, though the
-#'     implementation differs slightly, and affects the result.
+#'   \item Similar to the \code{qstat} calculator in Mothur. Our implementation
+#'     differs slightly, and this difference affects the result.
 #' }
 #' @references
 #' Kempton RA, Taylor LR. Models and statistics for species diversity. Nature.
@@ -322,7 +322,7 @@ menhinick <- function (x) {
 #' \itemize{
 #'   \item Equivalent to \code{observed_otus()} in \code{skbio.diversity.alpha}.
 #'   \item Equivalent to \code{specnumber} in \code{vegan}.
-#'   \item Equivalent to \code{sobs} calculator in Mothur.
+#'   \item Equivalent to the \code{sobs} calculator in Mothur.
 #' }
 #' @examples
 #' x <- c(15, 6, 4, 0, 3, 0)
@@ -359,7 +359,7 @@ richness <- function (x) {
 #' } where \eqn{N} is the total number of counts. Relation to other definitions:
 #' \itemize{
 #'   \item Equivalent to \code{brillouin_d()} in \code{skbio.diversity.alpha}.
-#'   \item Equivalent to \code{shannon} calculator in Mothur.
+#'   \item Equivalent to the \code{shannon} calculator in Mothur.
 #' }
 #'
 #' The Brillouin index accounts for the total number of individuals sampled,

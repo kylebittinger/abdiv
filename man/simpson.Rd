@@ -30,7 +30,7 @@ equal to the probability of selecting two individuals from the same species,
 with replacement. Relation to other definitions:
 \itemize{
   \item Equivalent to \code{dominance()} in \code{skbio.diversity.alpha}.
-  \item Similar to \code{simpson} calculator in Mothur, though they use the
+  \item Similar to the \code{simpson} calculator in Mothur. They use the
     unbiased estimate \eqn{p_i = x_i (x_i - 1) / (N (N -1))}.
 }
 
@@ -48,7 +48,7 @@ The inverse Simpson index is \eqn{1/D}. Relation to other definitions:
   \item Equivalent to \code{diversity()} in \code{vegan} with
     \code{index = "invsimpson"}.
   \item Equivalent to \code{enspie()} in \code{skbio.diversity.alpha}.
-  \item Similar to \code{invsimpson} calculator in Mothur, though they use
+  \item Similar to the \code{invsimpson} calculator in Mothur. They use
     the unbiased estimate \eqn{p_i = x_i (x_i - 1) / (N (N -1))}.
 }
 

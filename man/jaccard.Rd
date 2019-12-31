@@ -77,7 +77,7 @@ species, counting over each sample individually. Relation of
   \item Equivalent to the \code{dice()} function in
     \code{scipy.spatial.distance}, except that we always convert vectors to
     presence/absence.
-  \item Equivalent to \code{sorclass} calculator in Mothur, and to
+  \item Equivalent to the \code{sorclass} calculator in Mothur, and to
     \code{1 - whittaker}.
   \item Equivalent to \eqn{D_{13} = 1 - S_8}{D_13 = 1 - S_8} in Legendre &
     Legendre.
@@ -151,7 +151,7 @@ definitions:
   \item Equivalent to the \code{sokalsneath()} function in
     \code{scipy.spatial.distance}, except that we always convert vectors to
     presence/absence.
-  \item Equivalent to \code{anderberg} calculator in Mothur.
+  \item Equivalent to the \code{anderberg} calculator in Mothur.
   \item Equivalent to \eqn{1 - S_{10}}{1 - S_10} in Legendre & Legendre.
 }
 
