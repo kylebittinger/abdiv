@@ -2,8 +2,8 @@
 #'
 #' The diversity functions offered in \code{abdiv} are organized based on the
 #' function signature.
-#'
-#' @format
+#' @format Four objects of class \code{character}.
+#' @details
 #' The following character vectors are provided:
 #' \describe{
 #'   \item{\code{alpha_diversities}}{

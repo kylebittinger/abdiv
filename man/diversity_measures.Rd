@@ -8,7 +8,22 @@
 \alias{phylogenetic_alpha_diversities}
 \alias{phylogenetic_beta_diversities}
 \title{Diversity measures implemented}
-\format{The following character vectors are provided:
+\format{Four objects of class \code{character}.}
+\usage{
+alpha_diversities
+
+beta_diversities
+
+phylogenetic_alpha_diversities
+
+phylogenetic_beta_diversities
+}
+\description{
+The diversity functions offered in \code{abdiv} are organized based on the
+function signature.
+}
+\details{
+The following character vectors are provided:
 \describe{
   \item{\code{alpha_diversities}}{
     All non-phylogenetic alpha diversity measures. These functions take a
@@ -25,18 +40,6 @@
     Phylogenetic measures of beta diversity. These functions take two
     numeric vectors, a phylogenetic tree object, and optionally a
     character vector of species labels.}
-}}
-\usage{
-alpha_diversities
-
-beta_diversities
-
-phylogenetic_alpha_diversities
-
-phylogenetic_beta_diversities
 }
-\description{
-The diversity functions offered in \code{abdiv} are organized based on the
-function signature.
 }
 \keyword{datasets}
