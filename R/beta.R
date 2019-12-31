@@ -1,19 +1,3 @@
-#' All beta-diversity measures
-#'
-#' We exclude the phylogenetic measures and functions that return multiple
-#' values.
-#' @export
-beta_diversities <- c(
-  "euclidean", "rms_distance", "chord", "hellinger", "geodesic_metric",
-  "kullback_leibler_divergence", "manhattan", "mean_character_difference",
-  "modified_mean_character_difference", "canberra",
-  "clark_coefficient_of_divergence", "chebyshev", "correlation_distance",
-  "cosine_distance", "bray_curtis", "weighted_kulczynski_second", "minkowski",
-  "morisita", "horn_morisita", "binomial_deviance", "cy_dissimilarity",
-  "ruzicka", "jaccard", "sorenson", "kulczynski_first", "kulczynski_second",
-  "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
-  "yule_dissimilarity", "hamming")
-
 #' Euclidean and related distances
 #'
 #' These distance and diversity measures are mathematically similar to the

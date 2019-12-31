@@ -5,15 +5,6 @@ check_positive <- function (x) {
   TRUE
 }
 
-#' All alpha diversity measures
-#'
-#' We exclude functions that return multiple values.
-#' @export
-alpha_diversities <- c(
-    "berger_parker_d", "brillouin_d", "dominance", "heip_e", "invsimpson",
-    "kempton_taylor_q", "margalef", "mcintosh_d", "mcintosh_e", "menhinick",
-    "pielou_e", "richness", "shannon", "simpson", "simpson_e", "strong")
-
 #' Berger-Parker dominance
 #'
 #' The Berger-Parker dominance is the proportion of the most abundant species.
