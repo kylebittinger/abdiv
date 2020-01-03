@@ -24,7 +24,7 @@ of species.
 }
 \details{
 For a vector of species counts \code{x}, the dominance index is defined as
-\deqn{D = \sum_i p_i,} where \eqn{p_i} is the species proportion,
+\deqn{D = \sum_i p_i^2,} where \eqn{p_i} is the species proportion,
 \eqn{p_i = x_i / N}, and \eqn{N} is the total number of counts. This is
 equal to the probability of selecting two individuals from the same species,
 with replacement. Relation to other definitions:

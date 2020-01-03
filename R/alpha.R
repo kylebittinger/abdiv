@@ -1,10 +1,3 @@
-check_positive <- function (x) {
-  if (any(x < 0)) {
-    stop("Data in count vector is < 0")
-  }
-  TRUE
-}
-
 #' Berger-Parker dominance
 #'
 #' The Berger-Parker dominance is the proportion of the most abundant species.
@@ -23,11 +16,6 @@ check_positive <- function (x) {
 #' berger_parker_d(x) # 15 / 28
 #' @export
 berger_parker_d <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Berger-Parker dominance not defined for zero total counts")
-    return(NA)
-  }
   max(x) / sum(x)
 }
 
@@ -41,7 +29,7 @@ berger_parker_d <- function (x) {
 #'
 #' @details
 #' For a vector of species counts \code{x}, the dominance index is defined as
-#' \deqn{D = \sum_i p_i,} where \eqn{p_i} is the species proportion,
+#' \deqn{D = \sum_i p_i^2,} where \eqn{p_i} is the species proportion,
 #' \eqn{p_i = x_i / N}, and \eqn{N} is the total number of counts. This is
 #' equal to the probability of selecting two individuals from the same species,
 #' with replacement. Relation to other definitions:
@@ -96,11 +84,6 @@ berger_parker_d <- function (x) {
 #' 1 / (dominance(x) * richness(x))
 #' @export
 simpson <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Simpson diversity not defined for zero total counts")
-    return(NA)
-  }
   p <- x / sum(x)
   1 - sum(p ** 2)
 }
@@ -108,11 +91,6 @@ simpson <- function (x) {
 #' @rdname simpson
 #' @export
 dominance <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Dominance not defined for zero total counts")
-    return(NA)
-  }
   p <- x / sum(x)
   sum(p ** 2)
 }
@@ -120,11 +98,6 @@ dominance <- function (x) {
 #' @rdname simpson
 #' @export
 invsimpson <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Inverse simpson not defined for zero total counts")
-    return(NA)
-  }
   p <- x / sum(x)
   1 / sum(p ** 2)
 }
@@ -132,11 +105,6 @@ invsimpson <- function (x) {
 #' @rdname simpson
 #' @export
 simpson_e <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Simpson's evenness not defined for zero total counts")
-    return(NA)
-  }
   p <- x / sum(x)
   D <- sum(p ** 2)
   S <- sum(x > 0)
@@ -180,11 +148,6 @@ simpson_e <- function (x) {
 #' 1976;262:818-820.
 #' @export
 kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Kempton-Taylor Q index not defined for zero total counts")
-    return(NA)
-  }
   # I'm sure there is a better way to do this with R's quantile function,
   # but not sure how to guarantee that the result always replicates the one
   # obtained via this algorithm.
@@ -217,11 +180,6 @@ kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
 #' margalef(x)
 #' @export
 margalef <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Margalef's richness not defined for zero total counts")
-    return(NA)
-  }
   s <- sum(x > 0)
   n <- sum(x)
   (s - 1) / log(n)
@@ -246,11 +204,6 @@ margalef <- function (x) {
 #' mcintosh_d(x)
 #' @export
 mcintosh_d <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("McIntosh dominance not defined for zero total counts")
-    return(NA)
-  }
   # Equation 4
   n <- sum(x)
   u <- sqrt(sum(x ^ 2))
@@ -277,11 +230,6 @@ mcintosh_d <- function (x) {
 #' mcintosh_e(x)
 #' @export
 mcintosh_e <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("McIntosh evenness not defined for zero total counts")
-    return(NA)
-  }
   n <- sum(x)
   s <- sum(x > 0)
   numerator <- sqrt(sum(x ^ 2))
@@ -305,11 +253,6 @@ mcintosh_e <- function (x) {
 #' menhinick(x)
 #' @export
 menhinick <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Menhinick's richness not defined for zero total counts")
-    return(NA)
-  }
   n <- sum(x)
   s <- sum(x > 0)
   s / sqrt(n)
@@ -329,7 +272,6 @@ menhinick <- function (x) {
 #' richness(x) # 4
 #' @export
 richness <- function (x) {
-  check_positive(x)
   sum(x > 0)
 }
 
@@ -403,25 +345,16 @@ richness <- function (x) {
 #' shannon(x) / log(richness(x))
 #' @export
 shannon <- function (x, base=exp(1)) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Shannon diversity not defined zero total counts")
-    return(NA)
-  }
-  # Remove zero values; they produce NaN's in the log function
-  x <- x[x > 0]
   p <- x / sum(x)
-  -sum(p * log(p, base=base))
+  # Zero values produce NaN's in the log function
+  # By convention, p * log(p) is zero when p is zero
+  p_logp <- ifelse(p == 0, 0, p * log(p, base=base))
+  -sum(p_logp)
 }
 
 #' @rdname shannon
 #' @export
 brillouin_d <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Brillouin index not defined for zero total counts")
-    return(NA)
-  }
   n <- sum(x)
   nz <- x[x > 0]
   (lfactorial(n) - sum(lfactorial(nz))) / n
@@ -430,16 +363,7 @@ brillouin_d <- function (x) {
 #' @rdname shannon
 #' @export
 heip_e <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Heip's evenness not defined for zero total counts")
-    return(NA)
-  }
   s <- sum(x > 0)
-  if (s == 1) {
-    warning("Heip's evenness not defined for single species")
-    return(NA)
-  }
   h <- shannon(x)
   (exp(h) - 1) / (s - 1)
 }
@@ -447,11 +371,6 @@ heip_e <- function (x) {
 #' @rdname shannon
 #' @export
 pielou_e <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Pielou's Evenness not defined for zero total counts")
-    return(NA)
-  }
   h <- shannon(x)
   s <- sum(x > 0)
   h / log(s)
@@ -478,11 +397,6 @@ pielou_e <- function (x) {
 #' strong(x)
 #' @export
 strong <- function (x) {
-  check_positive(x)
-  if (sum(x) == 0) {
-    warning("Strong's dominance not defined for zero total counts")
-    return(NA)
-  }
   n <- sum(x)
   s <- sum(x > 0)
   sorted_sum <- cumsum(sort(x, decreasing = TRUE))
