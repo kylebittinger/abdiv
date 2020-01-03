@@ -91,22 +91,41 @@ test_that("Alpha diversity values are consistent with Mothur", {
 test_that("Empty count vectors give correct values", {
   x_empty <- c(0, 0, 0, 0)
   expect_equal(berger_parker_d(x_empty), NaN)
-  expect_equal(brillouin_d(x_empty), NaN)
+  expect_equal(simpson(x_empty), NaN)
   expect_equal(dominance(x_empty), NaN)
   expect_equal(invsimpson(x_empty), NaN)
-  expect_equal(heip_e(x_empty), NaN)
-  expect_equal(invsimpson(x_empty), NaN)
+  expect_equal(simpson_e(x_empty), NaN)
   expect_equal(kempton_taylor_q(x_empty), NaN)
-  expect_equal(margalef(x_empty), 0) # Check that this is valid
+  expect_equal(margalef(x_empty), NaN)
   expect_equal(mcintosh_d(x_empty), NaN)
   expect_equal(mcintosh_e(x_empty), NaN)
   expect_equal(menhinick(x_empty), NaN)
-  expect_equal(pielou_e(x_empty), NaN)
-  expect_equal(richness(x_empty), 0)
+  expect_equal(richness(x_empty), 0) # Only richness gives an answer here
   expect_equal(shannon(x_empty), NaN)
-  expect_equal(simpson(x_empty), NaN)
-  expect_equal(simpson_e(x_empty), NaN)
+  expect_equal(brillouin_d(x_empty), NaN)
+  expect_equal(heip_e(x_empty), NaN)
+  expect_equal(pielou_e(x_empty), NaN)
   expect_equal(strong(x_empty), NaN)
+})
+
+test_that("Count vector with one observation gives correct values", {
+  x_single <- c(0, 0, 0, 1)
+  expect_equal(berger_parker_d(x_single), 1) # max = 1, sum = 1, max / sum = 1
+  expect_equal(simpson(x_single), 0) # 1 - D = 1 - 1 = 0
+  expect_equal(dominance(x_single), 1) # D = sum of squared proportions = 1
+  expect_equal(invsimpson(x_single), 1)# 1 / D = 1 / 1 = 1
+  expect_equal(simpson_e(x_single), 1) # 1 / (D * S) = 1 / (1 * 1) = 1
+  expect_equal(kempton_taylor_q(x_single), 0) # Depends on length of vector
+  expect_equal(margalef(x_single), NaN) # See comments in function
+  expect_equal(mcintosh_d(x_single), NaN) # n = 1, u = 1, (1 - 1)/(1 - 1)
+  expect_equal(mcintosh_e(x_single), 1) # 1 / (1 + 1 - 1) = 1
+  expect_equal(menhinick(x_single), 1) # 1 / sqrt(1) = 1
+  expect_equal(richness(x_single), 1)
+  expect_equal(shannon(x_single), 0) # 1 * log(1) = 0
+  expect_equal(brillouin_d(x_single), 0) # 1 * log(1 / 1) = 1 * 0 = 0
+  expect_equal(heip_e(x_single), NaN) # exp(H) = exp(0) = 1, (1 - 1) / (1 - 1)
+  expect_equal(pielou_e(x_single), NaN) # 0 / log(1) = 0 / 0 = NaN
+  expect_equal(strong(x_single), 0) # 1 / 1 - 1 / 1 = 0
 })
 
 test_that("Alpha diversity values are correct for simple example", {

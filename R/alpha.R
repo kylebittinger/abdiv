@@ -180,9 +180,34 @@ kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
 #' margalef(x)
 #' @export
 margalef <- function (x) {
+  # Margalef is based on the slope of the species-area curve as proposed by
+  # Gleason (1922), where the number of species increases with the log of the
+  # area. Here, the number of individuals, n, is a stand-in for the area. The
+  # equation is:
+  #   s = s0 + z * log(N)
+  # When the number of individuals, n, is one, then z * log(N) is zero. In this
+  # case, s is one by definition, so s0 must be one.  Making this substitution
+  # and solving for z, we get
+  #   z = (s - 1) / log(N)
+  # When we only observe one individual, we don't know the slope. Numerically,
+  # we encounter zero divided by zero, so we expect NaN as a result. This is
+  # what R returns.
+  # When we observe no individuals, we also dont't know the slope. Numerically,
+  # we encounter negative one over negative infinity, which R interprets as
+  # zero. However, if we return to the original equation, we see that z must be
+  # a number that multiplies negative infinity to produce negative one. Zero
+  # does not fulfill this role, and is not an acceptable answer.
+  #   0 = 1 + z * (-Inf)
+  # The quantity z is undefined at n = 1, and we also consider it to be
+  # undefined at n = 0. Therefore, we take special care to return NaN when
+  # n = 0.
   s <- sum(x > 0)
   n <- sum(x)
-  (s - 1) / log(n)
+  if (n == 0) {
+    NaN
+  } else {
+    (s - 1) / log(n)
+  }
 }
 
 #' McIntosh dominance index D
