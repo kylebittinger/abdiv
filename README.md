@@ -35,7 +35,7 @@ site2 <- c(0, 0, 8, 8, 8)
 ```
 
 The two sites have about the same number of total plants, but the
-ditsribution of species is much different. More than half the plants in
+distribution of species is much different. More than half the plants in
 site 1 belong to a single species, whereas the plants in site 2 are
 almost evenly distributed across three different species. To get
 started, let’s look at a few ways to quantify the α-diversity for each
@@ -181,7 +181,7 @@ faith_pd(c(0, 1, 1, 1, 1), faith_tree)
 ```
 
 The practice of using phylogenetic information in diversity has been
-especially popular in microbial ecology, where bacteria are suveyed
+especially popular in microbial ecology, where bacteria are surveyed
 using the 16S rRNA marker gene. In addition to serving as a fingerprint
 for bacteria, the gene sequence can be used to build a phylogenetic
 tree.

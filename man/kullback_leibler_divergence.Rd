@@ -14,7 +14,7 @@ Kullback-Leibler divergence
 }
 \details{
 Kullback-Leibler divergence is a non-symmetric measure of difference between
-two porbability vectors. In general, KL(x, y) is not equal to KL(y, x).
+two probability vectors. In general, KL(x, y) is not equal to KL(y, x).
 
 Because this measure is defined for probabilities, the vectors x and y are
 normalized in the function so they sum to 1.

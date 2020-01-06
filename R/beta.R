@@ -114,7 +114,7 @@ geodesic_metric <- function (x, y) {
 #'
 #' @details
 #' Kullback-Leibler divergence is a non-symmetric measure of difference between
-#' two porbability vectors. In general, KL(x, y) is not equal to KL(y, x).
+#' two probability vectors. In general, KL(x, y) is not equal to KL(y, x).
 #'
 #' Because this measure is defined for probabilities, the vectors x and y are
 #' normalized in the function so they sum to 1.
@@ -177,7 +177,7 @@ kullback_leibler_divergence <- function (x, y) {
 #'   \item For binary data, it is equivalent to the Jaccard distance.
 #' }
 #' @references
-#' Cain AJ, Harrison GA. An analysis of the taxonomist's judgement of affinity.
+#' Cain AJ, Harrison GA. An analysis of the taxonomist's judgment of affinity.
 #' Proceedings of the Zoological Society of London 1958;131:85-98.
 #' @examples
 #' x <- c(15, 6, 4, 0, 3, 0)

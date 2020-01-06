@@ -17,7 +17,7 @@ For a vector \code{x} of species counts, Margalef's index is
 \deqn{D = \frac{S -1}{\log N},} where \eqn{S} is the total number of species
 observed and \eqn{N} is the total number of counts.
 
-This index is approriate only for raw counts, not transformed counts or
+This index is appropriate only for raw counts, not transformed counts or
 proportions.
 
 Equivalent to \code{margalef()} in \code{skbio.diversity.alpha}.

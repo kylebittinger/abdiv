@@ -17,7 +17,7 @@ For a vector \code{x} of raw species counts, the Menhinick's richness index
 is \eqn{\frac{S}{\sqrt{N}}}, where \eqn{N} is the total number
 of counts and \eqn{S} is the total number of species observed.
 
-This index is approriate only for raw counts, not transformed counts or
+This index is appropriate only for raw counts, not transformed counts or
 proportions.
 
 Equivalent to \code{menhinick()} in \code{skbio.diversity.alpha}.

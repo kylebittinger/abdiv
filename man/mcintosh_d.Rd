@@ -17,7 +17,7 @@ For a vector \code{x} of raw species counts, the McIntosh dominance index is
 defined as \deqn{D = \frac{N - U}{N - \sqrt{N}},} where \eqn{N} is the total
 number of counts and \eqn{U = \sqrt{\sum_i x_i^2}}.
 
-This index is approriate only for raw counts, not transformed counts or
+This index is appropriate only for raw counts, not transformed counts or
 proportions.
 
 Equivalent to \code{mcintosh_d()} in \code{skbio.diversity.alpha}.

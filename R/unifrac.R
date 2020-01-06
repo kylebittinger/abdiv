@@ -149,7 +149,7 @@ faith_pd <- function (x, tree, x_labels = NULL) {
 #' sampling.
 #'
 #' \code{generalized_unifrac} was proposed by Chen et al. (2012) to provide a
-#' unifed matematical framework for weighted and unweighted UniFrac distance.
+#' unified mathematical framework for weighted and unweighted UniFrac distance.
 #' It includes a parameter, \eqn{\alpha}, which can be used to adjust the
 #' abundance-weighting in the distance. A value of \eqn{\alpha = 1} corresponds
 #' to weighted UniFrac. A value of \eqn{\alpha = 0} corresponds to unweighted

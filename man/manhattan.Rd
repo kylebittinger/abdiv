@@ -74,6 +74,6 @@ modified_mean_character_difference(x > 0, y > 0)
 jaccard(x, y)
 }
 \references{
-Cain AJ, Harrison GA. An analysis of the taxonomist's judgement of affinity.
+Cain AJ, Harrison GA. An analysis of the taxonomist's judgment of affinity.
 Proceedings of the Zoological Society of London 1958;131:85-98.
 }

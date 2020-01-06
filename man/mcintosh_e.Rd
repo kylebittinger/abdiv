@@ -18,7 +18,7 @@ is \deqn{E = \frac{\sqrt{\sum_i x_i^2}}{\sqrt{(N - S + 1)^2 + S - 1},}}
 where \eqn{N} is the total number of counts and \eqn{S} is the total
 number of species observed.
 
-This index is approriate only for raw counts, not transformed counts or
+This index is appropriate only for raw counts, not transformed counts or
 proportions.
 
 Equivalent to \code{mcintosh_e()} in \code{skbio.diversity.alpha}.
