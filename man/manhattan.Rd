@@ -38,8 +38,8 @@ other definitions:
 }
 
 The mean character difference is the Manhattan distance divided by the
-length of the vectors. Relation of \code{mean_character_difference()} to
-other definitions:
+length of the vectors. It was proposed by Cain and Harrison in 1958.
+Relation of \code{mean_character_difference()} to other definitions:
 \itemize{
   \item Equivalent to \eqn{D_8} in Legendre & Legendre.
   \item For binary data, equivalent to \eqn{1 - S_1} in Legendre & Legendre,
@@ -72,4 +72,8 @@ modified_mean_character_difference(x, y)
 # Jaccard distance for presence/absence data
 modified_mean_character_difference(x > 0, y > 0)
 jaccard(x, y)
+}
+\references{
+Cain AJ, Harrison GA. An analysis of the taxonomist's judgement of affinity.
+Proceedings of the Zoological Society of London 1958;131:85-98.
 }
