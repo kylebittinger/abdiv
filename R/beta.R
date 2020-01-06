@@ -159,8 +159,8 @@ kullback_leibler_divergence <- function (x, y) {
 #' }
 #'
 #' The mean character difference is the Manhattan distance divided by the
-#' length of the vectors. Relation of \code{mean_character_difference()} to
-#' other definitions:
+#' length of the vectors. It was proposed by Cain and Harrison in 1958.
+#' Relation of \code{mean_character_difference()} to other definitions:
 #' \itemize{
 #'   \item Equivalent to \eqn{D_8} in Legendre & Legendre.
 #'   \item For binary data, equivalent to \eqn{1 - S_1} in Legendre & Legendre,

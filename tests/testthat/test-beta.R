@@ -370,3 +370,11 @@ test_that("Clark matches Clark 1952 paper", {
   # 0.289 in paper
   expect_equal(clark_coefficient_of_divergence(Ai, Ci), 0.2888010841)
 })
+
+test_that("Mean character difference matches Cain 1959 paper", {
+  # Table 1
+  A <- c(100, 100,  75, 5,  90, 100, 90)
+  B <- c( 90,  85, 100, 5, 100,  50, 95)
+  # Table 2
+  expect_equal(mean_character_difference(A, B), 115 / 7)
+})
