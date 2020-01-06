@@ -176,6 +176,9 @@ kullback_leibler_divergence <- function (x, y) {
 #'   \item Equivalent to \code{vegdist()} with \code{method = "altGower"}.
 #'   \item For binary data, it is equivalent to the Jaccard distance.
 #' }
+#' @references
+#' Cain AJ, Harrison GA. An analysis of the taxonomist's judgement of affinity.
+#' Proceedings of the Zoological Society of London 1958;131:85-98.
 #' @examples
 #' x <- c(15, 6, 4, 0, 3, 0)
 #' y <- c(10, 2, 0, 1, 1, 0)
