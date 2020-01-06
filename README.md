@@ -1,6 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![Travis build
+status](https://travis-ci.org/kylebittinger/abdiv.svg?branch=master)](https://travis-ci.org/kylebittinger/abdiv)
+
 # abdiv
 
 This package re-implements measures of ecological diversity from several

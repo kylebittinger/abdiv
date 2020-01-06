@@ -4,6 +4,8 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![Travis build status](https://travis-ci.org/kylebittinger/abdiv.svg?branch=master)](https://travis-ci.org/kylebittinger/abdiv)
+
 ```{r, echo = FALSE, message=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,

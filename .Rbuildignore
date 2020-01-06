@@ -4,3 +4,4 @@
 ^README-files/README-.*\.png$
 ^data-raw$
 ^LICENSE\.md$
+^\.travis\.yml$
