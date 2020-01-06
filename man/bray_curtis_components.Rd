@@ -2,19 +2,19 @@
 % Please edit documentation in R/beta_components.R
 \name{bray_curtis_components}
 \alias{bray_curtis_components}
-\alias{bray_curtis_balanced_component}
-\alias{bray_curtis_gradient_component}
-\alias{ruzicka_balanced_component}
-\alias{ruzicka_gradient_component}
+\alias{bray_curtis_balanced}
+\alias{bray_curtis_gradient}
+\alias{ruzicka_balanced}
+\alias{ruzicka_gradient}
 \title{Balanced variation and abundance gradient components for abundance data}
 \usage{
-bray_curtis_balanced_component(x, y)
+bray_curtis_balanced(x, y)
 
-bray_curtis_gradient_component(x, y)
+bray_curtis_gradient(x, y)
 
-ruzicka_balanced_component(x, y)
+ruzicka_balanced(x, y)
 
-ruzicka_gradient_component(x, y)
+ruzicka_gradient(x, y)
 }
 \arguments{
 \item{x, y}{Numeric vectors}

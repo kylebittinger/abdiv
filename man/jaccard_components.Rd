@@ -2,19 +2,19 @@
 % Please edit documentation in R/beta_components.R
 \name{jaccard_components}
 \alias{jaccard_components}
-\alias{jaccard_turnover_component}
-\alias{jaccard_nestedness_component}
-\alias{sorenson_turnover_component}
-\alias{sorenson_nestedness_component}
+\alias{jaccard_turnover}
+\alias{jaccard_nestedness}
+\alias{sorenson_turnover}
+\alias{sorenson_nestedness}
 \title{Nestedness and turnover components for presence/absence data}
 \usage{
-jaccard_turnover_component(x, y)
+jaccard_turnover(x, y)
 
-jaccard_nestedness_component(x, y)
+jaccard_nestedness(x, y)
 
-sorenson_turnover_component(x, y)
+sorenson_turnover(x, y)
 
-sorenson_nestedness_component(x, y)
+sorenson_nestedness(x, y)
 }
 \arguments{
 \item{x, y}{Numeric vectors}

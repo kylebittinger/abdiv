@@ -46,10 +46,10 @@ beta_diversities <- sort(c(
   "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
   "yule_dissimilarity", "hamming",
   # From beta_components.R
-  "jaccard_turnover_component", "jaccard_nestedness_component",
-  "sorenson_turnover_component", "sorenson_nestedness_component",
-  "bray_curtis_balanced_component", "bray_curtis_gradient_component",
-  "ruzicka_balanced_component", "ruzicka_gradient_component"))
+  "jaccard_turnover", "jaccard_nestedness",
+  "sorenson_turnover", "sorenson_nestedness",
+  "bray_curtis_balanced", "bray_curtis_gradient",
+  "ruzicka_balanced", "ruzicka_gradient"))
 
 #' @rdname diversity_measures
 #' @export
@@ -62,6 +62,5 @@ phylogenetic_beta_diversities <- sort(c(
   "unweighted_unifrac", "weighted_unifrac", "weighted_normalized_unifrac",
   "variance_adjusted_unifrac", "generalized_unifrac", "information_unifrac",
   # From beta_components.R
-  "unweighted_unifrac_turnover_component",
-  "unweighted_unifrac_nestedness_component",
-  "phylosor_turnover_component", "phylosor_nestedness_component"))
+  "unweighted_unifrac_turnover", "unweighted_unifrac_nestedness",
+  "phylosor_turnover", "phylosor_nestedness"))

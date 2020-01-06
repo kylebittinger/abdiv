@@ -2,19 +2,19 @@
 % Please edit documentation in R/beta_components.R
 \name{unifrac_components}
 \alias{unifrac_components}
-\alias{unweighted_unifrac_turnover_component}
-\alias{unweighted_unifrac_nestedness_component}
-\alias{phylosor_turnover_component}
-\alias{phylosor_nestedness_component}
+\alias{unweighted_unifrac_turnover}
+\alias{unweighted_unifrac_nestedness}
+\alias{phylosor_turnover}
+\alias{phylosor_nestedness}
 \title{Nestedness and turnover components of unweighted UniFrac distance}
 \usage{
-unweighted_unifrac_turnover_component(x, y, tree, xy_labels = NULL)
+unweighted_unifrac_turnover(x, y, tree, xy_labels = NULL)
 
-unweighted_unifrac_nestedness_component(x, y, tree, xy_labels = NULL)
+unweighted_unifrac_nestedness(x, y, tree, xy_labels = NULL)
 
-phylosor_turnover_component(x, y, tree, xy_labels = NULL)
+phylosor_turnover(x, y, tree, xy_labels = NULL)
 
-phylosor_nestedness_component(x, y, tree, xy_labels = NULL)
+phylosor_nestedness(x, y, tree, xy_labels = NULL)
 }
 \arguments{
 \item{x, y}{Numeric vectors of species counts or proportions.}
@@ -42,23 +42,23 @@ x <- c(1, 1, 1, 0, 0, 0, 0, 0)
 y <- c(0, 1, 1, 1, 0, 0, 0, 0)
 
 unweighted_unifrac(x, y, leprieur_tree)
-unweighted_unifrac_turnover_component(x, y, leprieur_tree)
-unweighted_unifrac_nestedness_component(x, y, leprieur_tree)
+unweighted_unifrac_turnover(x, y, leprieur_tree)
+unweighted_unifrac_nestedness(x, y, leprieur_tree)
 
 phylosor(x, y, leprieur_tree)
-phylosor_turnover_component(x, y, leprieur_tree)
-phylosor_nestedness_component(x, y, leprieur_tree)
+phylosor_turnover(x, y, leprieur_tree)
+phylosor_nestedness(x, y, leprieur_tree)
 
 # Vectors y and z have nestedness but no turnover
 z <- c(0, 1, 1, 1, 1, 1, 1, 1)
 
 unweighted_unifrac(y, z, leprieur_tree)
-unweighted_unifrac_turnover_component(y, z, leprieur_tree)
-unweighted_unifrac_nestedness_component(y, z, leprieur_tree)
+unweighted_unifrac_turnover(y, z, leprieur_tree)
+unweighted_unifrac_nestedness(y, z, leprieur_tree)
 
 phylosor(y, z, leprieur_tree)
-phylosor_turnover_component(y, z, leprieur_tree)
-phylosor_nestedness_component(y, z, leprieur_tree)
+phylosor_turnover(y, z, leprieur_tree)
+phylosor_nestedness(y, z, leprieur_tree)
 }
 \references{
 Baselga A. Partitioning the turnover and nestedness components of beta
