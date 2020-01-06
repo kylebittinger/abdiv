@@ -3,7 +3,7 @@
 make_edge_matrix <- function (tree) {
   edge_nodes <- tree$edge[,2]
   np <- ape::nodepath(tree)
-  sapply(np, function (x) edge_nodes %in% x)
+  do.call(cbind, lapply(np, function (x) as.integer(edge_nodes %in% x)))
 }
 
 get_branch_abundances <- function (edge_matrix, node_abundances) {
