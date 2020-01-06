@@ -333,7 +333,7 @@ chebyshev <- function (x, y) {
 #' 1 - cor(v, w)
 #' @export
 correlation_distance <- function (x, y) {
-  1 - cor(x, y)
+  1 - stats::cor(x, y)
 }
 
 #' @rdname correlation_distance
