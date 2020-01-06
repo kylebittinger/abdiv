@@ -1,9 +1,8 @@
 Package: abdiv
-Type: Package
 Title: Alpha and Beta Diversity Measures
 Version: 0.2.0
-Author: Kyle Bittinger
-Maintainer: Kyle Bittinger <kylebittinger@gmail.com>
+Authors@R: person("Kyle", "Bittinger", email = "kylebittinger@gmail.com",
+  role = c("aut", "cre"))
 Description: A collection of measures for measuring ecological diversity.
   Ecological diversity comes in two flavors: alpha diversity measures the
   diversity within a single site or sample, and beta diversity measures the
