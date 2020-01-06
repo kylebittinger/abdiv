@@ -369,11 +369,6 @@ phylosor <- function (x, y, tree, xy_labels = NULL) {
 #' This example was used to illustrate unweighted UniFrac distance in Lozupone
 #' and Knight (2005).
 #'
-#' @usage
-#' lozupone_tree
-#' lozupone_panel_a
-#' lozupone_panel_b
-#'
 #' @format \code{lozupone_tree} is a phylogenetic tree with 14 tips, labeled
 #' A-N. It was created with the \code{ape} library.
 #'
@@ -391,3 +386,9 @@ phylosor <- function (x, y, tree, xy_labels = NULL) {
 #' comparing microbial communities. Applied and environmental microbiology.
 #' 2005;71(12):8228–8235. 10.1128/AEM.71.12.8228-8235.2005
 "lozupone_tree"
+
+#' @rdname lozupone_tree
+"lozupone_panel_a"
+
+#' @rdname lozupone_tree
+"lozupone_panel_b"

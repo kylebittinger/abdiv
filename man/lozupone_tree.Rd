@@ -3,6 +3,8 @@
 \docType{data}
 \name{lozupone_tree}
 \alias{lozupone_tree}
+\alias{lozupone_panel_a}
+\alias{lozupone_panel_b}
 \title{Example data for UniFrac distance}
 \format{\code{lozupone_tree} is a phylogenetic tree with 14 tips, labeled
 A-N. It was created with the \code{ape} library.
@@ -23,7 +25,9 @@ comparing microbial communities. Applied and environmental microbiology.
 }
 \usage{
 lozupone_tree
+
 lozupone_panel_a
+
 lozupone_panel_b
 }
 \description{
