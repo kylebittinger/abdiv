@@ -43,6 +43,9 @@ test_that("match_to_tree generates errors correctly", {
   expect_error(
     match_to_tree(c(OTU1 = 1, OTU2 = 0, asdf = 5), skbio_t1),
     "not found in tree")
+  expect_error(
+    match_to_tree(c(1, 0, 5), skbio_t1, c("OTU1", "OTU2")),
+    "length of x_labels")
 })
 
 test_that("match_to_tree re-arranges input vectors to match tree", {
