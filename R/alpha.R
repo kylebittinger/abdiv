@@ -2,6 +2,7 @@
 #'
 #' The Berger-Parker dominance is the proportion of the most abundant species.
 #'
+#' @param x A numeric vector of species counts or proportions.
 #' @details
 #' \itemize{
 #'   \item Equivalent to \code{berger_parker_d()} in
@@ -27,6 +28,7 @@ berger_parker_d <- function (x) {
 #' quantity, and \code{simpson_e} gives the reciprocal divided by the number
 #' of species.
 #'
+#' @param x A numeric vector of species counts or proportions.
 #' @details
 #' For a vector of species counts \code{x}, the dominance index is defined as
 #' \deqn{D = \sum_i p_i^2,} where \eqn{p_i} is the species proportion,
@@ -164,6 +166,7 @@ kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
 
 #' Margalef's richness index
 #'
+#' @param x A numeric vector of species counts.
 #' @details
 #' For a vector \code{x} of species counts, Margalef's index is
 #' \deqn{D = \frac{S -1}{\log N},} where \eqn{S} is the total number of species

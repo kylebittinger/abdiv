@@ -118,6 +118,7 @@ faith_pd <- function (x, tree, x_labels = NULL) {
 #' @param tree A phylogenetic tree object.
 #' @param xy_labels A character vector of species labels for \code{x} and
 #'   \code{y}.
+#' @param alpha Generalized UniFrac parameter.
 #' @return The UniFrac distance between communities \code{x} and \code{y}.
 #' @details
 #' These functions compute different variations of the UniFrac distance between

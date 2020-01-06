@@ -422,7 +422,8 @@ weighted_kulczynski_second <- function (x, y) {
 #' The Minkowski metric is a generalized form of Euclidean (p=2) and Manhattan
 #' (p=1) distance.
 #'
-#' @param x,y Numeric vectors
+#' @param x,y Numeric vectors.
+#' @param p Exponent parameter.
 #'
 #' @details
 #' For vectors \code{x} and \code{y}, the Minkowski distance is defined as
@@ -860,6 +861,7 @@ yule_dissimilarity <- function (x, y) {
 #' The Hamming distance is the number of positions where the values are
 #' different.
 #'
+#' @param x,y Numeric vectors.
 #' @details
 #' For vectors \code{x} and \code{y}, the Hamming distance is defined as
 #' \deqn{d(x, y) = \sum_i [x_i \neq y_i],} where the quantity in the brackets

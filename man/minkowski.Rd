@@ -7,7 +7,9 @@
 minkowski(x, y, p = 1)
 }
 \arguments{
-\item{x, y}{Numeric vectors}
+\item{x, y}{Numeric vectors.}
+
+\item{p}{Exponent parameter.}
 }
 \description{
 The Minkowski metric is a generalized form of Euclidean (p=2) and Manhattan

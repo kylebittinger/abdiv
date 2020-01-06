@@ -6,6 +6,9 @@
 \usage{
 hamming(x, y)
 }
+\arguments{
+\item{x, y}{Numeric vectors.}
+}
 \description{
 The Hamming distance is the number of positions where the values are
 different.

@@ -6,6 +6,9 @@
 \usage{
 margalef(x)
 }
+\arguments{
+\item{x}{A numeric vector of species counts.}
+}
 \description{
 Margalef's richness index
 }

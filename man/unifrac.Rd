@@ -32,6 +32,8 @@ phylosor(x, y, tree, xy_labels = NULL)
 
 \item{xy_labels}{A character vector of species labels for \code{x} and
 \code{y}.}
+
+\item{alpha}{Generalized UniFrac parameter.}
 }
 \value{
 The UniFrac distance between communities \code{x} and \code{y}.

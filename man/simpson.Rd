@@ -15,6 +15,9 @@ invsimpson(x)
 
 simpson_e(x)
 }
+\arguments{
+\item{x}{A numeric vector of species counts or proportions.}
+}
 \description{
 These measures are based on the sum of squared species proportions. The
 function \code{dominance()} gives this quantity, \code{simpson()} gives one

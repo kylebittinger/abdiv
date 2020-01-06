@@ -6,6 +6,9 @@
 \usage{
 berger_parker_d(x)
 }
+\arguments{
+\item{x}{A numeric vector of species counts or proportions.}
+}
 \description{
 The Berger-Parker dominance is the proportion of the most abundant species.
 }
