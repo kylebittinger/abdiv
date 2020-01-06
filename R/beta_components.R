@@ -16,8 +16,8 @@ jaccard_turnover_component <- function (x, y) {
     x <- x > 0
     y <- y > 0
     a <- sum(x & y)
-    b = sum((!x) & y)
-    c = sum(x & (!y))
+    b <- sum((!x) & y)
+    c <- sum(x & (!y))
     2 * min(b, c) / (a + 2 * min(b, c))
 }
 
@@ -35,8 +35,8 @@ sorenson_turnover_component <- function (x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
-  b = sum((!x) & y)
-  c = sum(x & (!y))
+  b <- sum((!x) & y)
+  c <- sum(x & (!y))
   min(b, c) / (a + min(b, c))
 }
 

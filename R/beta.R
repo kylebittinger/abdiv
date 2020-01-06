@@ -843,8 +843,8 @@ yule_dissimilarity <- function (x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
-  b = sum((!x) & y)
-  c = sum(x & (!y))
+  b <- sum((!x) & y)
+  c <- sum(x & (!y))
   d <- sum((!x) & (!y))
   2 * b * c / (a * d + b * c)
 }
