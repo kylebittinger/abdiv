@@ -242,7 +242,10 @@ modified_mean_character_difference <- function (x, y) {
 #'
 #' Clark's coefficient of divergence involves summing squares and taking a
 #' square root afterwards:
-#' \deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i \left(\frac{x_i - y_i}{x_i + y_i} \right)^2},}
+#' \deqn{
+#'   d(x, y) = \sqrt{
+#'     \frac{1}{n} \sum_i \left( \frac{x_i - y_i}{x_i + y_i} \right)^2
+#'   },}
 #' where \eqn{n} is the number of elements where \code{x > 0}, \code{y > 0}, or
 #' both. Relation of \code{clark_coefficient_of_divergence()} to other
 #' definitions:
@@ -1018,7 +1021,8 @@ hamming <- function (x, y) {
 # D_10 implemented as canberra
 # D_11 implemented as clark_coefficient_of_divergence
 # D_12 (Pearson coefficient of racial likeness) not implemented
-# D_18 (distance between species profiles) not implemented, noted under euclidean
+# D_18 (distance between species profiles) not implemented,
+#   noted under euclidean
 # D_15 (Chi-square metric) not implemented, needs full matrix
 # D_16 (Chi-square distance) not implemented, needs full matrix
 # D_17 implemented as hellinger

@@ -38,7 +38,10 @@ For vectors \code{x} and \code{y}, the Canberra distance is defined as
 
 Clark's coefficient of divergence involves summing squares and taking a
 square root afterwards:
-\deqn{d(x, y) = \sqrt{\frac{1}{n} \sum_i \left(\frac{x_i - y_i}{x_i + y_i} \right)^2},}
+\deqn{
+  d(x, y) = \sqrt{
+    \frac{1}{n} \sum_i \left( \frac{x_i - y_i}{x_i + y_i} \right)^2
+  },}
 where \eqn{n} is the number of elements where \code{x > 0}, \code{y > 0}, or
 both. Relation of \code{clark_coefficient_of_divergence()} to other
 definitions:

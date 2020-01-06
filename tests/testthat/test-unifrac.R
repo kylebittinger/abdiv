@@ -2,7 +2,8 @@ context("unifrac")
 
 # Code for trees generated in tools/make-unifrac-trees.R
 
-t_no_branch_lengths <- structure(list(edge = structure(c(6L, 7L, 8L, 9L, 9L, 8L, 6L,
+t_no_branch_lengths <- structure(
+  list(edge = structure(c(6L, 7L, 8L, 9L, 9L, 8L, 6L,
   10L, 10L, 7L, 8L, 9L, 1L, 2L, 3L, 10L, 4L, 5L), .Dim = c(9L,
   2L)), Nnode = 5L, tip.label = c("OTU1", "OTU2", "OTU3", "OTU4",
   "OTU5")), .Names = c("edge", "Nnode", "tip.label"), class = "phylo",
@@ -78,7 +79,8 @@ test_that("Input vectors are rearranged with keyword argument", {
   expect_equal(unweighted_unifrac(rb0, rb1, skbio_t1, rlabel), 0.238095238095)
   expect_equal(weighted_unifrac(rb0, rb1, skbio_t1, rlabel), 2.4)
   expect_equal(weighted_normalized_unifrac(rb0, rb1, skbio_t1, rlabel), 0.6)
-  expect_equal(generalized_unifrac(rb0, rb1, skbio_t1, 0, rlabel), 0.647619047619048)
+  expect_equal(
+    generalized_unifrac(rb0, rb1, skbio_t1, 0, rlabel), 0.647619047619048)
   expect_equal(information_unifrac(rb0, rb1, skbio_t1, rlabel), 0.1394037899)
 })
 
