@@ -9,7 +9,7 @@ other software packages, including `vegan`, `scikit-bio`, `Mothur`, and
 
 ## Installation
 
-You can install abdiv from github with:
+You can install `abdiv` from github with:
 
 ``` r
 # install.packages("devtools")
