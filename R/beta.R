@@ -105,7 +105,7 @@ hellinger <- function (x, y) {
 #' @rdname euclidean
 #' @export
 geodesic_metric <- function (x, y) {
-  acos(1 - chord(x, y) / 2)
+  acos(1 - (chord(x, y) ^ 2) / 2)
 }
 
 #' Kullback-Leibler divergence

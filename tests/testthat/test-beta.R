@@ -63,10 +63,16 @@ test_that("Distance functions are consistent with Legendre & Legendre", {
   expect_equal(chord(x1, x2), 0.32036449)
   expect_equal(chord(x1, x3), sqrt(2))
   expect_equal(chord(x2, x3), sqrt(2))
-
-  expect_equal(euclidean(c(0, 4, 8), c(1, 0, 0)), 9)
-  expect_equal(euclidean(c(0, 1, 1), c(1, 0, 0)), sqrt(3))
-
+  # Under 7.37
+  # x1 and x3, x2 and x3 at an angle of 90 degrees
+  expect_equal(geodesic_metric(x1, x3), pi / 2)
+  expect_equal(geodesic_metric(x2, x3), pi / 2)
+  # x1 and x2 at an angle of 18.4 degrees
+  expect_equal(geodesic_metric(x1, x2), 18.4349488229 * pi / 180)
+  # Hellinger is chord on sqrt transformed proportions
+  expect_equal(
+    hellinger(x1, x2),
+    chord(sqrt(x1 / sum(x1)), sqrt(x2 / sum(x2))))
   # Under 7.57
   expect_equal(sorenson(c(1, 1, 1, 0, 0), c(0, 0, 0, 1, 1)), 1)
   expect_equal(sorenson(c(1, 1, 1, 0, 0), c(1, 1, 1, 1, 1)), 0.25)
@@ -351,4 +357,16 @@ test_that("Cao index matches Cao (1997) paper", {
   expect_equal(cy_dissimilarity(10, 0), 1.6834893979)
   expect_equal(cy_dissimilarity(100, 90), 0.0018064951)
   expect_equal(cy_dissimilarity(10, 2), 0.3606262540)
+})
+
+test_that("Clark matches Clark 1952 paper", {
+  Ai <- c(8.000, 10.059, 4.000, 4.206, 3.941)
+  Bi <- c(7.969, 10.078, 1.016, 3.078, 2.250)
+  Ci <- c(8.005,  9.968, 1.032, 2.853, 2.739)
+  # 0.301 in paper
+  expect_equal(clark_coefficient_of_divergence(Ai, Bi), 0.3008296906)
+  # 0.047 in paper
+  expect_equal(clark_coefficient_of_divergence(Bi, Ci), 0.0472068860)
+  # 0.289 in paper
+  expect_equal(clark_coefficient_of_divergence(Ai, Ci), 0.2888010841)
 })
