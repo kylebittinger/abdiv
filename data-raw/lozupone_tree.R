@@ -6,16 +6,16 @@ lozupone_newick <- paste0("((", .ag, ":1.1,", .hn, ":1.1):0.3)root;")
 lozupone_tree <- ape::read.tree(text=lozupone_newick)
 lozupone_tree <- ape::rotateConstr(lozupone_tree, LETTERS[14:1])
 plot(lozupone_tree)
-usethis::use_data(lozupone_tree)
+usethis::use_data(lozupone_tree, compress = "gzip")
 
 lozupone_panel_a <- data.frame(
   Species = LETTERS[1:14],
   SampleID = c("Circle", "Square")[c(1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 1)],
   Counts = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1))
-usethis::use_data(lozupone_panel_a)
+usethis::use_data(lozupone_panel_a, compress = "gzip")
 
 lozupone_panel_b <- data.frame(
   Species = LETTERS[1:14],
   SampleID = c("Circle", "Square")[c(1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2)],
   Counts = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1))
-usethis::use_data(lozupone_panel_b)
+usethis::use_data(lozupone_panel_b, compress = "gzip")
