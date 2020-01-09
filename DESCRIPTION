@@ -7,10 +7,10 @@ Description: A collection of measures for measuring ecological diversity.
   Ecological diversity comes in two flavors: alpha diversity measures the
   diversity within a single site or sample, and beta diversity measures the
   diversity across two sites or samples. This package overlaps considerably
-  with other packages such as vegan, gUniFrac, betapart, and fossil. The
-  implementations here are designed to be basic and clear to the reader. We
-  include a wide range of functions implemented in software outside the R
-  ecosystem, such as scipy, Mothur, and scikit-bio.
+  with other R packages such as 'vegan', 'gUniFrac', 'betapart', and 'fossil'.
+  We also include a wide range of functions that are implemented in software
+  outside the R ecosystem, such as 'scipy', 'Mothur', and 'scikit-bio'.  The
+  implementations here are designed to be basic and clear to the reader.
 URL: https://github.com/kylebittinger/abdiv
 BugReports: https://github.com/kylebittinger/abdiv/issues
 License: MIT + file LICENSE
