@@ -9,6 +9,9 @@ richness(x)
 \arguments{
 \item{x}{A numeric vector of species counts or proportions.}
 }
+\value{
+The number of species observed, \eqn{R \geq 0}.
+}
 \description{
 Richness or number of observed species
 }

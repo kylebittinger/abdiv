@@ -9,6 +9,11 @@ berger_parker_d(x)
 \arguments{
 \item{x}{A numeric vector of species counts or proportions.}
 }
+\value{
+The Berger-Parker dominance, \eqn{0 < D_{BP} \leq 1}. If the vector
+  sums to zero, the Berger-Parker dominance is undefined, and we return
+  \code{NaN}.
+}
 \description{
 The Berger-Parker dominance is the proportion of the most abundant species.
 }

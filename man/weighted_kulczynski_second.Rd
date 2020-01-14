@@ -9,6 +9,11 @@ weighted_kulczynski_second(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The weighted Kulczynski distance between \code{x} and \code{y}. The
+  distance is undefined if the sum of \code{x} or the sum of \code{y} is
+  zero, in which case we return \code{NaN}.
+}
 \description{
 The quantitative version of the second Kulczynski index
 }

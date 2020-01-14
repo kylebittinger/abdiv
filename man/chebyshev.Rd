@@ -9,6 +9,9 @@ chebyshev(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The Chebyshev distance between \code{x} and \code{y}.
+}
 \description{
 The Chebyshev distance is the maximum absolute difference between the vector
 elements.

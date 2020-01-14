@@ -33,6 +33,14 @@ yule_dissimilarity(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The dissimilarity between \code{x} and \code{y}, based on
+  presence/absence. The Jaccard, Sorenson, Sokal-Sneath, Yule, and both
+  Kulczynski dissimilarities are not defined if both \code{x} and \code{y}
+  have no nonzero elements. In addition, the second Kulczynski index and the
+  Yule index of dissimilarity are not defined if one of the vectors has no
+  nonzero elements. We return \code{NaN} for undefined values.
+}
 \description{
 These functions transform the input vectors to binary or presence/absence
 format, then compute a distance or dissimilarity.

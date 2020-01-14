@@ -19,6 +19,11 @@ sorenson_nestedness(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The nestedness or turnover component of distance between \code{x}
+  and \code{y}. This quantity is undefined when either \code{x} or \code{y}
+  have no observations, in which case we return \code{NaN}.
+}
 \description{
 Nestedness and turnover components for presence/absence data
 }

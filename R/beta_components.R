@@ -1,5 +1,8 @@
 #' Nestedness and turnover components for presence/absence data
 #' @param x,y Numeric vectors
+#' @return The nestedness or turnover component of distance between \code{x}
+#'   and \code{y}. This quantity is undefined when either \code{x} or \code{y}
+#'   have no observations, in which case we return \code{NaN}.
 #' @references
 #' Baselga A. Partitioning the turnover and nestedness components of beta
 #' diversity. Global Ecol. Biogeogr. 2010;19:134-143.
@@ -50,6 +53,10 @@ sorenson_nestedness <- function (x, y) {
 
 #' Balanced variation and abundance gradient components for abundance data
 #' @param x,y Numeric vectors
+#' @return The balanced variation or abundance gradient component of distance
+#'   between \code{x} and \code{y}. This quantity is undefined when either
+#'   \code{x} or \code{y} have all elements equal to zero, in which case we
+#'   return \code{NaN}.
 #' @references
 #' Baselga A. Separating the two components of abundance-based dissimilarity:
 #' balanced changes in abundance vs.abundance gradients. Methods in Ecology
@@ -102,7 +109,9 @@ ruzicka_gradient <- function (x, y) {
 #' @param xy_labels A character vector of species labels for \code{x} and
 #'   \code{y}.
 #' @return The nestedness or turnover component of the UniFrac distance
-#'   between communities \code{x} and \code{y}.
+#'   between communities \code{x} and \code{y}. This quantity is undefined
+#'   when either \code{x} or \code{y} have all elements equal to zero, in
+#'   which case we return \code{NaN}.
 #' @details
 #' Leprieur et al. (2012) showed that measures of phylogenetic beta diversity
 #' could be partitioned into nestedness and turnover components, following the

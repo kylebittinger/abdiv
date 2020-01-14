@@ -36,7 +36,9 @@ phylosor(x, y, tree, xy_labels = NULL)
 \item{alpha}{Generalized UniFrac parameter.}
 }
 \value{
-The UniFrac distance between communities \code{x} and \code{y}.
+The UniFrac distance between communities \code{x} and \code{y}. The
+  distance is not defined if either \code{x} or \code{y} have all zero
+  elements. We return \code{NaN} if this is the case.
 }
 \description{
 The UniFrac distance is a phylogenetically-weighted distance between two

@@ -13,6 +13,11 @@ kempton_taylor_q(x, lower_quantile = 0.25, upper_quantile = 0.75)
 abundance distribution. Default values are the ones suggested by Kempton
 and Taylor.}
 }
+\value{
+The Kempton-Taylor Q index, \eqn{Q < 0}. If the vector sums to zero,
+  we cannot compute the quantiles, and this index is undefined. In that
+  case, we return \code{NaN}.
+}
 \description{
 The Kempton-Taylor Q index is designed to measure species in the middle of
 the abundance distribution.

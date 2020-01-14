@@ -14,6 +14,9 @@ vector of species presence/absence.}
 
 \item{x_labels}{A character vector of species labels for \code{x}.}
 }
+\value{
+Faith's phylogenetic diversity, \eqn{PD \geq 0}.
+}
 \description{
 Faith's phylogenetic diversity gives the total branch length on a
 phylogenetic tree that is spanned by a community.  The abundance of each

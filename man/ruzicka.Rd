@@ -9,6 +9,11 @@ ruzicka(x, y)
 \arguments{
 \item{x, y}{Numeric vectors.}
 }
+\value{
+The Ruzicka distance between \code{x} and \code{y}. The distance is
+  not defined if all elements in \code{x} and \code{y} are zero, and we
+  return \code{NaN} in this case.
+}
 \description{
 Ruzicka or weighted Jaccard distance
 }

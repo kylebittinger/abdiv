@@ -201,3 +201,24 @@ test_that("Implementation is consistent with GUniFrac package", {
 test_that("Methods from 'Expanding the UniFrac Toolbox' paper work", {
   expect_equal(information_unifrac(b0, b1, skbio_t1), 0.1394037899)
 })
+
+test_that("Phylogenetic diversity is correct for empty vectors", {
+  x <- c(0, 0, 0, 0, 0)
+  expect_equal(faith_pd(x, faith_tree), 0)
+  expect_identical(unweighted_unifrac(x, x, faith_tree), NaN)
+  expect_identical(weighted_unifrac(x, x, faith_tree), NaN)
+  expect_identical(weighted_normalized_unifrac(x, x, faith_tree), NaN)
+  expect_identical(variance_adjusted_unifrac(x, x, faith_tree), NaN)
+  expect_identical(generalized_unifrac(x, x, faith_tree), NaN)
+  expect_identical(information_unifrac(x, x, faith_tree), NaN)
+  expect_identical(phylosor(x, x, faith_tree), NaN)
+
+  y <- c(1, 1, 1, 1, 1)
+  expect_equal(unweighted_unifrac(x, y, faith_tree), 1)
+  expect_identical(weighted_unifrac(x, y, faith_tree), NaN)
+  expect_identical(weighted_normalized_unifrac(x, y, faith_tree), NaN)
+  expect_identical(variance_adjusted_unifrac(x, y, faith_tree), NaN)
+  expect_identical(generalized_unifrac(x, y, faith_tree), NaN)
+  expect_identical(information_unifrac(x, y, faith_tree), NaN)
+  expect_equal(phylosor(x, y, faith_tree), 1)
+})

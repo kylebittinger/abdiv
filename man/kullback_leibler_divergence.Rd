@@ -9,6 +9,16 @@ kullback_leibler_divergence(x, y)
 \arguments{
 \item{x, y}{Numeric vectors representing probabilities}
 }
+\value{
+The Kullback-Leibler divergence between \code{x} and \code{y}. We
+  adopt the following conventions if elements of \code{x} or \code{y} are
+  zero: \eqn{0 \log (0 / y_i) = 0}, \eqn{0 \log (0 / 0) = 0}, and
+  \eqn{x_i \log (x_i / 0) = \infty}. As a result, if elements of \code{x} are
+  zero, they do not contribute to the sum. If elements of \code{y} are zero
+  where \code{x} is nonzero, the result will be \code{Inf}. If either
+  \code{x} or \code{y} sum to zero, we are not able to compute the
+  proportions, and we return \code{NaN}.
+}
 \description{
 Kullback-Leibler divergence
 }
@@ -18,7 +28,4 @@ two probability vectors. In general, KL(x, y) is not equal to KL(y, x).
 
 Because this measure is defined for probabilities, the vectors x and y are
 normalized in the function so they sum to 1.
-
-The Kullback-Leibler divergence is not defined when y_i == 0 but x_i > 0. In
-this case, the function returns NaN.
 }

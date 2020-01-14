@@ -9,6 +9,11 @@ mcintosh_e(x)
 \arguments{
 \item{x}{A numeric vector of species counts.}
 }
+\value{
+McIntosh's evenness measure, \eqn{0 < E \leq 1}.  The index is
+  undefined when the total number of counts is 0, in which case we return
+  \code{NaN}.
+}
 \description{
 McIntosh's evenness measure E
 }

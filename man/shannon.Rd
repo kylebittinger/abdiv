@@ -20,6 +20,13 @@ pielou_e(x)
 
 \item{base}{Base of the logarithm to use in the calculation.}
 }
+\value{
+The Shannon diversity, \eqn{H \geq 0}, or related quantity. The
+  value of \eqn{H} is undefined if \code{x} sums to zero, and we return
+  \code{NaN} in this case.  Heip's evenness measure and Pielou's Evenness
+  index are undefined if only one element of \code{x} is nonzero, and again
+  we return \code{NaN} if this is the case.
+}
 \description{
 The Shannon index of diversity
 }

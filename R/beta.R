@@ -4,7 +4,9 @@
 #' Euclidean distance between two vectors.
 #'
 #' @param x,y Numeric vectors
-#'
+#' @return The distance between \code{x} and \code{y}. The chord distance,
+#'   Hellinger distance, and geodesic metric are not defined if all elements
+#'   of either vector are zero. We return \code{NaN} in this case.
 #' @details
 #' For vectors \code{x} and \code{y}, the Euclidean distance is defined as
 #' \deqn{d(x, y) = \sqrt{\sum_i (x_i - y_i) ^ 2}.}
@@ -111,26 +113,28 @@ geodesic_metric <- function (x, y) {
 #' Kullback-Leibler divergence
 #'
 #' @param x,y Numeric vectors representing probabilities
-#'
+#' @return The Kullback-Leibler divergence between \code{x} and \code{y}. We
+#'   adopt the following conventions if elements of \code{x} or \code{y} are
+#'   zero: \eqn{0 \log (0 / y_i) = 0}, \eqn{0 \log (0 / 0) = 0}, and
+#'   \eqn{x_i \log (x_i / 0) = \infty}. As a result, if elements of \code{x} are
+#'   zero, they do not contribute to the sum. If elements of \code{y} are zero
+#'   where \code{x} is nonzero, the result will be \code{Inf}. If either
+#'   \code{x} or \code{y} sum to zero, we are not able to compute the
+#'   proportions, and we return \code{NaN}.
 #' @details
 #' Kullback-Leibler divergence is a non-symmetric measure of difference between
 #' two probability vectors. In general, KL(x, y) is not equal to KL(y, x).
 #'
 #' Because this measure is defined for probabilities, the vectors x and y are
 #' normalized in the function so they sum to 1.
-#'
-#' The Kullback-Leibler divergence is not defined when y_i == 0 but x_i > 0. In
-#' this case, the function returns NaN.
 #' @export
 kullback_leibler_divergence <- function (x, y) {
   x <- x / sum(x)
   y <- y / sum(y)
-  y0_but_not_x0 <- (y == 0) & (!(x == 0))
-  if (any(y0_but_not_x0)) {
-    return(NaN)
-  }
   terms <- x * log(x / y)
-  sum(ifelse(x > 0, terms, 0))
+  # By convention, 0 * log(0 / y) = 0
+  x_is_defined_and_zero <- (x == 0) %in% TRUE
+  sum(ifelse(x_is_defined_and_zero, 0, terms))
 }
 
 #' Manhattan and related distances
@@ -140,7 +144,9 @@ kullback_leibler_divergence <- function (x, y) {
 #' is a closely related measure.
 #'
 #' @param x,y Numeric vectors
-#'
+#' @return The distance between \code{x} and \code{y}. The modified mean
+#'   character difference is undefined if all elements in \code{x} and \code{y}
+#'   are zero, in which case we return \code{NaN}.
 #' @details
 #' For vectors \code{x} and \code{y}, the Manhattan distance is given by
 #' \deqn{d(x, y) = \sum_i |x_i - y_i|.} Relation of \code{manhattan()} to
@@ -220,7 +226,9 @@ modified_mean_character_difference <- function (x, y) {
 #' vectors.
 #'
 #' @param x,y Numeric vectors
-#'
+#' @return The Canberra distance or Clark's coefficient of divergence. If every
+#'   element in \code{x} and \code{y} is zero, Clark's coefficient of
+#'   divergence is undefined, and we return \code{NaN}.
 #' @details
 #' For vectors \code{x} and \code{y}, the Canberra distance is defined as
 #' \deqn{d(x, y) = \sum_i \frac{|x_i - y_i|}{x_i + y_i}.} Elements where
@@ -282,7 +290,7 @@ clark_coefficient_of_divergence <- function (x, y) {
 #' elements.
 #'
 #' @param x,y Numeric vectors
-#'
+#' @return The Chebyshev distance between \code{x} and \code{y}.
 #' @details
 #' For vectors \code{x} and \code{y}, the Chebyshev distance is defined as
 #' \deqn{d(x, y) = \max_i |x_i - y_i|.} Relation to other definitions:
@@ -305,7 +313,9 @@ chebyshev <- function (x, y) {
 #' product of the two vectors.
 #'
 #' @param x,y Numeric vectors
-#'
+#' @return The correlation or cosine distance. These are undefined if either
+#'   \code{x} or \code{y} contain all zero elements, that is, if \eqn{|x| = 0}
+#'   or \eqn{|y| = 0}. In this case, we return \code{NaN}.
 #' @details
 #' For vectors \code{x} and \code{y}, the cosine distance is defined as the
 #' cosine of the angle between the vectors,
@@ -339,7 +349,9 @@ chebyshev <- function (x, y) {
 #' 1 - cor(v, w)
 #' @export
 correlation_distance <- function (x, y) {
-  1 - stats::cor(x, y)
+  x <- x - mean(x)
+  y <- y - mean(y)
+  cosine_distance(x, y)
 }
 
 #' @rdname correlation_distance
@@ -357,7 +369,9 @@ cosine_distance <- function (x, y) {
 #' both vectors.
 #'
 #' @param x,y Numeric vectors
-#'
+#' @return The Bray-Curtis distance between \code{x} and \code{y}. The
+#'   Bray-Curtis distance is undefined if the sum of all elements in \code{x}
+#'   and \code{y} is zero, in which case we return \code{NaN}.
 #' @details
 #' For two vectors \code{x} and \code{y}, the Bray-Curtis distance is defined
 #' as \deqn{d(x, y) = \frac{\sum_i |x_i - y_i|}{\sum_i x_i + y_i}.} The
@@ -396,7 +410,9 @@ bray_curtis <- function (x, y) {
 #' The quantitative version of the second Kulczynski index
 #'
 #' @param x,y Numeric vectors
-#'
+#' @return The weighted Kulczynski distance between \code{x} and \code{y}. The
+#'   distance is undefined if the sum of \code{x} or the sum of \code{y} is
+#'   zero, in which case we return \code{NaN}.
 #' @details
 #' The quantitative version of the second Kulczynski index is defined as
 #' \deqn{
@@ -423,8 +439,8 @@ weighted_kulczynski_second <- function (x, y) {
 #' (p=1) distance.
 #'
 #' @param x,y Numeric vectors.
-#' @param p Exponent parameter.
-#'
+#' @param p Exponent parameter, a single number greater than zero.
+#' @return The Minkowski distance between \code{x} and \code{y}.
 #' @details
 #' For vectors \code{x} and \code{y}, the Minkowski distance is defined as
 #' \deqn{d(x, y) = \left( \sum_i |x_i - y_i|^p \right)^{1/p}.} Relation to
@@ -440,6 +456,7 @@ weighted_kulczynski_second <- function (x, y) {
 #' distance.
 #' @export
 minkowski <- function (x, y, p = 1) {
+  stopifnot(p > 0, length(p) == 1)
   sum(abs(x - y) ^ p) ^ (1 / p)
 }
 
@@ -452,7 +469,9 @@ minkowski <- function (x, y, p = 1) {
 #' used with transformed counts or proportions.
 #'
 #' @param x,y Numeric vectors
-#'
+#' @return The Morisita or Horn-Morisita index between \code{x} and \code{y}.
+#'   Both are undefined if \code{x} or \code{y} have no nonzero elements, in
+#'   which case we return \code{NaN}.
 #' @details
 #' For two vectors \code{x} and \code{y}, the Morisita index of dissimilarity
 #' is
@@ -520,7 +539,9 @@ horn_morisita <- function (x, y) {
 #' @param base Base of the logarithm
 #' @param min_value Replacement for zero or near-zero values. Values less than
 #'   \code{min_value} are replaced with \code{min_value}.
-#'
+#' @return The Binomial deviance or CY index of dissimilarity. The CY index is
+#'   undefined if all elements of \code{x} and \code{y} are zero, in which case
+#'   we return \code{NaN}.
 #' @details
 #' Both of these measures were designed to be used with whole-numbered counts,
 #' and may not make sense for comparing normalized vectors or vectors of
@@ -583,17 +604,18 @@ horn_morisita <- function (x, y) {
 #' Aufwuchs community analysis. Water Environment Research 1997;69(1):95-106.
 #' @export
 binomial_deviance <- function (x, y) {
-  keep <- (x > 0) | (y > 0)
-  x <- x[keep]
-  y <- y[keep]
+  x_is_defined_and_zero <- (x == 0) %in% TRUE
+  y_is_defined_and_zero <- (y == 0) %in% TRUE
   n <- x + y
+  n_is_defined_and_zero <- x_is_defined_and_zero & y_is_defined_and_zero
   # Formula at top of page 199
-  t1 <- ifelse(x > 0, x * log(x / n), 0)
-  t2 <- ifelse(y > 0, y * log(y / n), 0)
-  t3 <- (x + y) * log(2)
+  t1 <- ifelse(x_is_defined_and_zero, 0, x * log(x / n))
+  t2 <- ifelse(y_is_defined_and_zero, 0, y * log(y / n))
+  t3 <- n * log(2)
   # BUG IN VEGAN?!?!?!
   # Formula in paper subtracts t3, vegan function adds this term
-  sum((1 / n) * (t1 + t2 + t3))
+  terms <- ifelse(n_is_defined_and_zero, 0, (1 / n) * (t1 + t2 + t3))
+  sum(terms)
 }
 
 #' @rdname binomial_deviance
@@ -618,6 +640,9 @@ cy_dissimilarity <- function (x, y, base = 10, min_value = 0.1) {
 #' Ruzicka or weighted Jaccard distance
 #'
 #' @param x,y Numeric vectors.
+#' @return The Ruzicka distance between \code{x} and \code{y}. The distance is
+#'   not defined if all elements in \code{x} and \code{y} are zero, and we
+#'   return \code{NaN} in this case.
 #' @details
 #' For vectors \code{x} and \code{y}, the Ruzicka distance is defined as
 #' \deqn{d(x, y) = 1 - \frac{\sum_i \min(x, y)}{\sum_i \max(x, y)}.} Relation
@@ -638,7 +663,12 @@ ruzicka <- function (x, y) {
 #' format, then compute a distance or dissimilarity.
 #'
 #' @param x,y Numeric vectors
-#'
+#' @return The dissimilarity between \code{x} and \code{y}, based on
+#'   presence/absence. The Jaccard, Sorenson, Sokal-Sneath, Yule, and both
+#'   Kulczynski dissimilarities are not defined if both \code{x} and \code{y}
+#'   have no nonzero elements. In addition, the second Kulczynski index and the
+#'   Yule index of dissimilarity are not defined if one of the vectors has no
+#'   nonzero elements. We return \code{NaN} for undefined values.
 #' @details
 #' Many of these indices are covered in Koleff et al. (2003), so we adopt their
 #' notation. For two vectors \code{x} and \code{y}, we define three quantities:
@@ -862,6 +892,7 @@ yule_dissimilarity <- function (x, y) {
 #' different.
 #'
 #' @param x,y Numeric vectors.
+#' @return The Hamming distance between \code{x} and \code{y}.
 #' @details
 #' For vectors \code{x} and \code{y}, the Hamming distance is defined as
 #' \deqn{d(x, y) = \sum_i [x_i \neq y_i],} where the quantity in the brackets

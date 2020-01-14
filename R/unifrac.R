@@ -78,6 +78,7 @@ match_to_tree <- function (x, tree, x_labels = NULL) {
 #'   vector of species presence/absence.
 #' @param tree A phylogenetic tree object..
 #' @param x_labels A character vector of species labels for \code{x}.
+#' @return Faith's phylogenetic diversity, \eqn{PD \geq 0}.
 #' @details If the vector \code{x} is named, the names will be automatically
 #'   used to match \code{x} with the tree. Missing names are filled in with
 #'   zero counts. If \code{x} is not named and \code{x_labels} is provided,
@@ -119,7 +120,9 @@ faith_pd <- function (x, tree, x_labels = NULL) {
 #' @param xy_labels A character vector of species labels for \code{x} and
 #'   \code{y}.
 #' @param alpha Generalized UniFrac parameter.
-#' @return The UniFrac distance between communities \code{x} and \code{y}.
+#' @return The UniFrac distance between communities \code{x} and \code{y}. The
+#'   distance is not defined if either \code{x} or \code{y} have all zero
+#'   elements. We return \code{NaN} if this is the case.
 #' @details
 #' These functions compute different variations of the UniFrac distance between
 #' communities described by the vectors \code{x} and \code{y}. If the vectors
@@ -305,12 +308,12 @@ generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
   px <- get_branch_abundances(em, x)
   py <- get_branch_abundances(em, y)
   # px + py appears in the denominator; must remove double zeroes now
-  keep <- (px + py) > 0
-  b <- b[keep]
-  px <- px[keep]
-  py <- py[keep]
   p_sum <- px + py
-  sum(b * (p_sum ^ (alpha - 1)) * abs(px - py)) / sum(b * (p_sum ^ alpha))
+  p_sum_defined_and_zero <- (p_sum == 0) %in% TRUE
+  numerator <- ifelse(
+    p_sum_defined_and_zero, 0, b * (p_sum ^ (alpha - 1)) * abs(px - py))
+  denominator <- ifelse(p_sum_defined_and_zero, 0, b * (p_sum ^ alpha))
+  sum(numerator) / sum(denominator)
 }
 
 #' @rdname unifrac
@@ -326,7 +329,7 @@ information_unifrac <- function (x, y, tree, xy_labels = NULL) {
   px <- get_branch_abundances(em, x)
   py <- get_branch_abundances(em, y)
   # log(0) produces infinities; p * log(p) must be zero for formula to work
-  plogp <- function (p) ifelse(p > 0, p * log(p), 0)
+  plogp <- function (p) ifelse((p == 0) %in% TRUE, 0, p * log(p))
   sum(b * abs(plogp(px) - plogp(py))) / sum(b)
 }
 

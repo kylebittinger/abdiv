@@ -12,6 +12,11 @@ clark_coefficient_of_divergence(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The Canberra distance or Clark's coefficient of divergence. If every
+  element in \code{x} and \code{y} is zero, Clark's coefficient of
+  divergence is undefined, and we return \code{NaN}.
+}
 \description{
 The Canberra distance and Clark's coefficient of divergence are measures
 that use the absolute difference over the sum for each element of the

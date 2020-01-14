@@ -19,6 +19,12 @@ ruzicka_gradient(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The balanced variation or abundance gradient component of distance
+  between \code{x} and \code{y}. This quantity is undefined when either
+  \code{x} or \code{y} have all elements equal to zero, in which case we
+  return \code{NaN}.
+}
 \description{
 Balanced variation and abundance gradient components for abundance data
 }

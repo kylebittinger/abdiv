@@ -17,6 +17,11 @@ cy_dissimilarity(x, y, base = 10, min_value = 0.1)
 \item{min_value}{Replacement for zero or near-zero values. Values less than
 \code{min_value} are replaced with \code{min_value}.}
 }
+\value{
+The Binomial deviance or CY index of dissimilarity. The CY index is
+  undefined if all elements of \code{x} and \code{y} are zero, in which case
+  we return \code{NaN}.
+}
 \description{
 The binomial deviance dissimilarity and the CY (or Cao) index of
 dissimilarity were created to compare species counts at sites with moderate

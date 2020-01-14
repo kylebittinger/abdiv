@@ -9,6 +9,10 @@ menhinick(x)
 \arguments{
 \item{x}{A numeric vector of species counts.}
 }
+\value{
+Menhinick's richness index, \eqn{R > 0}. The index is undefined when
+  the total number of counts is 0, in which case we return \code{NaN}.
+}
 \description{
 Menhinick's richness index
 }

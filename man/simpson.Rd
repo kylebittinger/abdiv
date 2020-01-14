@@ -18,6 +18,11 @@ simpson_e(x)
 \arguments{
 \item{x}{A numeric vector of species counts or proportions.}
 }
+\value{
+The value of the dominance (\eqn{0 < D \leq 1}), Simpson index, or
+  inverse Simpson index. The dominance is undefined if the vector sums to
+  zero, in which case we return \code{NaN}.
+}
 \description{
 These measures are based on the sum of squared species proportions. The
 function \code{dominance()} gives this quantity, \code{simpson()} gives one

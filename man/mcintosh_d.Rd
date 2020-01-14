@@ -9,6 +9,11 @@ mcintosh_d(x)
 \arguments{
 \item{x}{A numeric vector of species counts.}
 }
+\value{
+The McIntosh dominance index, \eqn{0 \leq D < 1}. The index is undefined
+  when the total number of counts is 1 or 0, in which case we return
+  \code{NaN}.
+}
 \description{
 McIntosh dominance index D
 }

@@ -12,6 +12,11 @@ horn_morisita(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The Morisita or Horn-Morisita index between \code{x} and \code{y}.
+  Both are undefined if \code{x} or \code{y} have no nonzero elements, in
+  which case we return \code{NaN}.
+}
 \description{
 The Morisita and the Horn-Morisita indices measure the probability that
 individuals drawn one from each vector will belong to different species,

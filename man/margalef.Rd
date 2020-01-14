@@ -9,6 +9,11 @@ margalef(x)
 \arguments{
 \item{x}{A numeric vector of species counts.}
 }
+\value{
+The value of Margalef's index, \eqn{D \geq 0}. This index is
+  undefined when the total number of counts is 1 or 0, in which case we
+  return \code{NaN}.
+}
 \description{
 Margalef's richness index
 }

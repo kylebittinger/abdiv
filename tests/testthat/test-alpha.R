@@ -37,7 +37,7 @@ test_that("Alpha diversity values are consistent with QIIME2 tests", {
   expect_equal(pielou_e(x_qiime2), 0.925, tol=0.001)
   expect_equal(pielou_e(c(1, 1)), 1)
   expect_equal(pielou_e(c(1, 1, 196, 1, 1)), 0.078, tol=0.001)
-  expect_equal(pielou_e(c(0, 0, 200, 0, 0)), NaN)
+  expect_identical(pielou_e(c(0, 0, 200, 0, 0)), NaN)
   expect_equal(shannon(5, base = 2), 0)
   expect_equal(shannon(c(5, 5), base = 2), 1)
   expect_equal(shannon(c(1, 1, 1, 1, 0), base = 2), 2)
@@ -90,42 +90,47 @@ test_that("Alpha diversity values are consistent with Mothur", {
 
 test_that("Empty count vectors give correct values", {
   x_empty <- c(0, 0, 0, 0)
-  expect_equal(berger_parker_d(x_empty), NaN)
-  expect_equal(simpson(x_empty), NaN)
-  expect_equal(dominance(x_empty), NaN)
-  expect_equal(invsimpson(x_empty), NaN)
-  expect_equal(simpson_e(x_empty), NaN)
-  expect_equal(kempton_taylor_q(x_empty), NaN)
-  expect_equal(margalef(x_empty), NaN)
-  expect_equal(mcintosh_d(x_empty), NaN)
-  expect_equal(mcintosh_e(x_empty), NaN)
-  expect_equal(menhinick(x_empty), NaN)
+  expect_identical(berger_parker_d(x_empty), NaN)
+  expect_identical(dominance(x_empty), NaN)
+  expect_identical(simpson(x_empty), NaN)
+  expect_identical(invsimpson(x_empty), NaN)
+  expect_identical(simpson_e(x_empty), NaN)
+  expect_identical(kempton_taylor_q(x_empty), NaN)
+  expect_identical(margalef(x_empty), NaN)
+  expect_identical(mcintosh_d(x_empty), NaN)
+  expect_identical(mcintosh_e(x_empty), NaN)
+  expect_identical(menhinick(x_empty), NaN)
   expect_equal(richness(x_empty), 0) # Only richness gives an answer here
-  expect_equal(shannon(x_empty), NaN)
-  expect_equal(brillouin_d(x_empty), NaN)
-  expect_equal(heip_e(x_empty), NaN)
-  expect_equal(pielou_e(x_empty), NaN)
-  expect_equal(strong(x_empty), NaN)
+  expect_identical(shannon(x_empty), NaN)
+  expect_identical(brillouin_d(x_empty), NaN) # (0 - 0) / 0
+  expect_identical(heip_e(x_empty), NaN)
+  expect_identical(pielou_e(x_empty), NaN)
+  expect_identical(strong(x_empty), NaN)
 })
 
 test_that("Count vector with one observation gives correct values", {
   x_single <- c(0, 0, 0, 1)
   expect_equal(berger_parker_d(x_single), 1) # max = 1, sum = 1, max / sum = 1
-  expect_equal(simpson(x_single), 0) # 1 - D = 1 - 1 = 0
   expect_equal(dominance(x_single), 1) # D = sum of squared proportions = 1
+  expect_equal(simpson(x_single), 0) # 1 - D = 1 - 1 = 0
   expect_equal(invsimpson(x_single), 1)# 1 / D = 1 / 1 = 1
   expect_equal(simpson_e(x_single), 1) # 1 / (D * S) = 1 / (1 * 1) = 1
   expect_equal(kempton_taylor_q(x_single), 0) # Depends on length of vector
-  expect_equal(margalef(x_single), NaN) # See comments in function
-  expect_equal(mcintosh_d(x_single), NaN) # n = 1, u = 1, (1 - 1)/(1 - 1)
+  expect_identical(margalef(x_single), NaN) # See comments in function
+  expect_identical(mcintosh_d(x_single), NaN) # n = 1, u = 1, (1 - 1)/(1 - 1)
   expect_equal(mcintosh_e(x_single), 1) # 1 / (1 + 1 - 1) = 1
   expect_equal(menhinick(x_single), 1) # 1 / sqrt(1) = 1
   expect_equal(richness(x_single), 1)
   expect_equal(shannon(x_single), 0) # 1 * log(1) = 0
   expect_equal(brillouin_d(x_single), 0) # 1 * log(1 / 1) = 1 * 0 = 0
-  expect_equal(heip_e(x_single), NaN) # exp(H) = exp(0) = 1, (1 - 1) / (1 - 1)
-  expect_equal(pielou_e(x_single), NaN) # 0 / log(1) = 0 / 0 = NaN
+  expect_identical(heip_e(x_single), NaN) # exp(H) = exp(0) = 1, (1 - 1) / (1 - 1)
+  expect_identical(pielou_e(x_single), NaN) # 0 / log(1) = 0 / 0 = NaN
   expect_equal(strong(x_single), 0) # 1 / 1 - 1 / 1 = 0
+})
+
+test_that("Heip and Pielou evenness are undefined for one species", {
+  expect_identical(heip_e(c(0, 0, 0, 25)), NaN)
+  expect_identical(pielou_e(c(0, 0, 0, 25)), NaN)
 })
 
 test_that("Alpha diversity values are correct for simple example", {

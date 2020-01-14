@@ -26,7 +26,9 @@ phylosor_nestedness(x, y, tree, xy_labels = NULL)
 }
 \value{
 The nestedness or turnover component of the UniFrac distance
-  between communities \code{x} and \code{y}.
+  between communities \code{x} and \code{y}. This quantity is undefined
+  when either \code{x} or \code{y} have all elements equal to zero, in
+  which case we return \code{NaN}.
 }
 \description{
 Nestedness and turnover components of unweighted UniFrac distance

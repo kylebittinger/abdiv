@@ -9,6 +9,9 @@ hamming(x, y)
 \arguments{
 \item{x, y}{Numeric vectors.}
 }
+\value{
+The Hamming distance between \code{x} and \code{y}.
+}
 \description{
 The Hamming distance is the number of positions where the values are
 different.

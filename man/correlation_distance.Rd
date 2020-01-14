@@ -12,6 +12,11 @@ cosine_distance(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The correlation or cosine distance. These are undefined if either
+  \code{x} or \code{y} contain all zero elements, that is, if \eqn{|x| = 0}
+  or \eqn{|y| = 0}. In this case, we return \code{NaN}.
+}
 \description{
 The correlation and cosine distances, which are derived from the dot
 product of the two vectors.

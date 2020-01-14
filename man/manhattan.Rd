@@ -15,6 +15,11 @@ modified_mean_character_difference(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The distance between \code{x} and \code{y}. The modified mean
+  character difference is undefined if all elements in \code{x} and \code{y}
+  are zero, in which case we return \code{NaN}.
+}
 \description{
 The Manhattan or city block distance is the sum of absolute differences
 between the elements of two vectors. The \emph{mean character} difference

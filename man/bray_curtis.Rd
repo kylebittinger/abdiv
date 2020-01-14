@@ -9,6 +9,11 @@ bray_curtis(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The Bray-Curtis distance between \code{x} and \code{y}. The
+  Bray-Curtis distance is undefined if the sum of all elements in \code{x}
+  and \code{y} is zero, in which case we return \code{NaN}.
+}
 \description{
 The Bray-Curtis distance is the Manhattan distance divided by the sum of
 both vectors.

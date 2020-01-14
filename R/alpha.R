@@ -3,6 +3,9 @@
 #' The Berger-Parker dominance is the proportion of the most abundant species.
 #'
 #' @param x A numeric vector of species counts or proportions.
+#' @return The Berger-Parker dominance, \eqn{0 < D_{BP} \leq 1}. If the vector
+#'   sums to zero, the Berger-Parker dominance is undefined, and we return
+#'   \code{NaN}.
 #' @details
 #' \itemize{
 #'   \item Equivalent to \code{berger_parker_d()} in
@@ -29,6 +32,9 @@ berger_parker_d <- function (x) {
 #' of species.
 #'
 #' @param x A numeric vector of species counts or proportions.
+#' @return The value of the dominance (\eqn{0 < D \leq 1}), Simpson index, or
+#'   inverse Simpson index. The dominance is undefined if the vector sums to
+#'   zero, in which case we return \code{NaN}.
 #' @details
 #' For a vector of species counts \code{x}, the dominance index is defined as
 #' \deqn{D = \sum_i p_i^2,} where \eqn{p_i} is the species proportion,
@@ -122,6 +128,9 @@ simpson_e <- function (x) {
 #' @param lower_quantile,upper_quantile Lower and upper quantiles of the
 #'   abundance distribution. Default values are the ones suggested by Kempton
 #'   and Taylor.
+#' @return The Kempton-Taylor Q index, \eqn{Q < 0}. If the vector sums to zero,
+#'   we cannot compute the quantiles, and this index is undefined. In that
+#'   case, we return \code{NaN}.
 #' @details
 #' For a vector of species counts \code{x}, the Kempton-Taylor Q statistic is
 #' equal to the slope of the cumulative abundance curve across a specified
@@ -167,6 +176,9 @@ kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
 #' Margalef's richness index
 #'
 #' @param x A numeric vector of species counts.
+#' @return The value of Margalef's index, \eqn{D \geq 0}. This index is
+#'   undefined when the total number of counts is 1 or 0, in which case we
+#'   return \code{NaN}.
 #' @details
 #' For a vector \code{x} of species counts, Margalef's index is
 #' \deqn{D = \frac{S -1}{\log N},} where \eqn{S} is the total number of species
@@ -199,7 +211,7 @@ margalef <- function (x) {
   # we encounter negative one over negative infinity, which R interprets as
   # zero. However, if we return to the original equation, we see that z must be
   # a number that multiplies negative infinity to produce negative one. Zero
-  # does not fulfill this role, and is not an acceptable answer.
+  # does not fulfill this role, and is therefore not an acceptable answer.
   #   0 = 1 + z * (-Inf)
   # The quantity z is undefined at n = 1, and we also consider it to be
   # undefined at n = 0. Therefore, we take special care to return NaN when
@@ -215,6 +227,9 @@ margalef <- function (x) {
 
 #' McIntosh dominance index D
 #' @param x A numeric vector of species counts.
+#' @return The McIntosh dominance index, \eqn{0 \leq D < 1}. The index is undefined
+#'   when the total number of counts is 1 or 0, in which case we return
+#'   \code{NaN}.
 #' @details
 #' For a vector \code{x} of raw species counts, the McIntosh dominance index is
 #' defined as \deqn{D = \frac{N - U}{N - \sqrt{N}},} where \eqn{N} is the total
@@ -240,6 +255,9 @@ mcintosh_d <- function (x) {
 
 #' McIntosh's evenness measure E
 #' @param x A numeric vector of species counts.
+#' @return McIntosh's evenness measure, \eqn{0 < E \leq 1}.  The index is
+#'   undefined when the total number of counts is 0, in which case we return
+#'   \code{NaN}.
 #' @details
 #' For a vector \code{x} of raw species counts, the McIntosh evenness measure
 #' is \deqn{E = \frac{\sqrt{\sum_i x_i^2}}{\sqrt{(N - S + 1)^2 + S - 1},}}
@@ -267,6 +285,8 @@ mcintosh_e <- function (x) {
 
 #' Menhinick's richness index
 #' @param x A numeric vector of species counts.
+#' @return Menhinick's richness index, \eqn{R > 0}. The index is undefined when
+#'   the total number of counts is 0, in which case we return \code{NaN}.
 #' @details
 #' For a vector \code{x} of raw species counts, the Menhinick's richness index
 #' is \eqn{\frac{S}{\sqrt{N}}}, where \eqn{N} is the total number
@@ -288,6 +308,7 @@ menhinick <- function (x) {
 
 #' Richness or number of observed species
 #' @param x A numeric vector of species counts or proportions.
+#' @return The number of species observed, \eqn{R \geq 0}.
 #' @details The richness is simply the number of nonzero elements in \code{x}.
 #' Relation to other definitions:
 #' \itemize{
@@ -309,7 +330,11 @@ richness <- function (x) {
 #'
 #' @param x A numeric vector of species counts or proportions.
 #' @param base Base of the logarithm to use in the calculation.
-#'
+#' @return The Shannon diversity, \eqn{H \geq 0}, or related quantity. The
+#'   value of \eqn{H} is undefined if \code{x} sums to zero, and we return
+#'   \code{NaN} in this case.  Heip's evenness measure and Pielou's Evenness
+#'   index are undefined if only one element of \code{x} is nonzero, and again
+#'   we return \code{NaN} if this is the case.
 #' @details
 #' The Shannon index of diversity or Shannon information entropy has deep roots
 #' in information theory. It is defined as \deqn{H = - \sum_i p_i \log{p_i},}
@@ -374,9 +399,9 @@ richness <- function (x) {
 #' @export
 shannon <- function (x, base=exp(1)) {
   p <- x / sum(x)
-  # Zero values produce NaN's in the log function
-  # By convention, p * log(p) is zero when p is zero
-  p_logp <- ifelse(p == 0, 0, p * log(p, base=base))
+  # By convention, 0 * log(0) = 0
+  p_is_defined_and_zero <- (p == 0) %in% TRUE
+  p_logp <- ifelse(p_is_defined_and_zero, 0, p * log(p, base=base))
   -sum(p_logp)
 }
 
@@ -409,6 +434,8 @@ pielou_e <- function (x) {
 #' Strong's dominance index measures the maximum departure between the observed
 #' proportions and a perfectly even community.
 #' @param x A numeric vector of species counts.
+#' @return Strong's dominance index, \eqn{0 \leq D_W < 1}. The index is
+#'   undefined if \code{x} sums to 0, and we return \code{NaN} in this case.
 #' @details
 #' Strong's dominance index is defined as
 #' \deqn{D_W = \max_i \left [ \frac{b_i}{N} - \frac{i}{S} \right ],} where

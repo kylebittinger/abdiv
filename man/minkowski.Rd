@@ -9,7 +9,10 @@ minkowski(x, y, p = 1)
 \arguments{
 \item{x, y}{Numeric vectors.}
 
-\item{p}{Exponent parameter.}
+\item{p}{Exponent parameter, a single number greater than zero.}
+}
+\value{
+The Minkowski distance between \code{x} and \code{y}.
 }
 \description{
 The Minkowski metric is a generalized form of Euclidean (p=2) and Manhattan

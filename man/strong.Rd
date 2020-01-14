@@ -9,6 +9,10 @@ strong(x)
 \arguments{
 \item{x}{A numeric vector of species counts.}
 }
+\value{
+Strong's dominance index, \eqn{0 \leq D_W < 1}. The index is
+  undefined if \code{x} sums to 0, and we return \code{NaN} in this case.
+}
 \description{
 Strong's dominance index measures the maximum departure between the observed
 proportions and a perfectly even community.

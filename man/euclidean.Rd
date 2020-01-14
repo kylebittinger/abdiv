@@ -21,6 +21,11 @@ geodesic_metric(x, y)
 \arguments{
 \item{x, y}{Numeric vectors}
 }
+\value{
+The distance between \code{x} and \code{y}. The chord distance,
+  Hellinger distance, and geodesic metric are not defined if all elements
+  of either vector are zero. We return \code{NaN} in this case.
+}
 \description{
 These distance and diversity measures are mathematically similar to the
 Euclidean distance between two vectors.
