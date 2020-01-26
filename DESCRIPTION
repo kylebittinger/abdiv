@@ -1,6 +1,6 @@
 Package: abdiv
 Title: Alpha and Beta Diversity Measures
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: person("Kyle", "Bittinger", email = "kylebittinger@gmail.com",
   role = c("aut", "cre"))
 Description: A collection of measures for measuring ecological diversity.
