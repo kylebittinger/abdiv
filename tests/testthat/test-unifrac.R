@@ -84,6 +84,17 @@ test_that("Input vectors are rearranged with keyword argument", {
   expect_equal(information_unifrac(rb0, rb1, skbio_t1, rlabel), 0.1394037899)
 })
 
+test_that("cache_nodepath does not alter results", {
+  np1 <- cache_nodepath(skbio_t1)
+  expect_equal(faith_pd(b1, np1), 4.75)
+  expect_equal(unweighted_unifrac(b0, b1, np1), 0.238095238095)
+  expect_equal(weighted_unifrac(b0, b1, np1), 2.4)
+  expect_equal(weighted_normalized_unifrac(b0, b1, np1), 0.6)
+  expect_equal(generalized_unifrac(b0, b1, np1, 0), 0.647619047619048)
+  expect_equal(variance_adjusted_unifrac(b0, b1, np1), 0.61086482600333)
+  expect_equal(information_unifrac(b0, b1, np1), 0.1394037899)
+})
+
 test_that("faith_pd satisfies scikit-bio tests", {
   expect_equal(faith_pd(c(0, 0, 0, 0, 0), skbio_t1), 0)
   expect_equal(faith_pd(b0, skbio_t1), 4.5)

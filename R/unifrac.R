@@ -1,9 +1,23 @@
 # Matrix of branches (rows) vs. leaves (columns)
 # Can be used to find the nodes to add up for each branch.
 make_edge_matrix <- function (tree) {
+  UseMethod("make_edge_matrix")
+}
+
+make_edge_matrix.phylo <- function (tree) {
   edge_nodes <- tree$edge[,2]
   np <- ape::nodepath(tree)
   do.call(cbind, lapply(np, function (x) as.integer(edge_nodes %in% x)))
+}
+
+make_edge_matrix.nptree <- function (tree) {
+  tree$nodepath_matrix
+}
+
+cache_nodepath <- function (phylo_tree) {
+  phylo_tree$nodepath_matrix <- make_edge_matrix(phylo_tree)
+  class(phylo_tree) <- c("nptree", class(phylo_tree))
+  phylo_tree
 }
 
 get_branch_abundances <- function (edge_matrix, node_abundances) {
