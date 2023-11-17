@@ -919,7 +919,6 @@ hamming <- function (x, y) {
 #' species that are common to both samples: \eqn{U} is the total abundance of
 #' such species in the first sample, and \eqn{V} the total in the second sample.
 #'
-#'
 #' @param x,y Numeric vectors
 #' @return The dissimilarity between \code{x} and \code{y}
 #' @details
