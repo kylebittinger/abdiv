@@ -69,10 +69,10 @@ single sample.
 
 ``` r
 library(tidyverse)
-tibble(Site = rep(c("Site 1", "Site 2"), each=5), Counts = c(site1, site2)) %>%
-  group_by(Site) %>%
-  summarize_at(vars(Counts), alpha_diversities) %>%
-  pivot_longer(-Site, names_to = "Measure") %>%
+tibble(Site = rep(c("Site 1", "Site 2"), each=5), Counts = c(site1, site2)) |>
+  group_by(Site) |>
+  summarize_at(vars(Counts), alpha_diversities) |>
+  pivot_longer(-Site, names_to = "Measure") |>
   ggplot(aes(x=Measure, y=value, color=Site)) +
   geom_point() +
   scale_color_manual(values=c("#E64B35", "#4DBBD5")) +
@@ -125,9 +125,9 @@ Again, we’ll use a vector called `beta_diversities` to compute every
 dissimilarity measure in the library.
 
 ``` r
-tibble(Measure = beta_diversities) %>%
-  group_by(Measure) %>%
-  mutate(value = get(Measure)(site1, site2)) %>%
+tibble(Measure = beta_diversities) |>
+  group_by(Measure) |>
+  mutate(value = get(Measure)(site1, site2)) |>
   ggplot(aes(x=Measure, y=value)) +
   geom_point(color="#4DBBD5") +
   scale_y_log10() +
@@ -290,8 +290,8 @@ new column with the answer. The α-diversity functions take the number of
 counts for each species as an argument.
 
 ``` r
-plants %>%
-  group_by(Site) %>%
+plants |>
+  group_by(Site) |>
   summarize(Richness = richness(Counts))
 ## # A tibble: 3 × 2
 ##   Site   Richness
@@ -302,18 +302,18 @@ plants %>%
 ```
 
 If you want to cover more than one α-diversity measure, you can use
-`summarize_at()`.
+`across()`.
 
 ``` r
-plants %>%
-  group_by(Site) %>%
-  summarise_at(vars(Counts), c("shannon", "invsimpson"))
+plants |>
+  group_by(Site) |>
+  summarise(across(Counts, list(shannon = shannon, invsimpson = invsimpson)))
 ## # A tibble: 3 × 3
-##   Site   shannon invsimpson
-##   <chr>    <dbl>      <dbl>
-## 1 Site 1   0.937       2.01
-## 2 Site 2   1.10        3   
-## 3 Site 3   1.14        2.30
+##   Site   Counts_shannon Counts_invsimpson
+##   <chr>           <dbl>             <dbl>
+## 1 Site 1          0.937              2.01
+## 2 Site 2          1.10               3   
+## 3 Site 3          1.14               2.30
 ```
 
 The old school way to compute α-diversity is to arrange your data in a
@@ -361,9 +361,7 @@ data is in long format, the `usedist` package has a function to convert
 to a numeric matrix.[^2]
 
 ``` r
-usedist::pivot_to_numeric_matrix(plants, Site, Species, Counts)
-## Warning in usedist::pivot_to_numeric_matrix(plants, Site, Species, Counts):
-## Deprecated - please use pivot_to_matrix() instead.
+usedist::pivot_to_matrix(plants, Site, Species, Counts)
 ##         a b  c d e
 ## Site 1  2 5 16 0 1
 ## Site 2  0 0  8 8 8
@@ -418,8 +416,8 @@ column. Here is an example for data in long format, where the species
 labels are in the column, “Species”:
 
 ``` r
-plants %>%
-  group_by(Site) %>%
+plants |>
+  group_by(Site) |>
   summarize(FaithPD = faith_pd(Counts, faith_tree, Species))
 ## # A tibble: 3 × 2
 ##   Site   FaithPD
