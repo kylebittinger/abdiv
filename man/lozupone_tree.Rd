@@ -6,7 +6,8 @@
 \alias{lozupone_panel_a}
 \alias{lozupone_panel_b}
 \title{Example data for UniFrac distance}
-\format{\code{lozupone_tree} is a phylogenetic tree with 14 tips, labeled
+\format{
+\code{lozupone_tree} is a phylogenetic tree with 14 tips, labeled
 A-N. It was created with the \code{ape} library.
 
 The data frames \code{lozupone_panel_a} and \code{lozupone_panel_b} are
@@ -17,7 +18,12 @@ transcribed from Figure 1 of the paper. They have the following columns:
   \item{Counts}{
     The number of organisms counted per species, always 1 for this
     example.}
-}}
+}
+
+An object of class \code{data.frame} with 14 rows and 3 columns.
+
+An object of class \code{data.frame} with 14 rows and 3 columns.
+}
 \source{
 Lozupone C, Knight R. UniFrac: a new phylogenetic method for
 comparing microbial communities. Applied and environmental microbiology.

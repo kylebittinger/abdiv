@@ -910,6 +910,76 @@ hamming <- function (x, y) {
   sum(x != y)
 }
 
+#' Chao's abundance-weighted indices
+#'
+#' These indices were first developed and introduced as probabilistic,
+#' abundance-weighted versions of the Jaccard and Sorenson indices. The
+#' abundance information is summarized by two quantities, named \eqn{U} and
+#' \eqn{V} in the literature. Each quantity indicates the total abundance of
+#' species that are common to both samples: \eqn{U} is the total abundance of
+#' such species in the first sample, and \eqn{V} the total in the second sample.
+#'
+#' @param x,y Numeric vectors
+#' @return The dissimilarity between \code{x} and \code{y}
+#' @details
+#' In addition to defining the quantities \eqn{U} and \eqn{V}, the articles
+#' provide formulas for estimating the value \eqn{U} and \eqn{V} if more
+#' sampling was to be performed. In other software packages where these indices
+#' are implemented, it is the estimated quantities, \eqn{U_{est}} and
+#' \eqn{V_{est}} that are used to calculate the distance. For example, the
+#' \code{chaodist} function in Vegan uses the estimators. In this package, we
+#' use the observed values of \eqn{U} and \eqn{V}, rather than the estimated
+#' values. Thus, the distances returned here may differ from other software
+#' packages that use the estimators rather than the observed values of \eqn{U}
+#' and \eqn{V}. In general, the estimators increase \eqn{U} and \eqn{V},
+#' resulting in greater estimated abundance of shared species and thus a
+#' smaller distance between samples.
+#'
+#' The \emph{abundance-weighted Jaccard} distance is \eqn{1 - UV / (U + V -
+#' UV)}. Relation of \code{abundance_jaccard()} to other definitions:
+#' \itemize{
+#'   \item Differs \code{vegdist()} with \code{method = "chao"}. We use the
+#'     observed values, not the estimators.
+#'   \item Differs from the \code{jabund} calculator in Mothur. We use the
+#'     observed values, not the estimators.
+#' }
+#'
+#' The \emph{abundance-weighted Sorenson} distance is \eqn{1 - 2UV / (U + V)}.
+#' Relation of \code{abundance_sorenson()} to other definitions:
+#' \itemize{
+#'   \item Differs from the \code{sabund} calculator in Mothur. We use the
+#'     observed values, not the estimators.
+#' }
+#' @references
+#' Chao A, Chazdon RL, Colwell R, Shen TJ. A new statistical approach for
+#' assessing similarity of species composition with incidence and abundance
+#' data. Ecology Letters 2005;8:148-159.
+#' @examples
+#' x <- c(5, 2, 3) # u = 0.5
+#' y <- c(0, 5, 5) # v = 1
+#' abundance_jaccard(x, y) # should be 1 - 0.5 / (1 + 0.5 - 0.5) = 0.5
+#' abundance_sorenson(x, y) # should be 1 - 2 * 0.5 / (1 + 0.5) = 0.3333
+#' @export
+abundance_jaccard <- function (x, y) {
+  shared <- (x > 0) & (y > 0)
+  x <- x / sum(x)
+  y <- y / sum(y)
+  u <- sum(x[shared])
+  v <- sum(y[shared])
+  1 - u * v / (u + v - u * v)
+}
+
+#' @rdname abundance_jaccard
+#' @export
+abundance_sorenson <- function (x, y) {
+  shared <- (x > 0) & (y > 0)
+  x <- x / sum(x)
+  y <- y / sum(y)
+  u <- sum(x[shared])
+  v <- sum(y[shared])
+  1 - 2 * u * v / (u + v)
+}
+
 # Scipy notes:
 # # Distance functions for continuous vectors
 # braycurtis implemented as bray_curtis
@@ -1009,36 +1079,46 @@ hamming <- function (x, y) {
 
 # Vegan notes:
 # # TODO: document these functions better
-# # Methods in vegdist
-# euclidean implemented
-# euclidean with binary = TRUE not implemented
-# manhattan implemented
-# manhattan with binary = TRUE not implemented
-# gower not implemented, needs full matrix
-# gower with binary = TRUE not implemented
-# altGower implemented as modified_mean_character_difference
-# altGower with binary = TRUE not implemented
-# canberra implemented
-# canberra with binary = TRUE not implemented
-# clark not implemented?
-# clark with binary = TRUE not implemented
-# bray implemented as bray_curtis
-# bray with binary = TRUE not implemented
-# kulczynski implemented as weighted_kulczynski_second
-# kulczynski with binary = TRUE implemented as kulczynski_second
-# morisita implemented
-# morisita with binary = TRUE can't be calculated
-# horn implemented as horn_morisita
-# horn with binary = TRUE not implemented
-# binomial implemented as millar (from Anderson & Millar 2004)
-# cao implemented
-# cao with binary = TRUE not implemented
-# jaccard implemented as ruzicka
-# jaccard with binary = TRUE implemented as jaccard
-# # Other stuff
-# TODO: Mountford
-# TODO: Raup
-# TODO: Chao-Jaccard, vegan uses some correction from the paper
+# # Methods in vegdist, listed in order of the METHODS vector
+#  1. manhattan implemented
+#     manhattan with binary = TRUE not implemented
+#  2. euclidean implemented
+#     euclidean with binary = TRUE not implemented
+#  3. canberra implemented
+#     canberra with binary = TRUE not implemented
+#  4. bray implemented as bray_curtis
+#     bray with binary = TRUE not implemented
+#  5. kulczynski implemented as weighted_kulczynski_second
+#     kulczynski with binary = TRUE implemented as kulczynski_second
+#  6. gower not implemented, needs full matrix
+#     gower with binary = TRUE not implemented
+#  7. morisita implemented
+#     morisita with binary = TRUE can't be calculated
+#  8. horn implemented as horn_morisita
+#     horn with binary = TRUE not implemented
+#  9. mountford not imlemented, TODO
+# 10. jaccard implemented as ruzicka
+#     jaccard with binary = TRUE implemented as jaccard
+# 11. raup no implemented, TODO
+# 12. binomial implemented as millar (from Anderson & Millar 2004)
+# 13. chao implemented as abundance_jaccard, but we implement the *observed*
+#     distance, not the estimated distance
+#.    chao with binary = TRUE not implemented
+# 14. altGower implemented as modified_mean_character_difference
+#     altGower with binary = TRUE not implemented
+# 15. cao implemented
+#     cao with binary = TRUE not implemented
+# 16. mahalanobis not implemented, available in R stats module
+#     mahalanobis with binary = TRUE not implemented
+# 17. clark not implemented?
+#     clark with binary = TRUE not implemented
+# 18. chisq not implemented, needs full matrix
+# 19. chord implemented (must test)
+#     chord with binary = TRUE not implemented
+# 20. hellinger implemented (must test)
+# 21. aitchison not implemented, TODO
+# 22. robust.aitchison not implemented, TODO
+
 
 # Legendre & Legendre notes:
 # D_1 implemented as euclidean
