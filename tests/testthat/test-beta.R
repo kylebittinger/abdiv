@@ -44,6 +44,7 @@ test_that("Distance functions are consistent with vegan::vegdist()", {
   expect_equal(
     cy_dissimilarity(x1, x2, base=exp(1)), from_vegdist(x1, x2, "cao"))
   # We don't implement the "mahalanobis" method
+  # abundance_jaccard is not equal to vegdist(x, method = "chao")
 })
 
 test_that("Distance functions are consistent with Legendre & Legendre", {
@@ -342,7 +343,13 @@ test_that("Distance functions are consistent with Mothur", {
   # canberra has no example
   # gower not implemented
   # hellinger has no example
-  # jabund not implemented
+  # https://www.mothur.org/wiki/jabund
+  # Mothur implements the estimators for the distance, not the observed
+  # distance. For the observed distance, u = 16/49 and v = 18/49
+  #
+  expect_equal(
+    abundance_jaccard(forest, pasture),
+    1 - (16 / 49) * (18 / 49) / ((16 / 49) + (18 / 49) - (16 / 49) * (18 / 49)))
   # manhattan has no example
   # https://www.mothur.org/wiki/Morisitahorn
   expect_equal(
@@ -350,7 +357,11 @@ test_that("Distance functions are consistent with Mothur", {
     1 - 2 * (33 / (49 * 49)) / (99 / (49 ^ 2) + 131 / (49 ^ 2)))
   # odum has no example
   # soergel has no example
-  # sorabund not implemented
+  # https://www.mothur.org/wiki/sorabund
+  # See note for jabund
+  expect_equal(
+    abundance_sorenson(forest, pasture),
+    1 - 2 * (16 / 49) * (18 / 49) / ((16 / 49) + (18 / 49)))
   # spearman has no example
   # speciesprofile has no example
   # structchi2 has no example
@@ -424,6 +435,8 @@ test_that("Empty vectors give correct results", {
   expect_identical(sokal_sneath(mt, mt), NaN)
   expect_identical(yule_dissimilarity(mt, mt), NaN)
   expect_equal(hamming(mt, mt), 0)
+  expect_identical(abundance_jaccard(mt, mt), NaN)
+  expect_identical(abundance_sorenson(mt, mt), NaN)
 })
 
 test_that("Single observation gives correct results", {
@@ -461,6 +474,8 @@ test_that("Single observation gives correct results", {
   expect_equal(sokal_sneath(x, y), 1)
   expect_identical(yule_dissimilarity(x, y), NaN)
   expect_equal(hamming(x, y), 1)
+  expect_equal(abundance_jaccard(x, y), NaN) # should it be 1, like Jaccard?
+  expect_equal(abundance_sorenson(x, y), NaN) # should it be 1, like Sorenson?
 })
 
 test_that("Minkowski distance does not allow invalid p", {
