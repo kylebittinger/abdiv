@@ -73,10 +73,10 @@ is available as a character vector in `alpha_diversities`. The term
 
 ```{r alpha-diversity, message=FALSE}
 library(tidyverse)
-tibble(Site = rep(c("Site 1", "Site 2"), each=5), Counts = c(site1, site2)) %>%
-  group_by(Site) %>%
-  summarize_at(vars(Counts), alpha_diversities) %>%
-  pivot_longer(-Site, names_to = "Measure") %>%
+tibble(Site = rep(c("Site 1", "Site 2"), each=5), Counts = c(site1, site2)) |>
+  group_by(Site) |>
+  summarize_at(vars(Counts), alpha_diversities) |>
+  pivot_longer(-Site, names_to = "Measure") |>
   ggplot(aes(x=Measure, y=value, color=Site)) +
   geom_point() +
   scale_color_manual(values=c("#E64B35", "#4DBBD5")) +
@@ -125,9 +125,9 @@ Again, we'll use a vector called `beta_diversities` to compute every dissimilari
 measure in the library.
 
 ```{r beta-diversity, warning=FALSE}
-tibble(Measure = beta_diversities) %>%
-  group_by(Measure) %>%
-  mutate(value = get(Measure)(site1, site2)) %>%
+tibble(Measure = beta_diversities) |>
+  group_by(Measure) |>
+  mutate(value = get(Measure)(site1, site2)) |>
   ggplot(aes(x=Measure, y=value)) +
   geom_point(color="#4DBBD5") +
   scale_y_log10() +
@@ -257,18 +257,18 @@ column with the answer.  The α-diversity functions take the number of
 counts for each species as an argument.
 
 ```{r}
-plants %>%
-  group_by(Site) %>%
+plants |>
+  group_by(Site) |>
   summarize(Richness = richness(Counts))
 ```
 
 If you want to cover more than one α-diversity measure, you can use
-`summarize_at()`.
+`across()`.
 
 ```{r}
-plants %>%
-  group_by(Site) %>%
-  summarise_at(vars(Counts), c("shannon", "invsimpson"))
+plants |>
+  group_by(Site) |>
+  summarise(across(Counts, list(shannon = shannon, invsimpson = invsimpson)))
 ```
 
 The old school way to compute α-diversity is to arrange your data in a
@@ -309,7 +309,7 @@ numeric matrix.^[Full disclosure: `usedist` and `abdiv` are authored by
 the same person.]
 
 ```{r}
-usedist::pivot_to_numeric_matrix(plants, Site, Species, Counts)
+usedist::pivot_to_matrix(plants, Site, Species, Counts)
 ```
 
 To create a distance matrix between samples, we can employ the `dist_make()`
@@ -353,8 +353,8 @@ example for data in long format, where the species labels are in the column,
 "Species":
 
 ```{r}
-plants %>%
-  group_by(Site) %>%
+plants |>
+  group_by(Site) |>
   summarize(FaithPD = faith_pd(Counts, faith_tree, Species))
 ```
 

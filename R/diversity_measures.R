@@ -44,7 +44,7 @@ beta_diversities <- sort(c(
   "morisita", "horn_morisita", "binomial_deviance", "cy_dissimilarity",
   "ruzicka", "jaccard", "sorenson", "kulczynski_first", "kulczynski_second",
   "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
-  "yule_dissimilarity", "hamming",
+  "yule_dissimilarity", "hamming", "abundance_jaccard", "abundance_sorenson",
   # From beta_components.R
   "jaccard_turnover", "jaccard_nestedness",
   "sorenson_turnover", "sorenson_nestedness",
