@@ -37,8 +37,8 @@ and \eqn{V}. In general, the estimators increase \eqn{U} and \eqn{V},
 resulting in greater estimated abundance of shared species and thus a
 smaller distance between samples.
 
-The \emph{abundance-weighted Jaccard} distance is \eqn{UV / (U + V - UV)}.
-Relation of \code{abundance_jaccard()} to other definitions:
+The \emph{abundance-weighted Jaccard} distance is \eqn{1 - UV / (U + V -
+UV)}. Relation of \code{abundance_jaccard()} to other definitions:
 \itemize{
   \item Differs \code{vegdist()} with \code{method = "chao"}. We use the
     observed values, not the estimators.
@@ -46,12 +46,18 @@ Relation of \code{abundance_jaccard()} to other definitions:
     observed values, not the estimators.
 }
 
-The \emph{abundance-weighted Sorenson} distance is \eqn{2UV / (U + V)}.
+The \emph{abundance-weighted Sorenson} distance is \eqn{1 - 2UV / (U + V)}.
 Relation of \code{abundance_sorenson()} to other definitions:
 \itemize{
   \item Differs from the \code{sabund} calculator in Mothur. We use the
     observed values, not the estimators.
 }
+}
+\examples{
+x <- c(5, 2, 3) # u = 0.5
+y <- c(0, 5, 5) # v = 1
+abundance_jaccard(x, y) # should be 1 - 0.5 / (1 + 0.5 - 0.5) = 0.5
+abundance_sorenson(x, y) # should be 1 - 2 * 0.5 / (1 + 0.5) = 0.3333
 }
 \references{
 Chao A, Chazdon RL, Colwell R, Shen TJ. A new statistical approach for
