@@ -13,7 +13,7 @@ Four objects of class \code{character}.
 
 An object of class \code{character} of length 16.
 
-An object of class \code{character} of length 40.
+An object of class \code{character} of length 42.
 
 An object of class \code{character} of length 1.
 
