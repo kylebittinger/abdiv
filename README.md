@@ -163,7 +163,7 @@ ggtree(faith_tree, ladderize = F) +
 If all the species are present, the value of Faith’s phylogenetic
 diversity (PD) is the sum of the branch lengths. Here, we expect the
 total branch length to be 5 + 4 + 2 + 4 + 1 + 20 + 5 + 1 + 3 = 45,
-adding from top to bottom.\[1\]
+adding from top to bottom.[^1]
 
 Here is how you would calculate Faith’s PD:
 
@@ -265,7 +265,7 @@ plants <- tibble(
   Counts = c(site1, site2, site3)
 )
 plants
-## # A tibble: 15 x 3
+## # A tibble: 15 × 3
 ##    Site   Species Counts
 ##    <chr>  <chr>    <dbl>
 ##  1 Site 1 a            2
@@ -293,7 +293,7 @@ counts for each species as an argument.
 plants %>%
   group_by(Site) %>%
   summarize(Richness = richness(Counts))
-## # A tibble: 3 x 2
+## # A tibble: 3 × 2
 ##   Site   Richness
 ##   <chr>     <int>
 ## 1 Site 1        4
@@ -308,7 +308,7 @@ If you want to cover more than one α-diversity measure, you can use
 plants %>%
   group_by(Site) %>%
   summarise_at(vars(Counts), c("shannon", "invsimpson"))
-## # A tibble: 3 x 3
+## # A tibble: 3 × 3
 ##   Site   shannon invsimpson
 ##   <chr>    <dbl>      <dbl>
 ## 1 Site 1   0.937       2.01
@@ -358,10 +358,12 @@ measures, but it is important for computing β-diversity.
 
 For β-diversity, we recommend proceeding via the matrix format. If your
 data is in long format, the `usedist` package has a function to convert
-to a numeric matrix.\[2\]
+to a numeric matrix.[^2]
 
 ``` r
 usedist::pivot_to_numeric_matrix(plants, Site, Species, Counts)
+## Warning in usedist::pivot_to_numeric_matrix(plants, Site, Species, Counts):
+## Deprecated - please use pivot_to_matrix() instead.
 ##         a b  c d e
 ## Site 1  2 5 16 0 1
 ## Site 2  0 0  8 8 8
@@ -419,7 +421,7 @@ labels are in the column, “Species”:
 plants %>%
   group_by(Site) %>%
   summarize(FaithPD = faith_pd(Counts, faith_tree, Species))
-## # A tibble: 3 x 2
+## # A tibble: 3 × 2
 ##   Site   FaithPD
 ##   <chr>    <dbl>
 ## 1 Site 1      40
@@ -453,8 +455,7 @@ plants_matrix_reorder
 ```
 
 The column names of the matrix are automatically added to vectors
-extracted from the matrix, so we get the same result as
-before.
+extracted from the matrix, so we get the same result as before.
 
 ``` r
 usedist::dist_make(plants_matrix_reorder, unweighted_unifrac, faith_tree)
@@ -497,8 +498,8 @@ need support when using this library.
 
 ## Footnotes
 
-1.  The answer here is slightly different than that in the paper. See
+[^1]: The answer here is slightly different than that in the paper. See
     `faith_tree` documentation for further explanation.
 
-2.  Full disclosure: `usedist` and `abdiv` are authored by the same
+[^2]: Full disclosure: `usedist` and `abdiv` are authored by the same
     person.
