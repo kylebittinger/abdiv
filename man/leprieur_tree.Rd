@@ -4,9 +4,11 @@
 \name{leprieur_tree}
 \alias{leprieur_tree}
 \title{Example data for phylogenetic nestedness and turnover components}
-\format{\code{leprieur_tree} is a phylogenetic tree with 8 tips, labeled
+\format{
+\code{leprieur_tree} is a phylogenetic tree with 8 tips, labeled
 a-h. It was created with the \code{ape} library. All edges (branches) in the
-tree are of length 1.}
+tree are of length 1.
+}
 \source{
 Leprieur F, Albouy C, De Bortoli J, Cowman PF, Bellwood DR, Mouillot D.
 Quantifying phylogenetic beta diversity: distinguishing between "true"

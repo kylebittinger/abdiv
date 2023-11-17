@@ -31,6 +31,6 @@ x <- c(9, 0, 1, 2, 5, 2, 1, 1, 0, 7, 2, 1, 0, 1, 1)
 strong(x)
 }
 \references{
-Strong WL. Assessing species abundance uneveness within and between plant
+Strong WL. Assessing species abundance unevenness within and between plant
 communities. Community Ecology. 2002;3:237-246.
 }

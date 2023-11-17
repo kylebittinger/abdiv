@@ -4,8 +4,10 @@
 \name{faith_tree}
 \alias{faith_tree}
 \title{Example data for Faith's phylogenetic diversity}
-\format{\code{faith_tree} is a phylogenetic tree with five tips, labeled
-a-e. It was created with the \code{ape} library.}
+\format{
+\code{faith_tree} is a phylogenetic tree with five tips, labeled
+a-e. It was created with the \code{ape} library.
+}
 \source{
 Faith DP, Richards ZT. Biology (Basel). 2012;1(3):906-32.
 10.3390/biology1030906

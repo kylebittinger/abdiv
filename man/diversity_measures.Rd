@@ -8,7 +8,17 @@
 \alias{phylogenetic_alpha_diversities}
 \alias{phylogenetic_beta_diversities}
 \title{Diversity measures implemented}
-\format{Four objects of class \code{character}.}
+\format{
+Four objects of class \code{character}.
+
+An object of class \code{character} of length 16.
+
+An object of class \code{character} of length 40.
+
+An object of class \code{character} of length 1.
+
+An object of class \code{character} of length 10.
+}
 \usage{
 alpha_diversities
 
