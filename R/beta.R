@@ -78,19 +78,19 @@
 #' chord(v, x)
 #' sqrt(2)
 #' @export
-euclidean <- function (x, y) {
+euclidean <- function(x, y) {
   sqrt(sum((y - x) ^ 2))
 }
 
 #' @rdname euclidean
 #' @export
-rms_distance <- function (x, y) {
+rms_distance <- function(x, y) {
   sqrt(mean((y - x) ^ 2))
 }
 
 #' @rdname euclidean
 #' @export
-chord <- function (x, y) {
+chord <- function(x, y) {
   x <- x / sqrt(sum(x ^ 2))
   y <- y / sqrt(sum(y ^ 2))
   euclidean(x, y)
@@ -98,7 +98,7 @@ chord <- function (x, y) {
 
 #' @rdname euclidean
 #' @export
-hellinger <- function (x, y) {
+hellinger <- function(x, y) {
   x <- x / sum(x)
   y <- y / sum(y)
   chord(sqrt(x), sqrt(y))
@@ -106,7 +106,7 @@ hellinger <- function (x, y) {
 
 #' @rdname euclidean
 #' @export
-geodesic_metric <- function (x, y) {
+geodesic_metric <- function(x, y) {
   acos(1 - (chord(x, y) ^ 2) / 2)
 }
 
@@ -128,7 +128,7 @@ geodesic_metric <- function (x, y) {
 #' Because this measure is defined for probabilities, the vectors x and y are
 #' normalized in the function so they sum to 1.
 #' @export
-kullback_leibler_divergence <- function (x, y) {
+kullback_leibler_divergence <- function(x, y) {
   x <- x / sum(x)
   y <- y / sum(y)
   terms <- x * log(x / y)
@@ -202,19 +202,19 @@ kullback_leibler_divergence <- function (x, y) {
 #' modified_mean_character_difference(x > 0, y > 0)
 #' jaccard(x, y)
 #' @export
-manhattan <- function (x, y) {
+manhattan <- function(x, y) {
   sum(abs(y - x))
 }
 
 #' @rdname manhattan
 #' @export
-mean_character_difference <- function (x, y) {
+mean_character_difference <- function(x, y) {
   manhattan(x, y) / length(x)
 }
 
 #' @rdname manhattan
 #' @export
-modified_mean_character_difference <- function (x, y) {
+modified_mean_character_difference <- function(x, y) { # nolint
   pp <- sum((x > 0) | (y > 0))
   manhattan(x, y) / pp
 }
@@ -266,7 +266,7 @@ modified_mean_character_difference <- function (x, y) {
 #' canberra(x, y)
 #' clark_coefficient_of_divergence(x, y)
 #' @export
-canberra <- function (x, y) {
+canberra <- function(x, y) {
   xy_diff <- abs(x - y)
   xy_sum <- x + y
   keep <- xy_sum != 0
@@ -275,7 +275,7 @@ canberra <- function (x, y) {
 
 #' @rdname canberra
 #' @export
-clark_coefficient_of_divergence <- function (x, y) {
+clark_coefficient_of_divergence <- function(x, y) { # nolint
   xy_diff <- x - y
   xy_sum <- x + y
   keep <- xy_sum != 0
@@ -303,7 +303,7 @@ clark_coefficient_of_divergence <- function (x, y) {
 #' y <- c(10, 2, 0, 1, 1, 0)
 #' chebyshev(x, y) # should be 5
 #' @export
-chebyshev <- function (x, y) {
+chebyshev <- function(x, y) {
   max(abs(x - y))
 }
 
@@ -348,7 +348,7 @@ chebyshev <- function (x, y) {
 #' correlation_distance(v, w)
 #' 1 - cor(v, w)
 #' @export
-correlation_distance <- function (x, y) {
+correlation_distance <- function(x, y) {
   x <- x - mean(x)
   y <- y - mean(y)
   cosine_distance(x, y)
@@ -356,7 +356,7 @@ correlation_distance <- function (x, y) {
 
 #' @rdname correlation_distance
 #' @export
-cosine_distance <- function (x, y) {
+cosine_distance <- function(x, y) {
   xy_dot <- sum(x * y)
   x_norm <- sqrt(sum(x ^ 2))
   y_norm <- sqrt(sum(y ^ 2))
@@ -401,7 +401,7 @@ cosine_distance <- function (x, y) {
 #' bray_curtis(x / sum(x), y / sum(y))
 #' manhattan(x / sum(x), y / sum(y)) / 2
 #' @export
-bray_curtis <- function (x, y) {
+bray_curtis <- function(x, y) {
   sum(abs(x - y)) / sum(x + y)
 }
 
@@ -428,7 +428,7 @@ bray_curtis <- function (x, y) {
 #'   \item Equivalent to \eqn{1 - S_{18}} in Legendre & Legendre.
 #' }
 #' @export
-weighted_kulczynski_second <- function (x, y) {
+weighted_kulczynski_second <- function(x, y) {
   xy_min <- sum(pmin(x, y))
   1 - (1 / 2) * (xy_min / sum(x) + xy_min / sum(y))
 }
@@ -455,7 +455,7 @@ weighted_kulczynski_second <- function (x, y) {
 #' The default value of \code{p = 1} makes this distance equal to the Manhattan
 #' distance.
 #' @export
-minkowski <- function (x, y, p = 1) {
+minkowski <- function(x, y, p = 1) {
   stopifnot(p > 0, length(p) == 1)
   sum(abs(x - y) ^ p) ^ (1 / p)
 }
@@ -505,10 +505,12 @@ minkowski <- function (x, y, p = 1) {
 #' Horn HS. Measurement of "Overlap" in Comparative Ecological Studies. The
 #' American Naturalist, 1966;100(914):419-424.
 #' @export
-morisita <- function (x, y) {
+morisita <- function(x, y) {
   # Vegan docs not consistent with the paper, but implementation is correct
+  # nolint start: object_name_linter. Use Nx and Ny to match equations
   Nx <- sum(x)
   Ny <- sum(y)
+  # nolint end
   # Eqn 1
   lambda_x <- sum(x * (x - 1)) / (Nx * (Nx - 1))
   # Eqn 2
@@ -519,9 +521,11 @@ morisita <- function (x, y) {
 
 #' @rdname morisita
 #' @export
-horn_morisita <- function (x, y) {
+horn_morisita <- function(x, y) {
+  # nolint start: object_name_linter. Use Nx and Ny to match equations
   Nx <- sum(x)
   Ny <- sum(y)
+  # nolint end
   # Horn defines new lambda estimates in middle of page 420
   lambda_x <- sum(x ^ 2) / (Nx ^ 2)
   lambda_y <- sum(y ^ 2) / (Ny ^ 2)
@@ -603,7 +607,7 @@ horn_morisita <- function (x, y) {
 #' Cao Y, Williams WP, Bark AW. Similarity measure bias in river benthic
 #' Aufwuchs community analysis. Water Environment Research 1997;69(1):95-106.
 #' @export
-binomial_deviance <- function (x, y) {
+binomial_deviance <- function(x, y) {
   x_is_defined_and_zero <- (x == 0) %in% TRUE
   y_is_defined_and_zero <- (y == 0) %in% TRUE
   n <- x + y
@@ -620,7 +624,7 @@ binomial_deviance <- function (x, y) {
 
 #' @rdname binomial_deviance
 #' @export
-cy_dissimilarity <- function (x, y, base = 10, min_value = 0.1) {
+cy_dissimilarity <- function(x, y, base = 10, min_value = 0.1) {
   # Remove double zeros
   keep <- (x > 0) | (y > 0)
   x <- x[keep]
@@ -628,7 +632,7 @@ cy_dissimilarity <- function (x, y, base = 10, min_value = 0.1) {
   # Substitute individual zeros with 0.1, just like vegan
   x <- ifelse(x > min_value, x, min_value)
   y <- ifelse(y > min_value, y, min_value)
-  N <- length(x)
+  N <- length(x) # nolint: object_name_linter. Use N to match equation
   xy_sum <- x + y
   t1 <- xy_sum * log(xy_sum / 2, base = base)
   t2 <- x * log(y, base = base)
@@ -653,7 +657,7 @@ cy_dissimilarity <- function (x, y, base = 10, min_value = 0.1) {
 #'     \eqn{d_r = 2 d_{bc} / (1 + d_{bc})}.
 #' }
 #' @export
-ruzicka <- function (x, y) {
+ruzicka <- function(x, y) {
   1 - sum(pmin(x, y)) / sum(pmax(x, y))
 }
 
@@ -797,7 +801,7 @@ ruzicka <- function (x, y) {
 #'     in Legendre & Legendre.
 #' }
 #' @export
-jaccard <- function (x, y) {
+jaccard <- function(x, y) {
   x <- x > 0
   y <- y > 0
   sum(xor(x, y)) / sum(x | y)
@@ -805,7 +809,7 @@ jaccard <- function (x, y) {
 
 #' @rdname jaccard
 #' @export
-sorenson <- function (x, y) {
+sorenson <- function(x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
@@ -815,7 +819,7 @@ sorenson <- function (x, y) {
 
 #' @rdname jaccard
 #' @export
-kulczynski_first <- function (x, y) {
+kulczynski_first <- function(x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
@@ -825,7 +829,7 @@ kulczynski_first <- function (x, y) {
 
 #' @rdname jaccard
 #' @export
-kulczynski_second <- function (x, y) {
+kulczynski_second <- function(x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
@@ -834,7 +838,7 @@ kulczynski_second <- function (x, y) {
 
 #' @rdname jaccard
 #' @export
-rogers_tanimoto <- function (x, y) {
+rogers_tanimoto <- function(x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
@@ -845,7 +849,7 @@ rogers_tanimoto <- function (x, y) {
 
 #' @rdname jaccard
 #' @export
-russel_rao <- function (x, y) {
+russel_rao <- function(x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
@@ -855,7 +859,7 @@ russel_rao <- function (x, y) {
 
 #' @rdname jaccard
 #' @export
-sokal_michener <- function (x, y) {
+sokal_michener <- function(x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
@@ -866,7 +870,7 @@ sokal_michener <- function (x, y) {
 
 #' @rdname jaccard
 #' @export
-sokal_sneath <- function (x, y) {
+sokal_sneath <- function(x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
@@ -876,7 +880,7 @@ sokal_sneath <- function (x, y) {
 
 #' @rdname jaccard
 #' @export
-yule_dissimilarity <- function (x, y) {
+yule_dissimilarity <- function(x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
@@ -906,7 +910,7 @@ yule_dissimilarity <- function (x, y) {
 #'     presence/absence vectors.
 #' }
 #' @export
-hamming <- function (x, y) {
+hamming <- function(x, y) {
   sum(x != y)
 }
 
@@ -960,7 +964,7 @@ hamming <- function (x, y) {
 #' abundance_jaccard(x, y) # should be 1 - 0.5 / (1 + 0.5 - 0.5) = 0.5
 #' abundance_sorenson(x, y) # should be 1 - 2 * 0.5 / (1 + 0.5) = 0.3333
 #' @export
-abundance_jaccard <- function (x, y) {
+abundance_jaccard <- function(x, y) {
   shared <- (x > 0) & (y > 0)
   x <- x / sum(x)
   y <- y / sum(y)
@@ -971,7 +975,7 @@ abundance_jaccard <- function (x, y) {
 
 #' @rdname abundance_jaccard
 #' @export
-abundance_sorenson <- function (x, y) {
+abundance_sorenson <- function(x, y) {
   shared <- (x > 0) & (y > 0)
   x <- x / sum(x)
   y <- y / sum(y)
@@ -979,6 +983,8 @@ abundance_sorenson <- function (x, y) {
   v <- sum(y[shared])
   1 - 2 * u * v / (u + v)
 }
+
+# nolint start: commented_code_linter.
 
 # Scipy notes:
 # # Distance functions for continuous vectors
@@ -1170,3 +1176,4 @@ abundance_sorenson <- function (x, y) {
 # S_27 (Raup-Crick p-value) not implemented
 # Skip rest of Q-mode similarity for now
 
+# nolint end

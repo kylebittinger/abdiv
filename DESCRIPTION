@@ -16,8 +16,10 @@ BugReports: https://github.com/kylebittinger/abdiv/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 Suggests: 
     testthat (>= 2.1.0),
     vegan
 Imports: ape
+Depends:
+    R (>= 3.5)

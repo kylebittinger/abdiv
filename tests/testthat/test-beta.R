@@ -3,7 +3,7 @@ context("beta diversity")
 test_that("Distance functions are consistent with stats::dist()", {
   x1 <- c(0, 1, 2, 3, 4)
   x2 <- c(3, 0, 2, 1, 5)
-  from_dist <- function (x, y, method, ...) {
+  from_dist <- function(x, y, method, ...) {
     as.numeric(dist(rbind(x1, x2), method = method, ...))
   }
   expect_equal(euclidean(x1, x2), from_dist(x1, x2, "euclidean"))
@@ -11,7 +11,7 @@ test_that("Distance functions are consistent with stats::dist()", {
   expect_equal(manhattan(x1, x2), from_dist(x1, x2, "manhattan"))
   expect_equal(canberra(x1, x2), from_dist(x1, x2, "canberra"))
   expect_equal(jaccard(x1, x2), from_dist(x1, x2, "binary"))
-  expect_equal(minkowski(x1, x2, 3), from_dist(x1, x2, "minkowski", p=3))
+  expect_equal(minkowski(x1, x2, 3), from_dist(x1, x2, "minkowski", p = 3))
 })
 
 test_that("Distance functions are consistent with vegan::vegdist()", {
@@ -19,30 +19,35 @@ test_that("Distance functions are consistent with vegan::vegdist()", {
   x2 <- c(0, 0, 3, 0, 2, 1, 1)
   x3 <- 1:5
   x4 <- 6:10
-  from_vegdist <- function (x, y, method, ...) {
+  from_vegdist <- function(x, y, method, ...) {
     as.numeric(vegan::vegdist(rbind(x, y), method = method, ...))
   }
   expect_equal(manhattan(x1, x2), from_vegdist(x1, x2, "manhattan"))
   expect_equal(euclidean(x1, x2), from_vegdist(x1, x2, "euclidean"))
   expect_equal(
-    canberra(x1, x2), from_vegdist(x1, x2, "canberra") * sum(x1 | x2))
+    canberra(x1, x2), from_vegdist(x1, x2, "canberra") * sum(x1 | x2)
+  )
   expect_equal(bray_curtis(x1, x2), from_vegdist(x1, x2, "bray"))
   expect_equal(
-    weighted_kulczynski_second(x1, x2), from_vegdist(x1, x2, "kulczynski"))
+    weighted_kulczynski_second(x1, x2), from_vegdist(x1, x2, "kulczynski")
+  )
   expect_equal(
     kulczynski_second(x1, x2),
-    from_vegdist(x1, x2, "kulczynski", binary = TRUE))
+    from_vegdist(x1, x2, "kulczynski", binary = TRUE)
+  )
   expect_equal(ruzicka(x1, x2), from_vegdist(x1, x2, "jaccard"))
   expect_equal(jaccard(x1, x2), from_vegdist(x1, x2, "jaccard", binary = TRUE))
   # gower not implemented
   expect_equal(
     modified_mean_character_difference(x1, x2),
-    from_vegdist(x1, x2, "altGower"))
+    from_vegdist(x1, x2, "altGower")
+  )
   expect_equal(morisita(x1, x2), from_vegdist(x1, x2, "morisita"))
   expect_equal(horn_morisita(x1, x2), from_vegdist(x1, x2, "horn"))
   expect_equal(binomial_deviance(x1, x2), from_vegdist(x1, x2, "binomial"))
   expect_equal(
-    cy_dissimilarity(x1, x2, base=exp(1)), from_vegdist(x1, x2, "cao"))
+    cy_dissimilarity(x1, x2, base = exp(1)), from_vegdist(x1, x2, "cao")
+  )
   # We don't implement the "mahalanobis" method
   # abundance_jaccard is not equal to vegdist(x, method = "chao")
 })
@@ -77,7 +82,8 @@ test_that("Distance functions are consistent with Legendre & Legendre", {
   # Hellinger is chord on sqrt transformed proportions
   expect_equal(
     hellinger(x1, x2),
-    chord(sqrt(x1 / sum(x1)), sqrt(x2 / sum(x2))))
+    chord(sqrt(x1 / sum(x1)), sqrt(x2 / sum(x2)))
+  )
   # Under 7.57
   expect_equal(sorenson(c(1, 1, 1, 0, 0), c(0, 0, 0, 1, 1)), 1)
   expect_equal(sorenson(c(1, 1, 1, 0, 0), c(1, 1, 1, 1, 1)), 0.25)
@@ -91,7 +97,7 @@ test_that("Distance functions are consistent with Legendre & Legendre", {
 
 test_that("Kullback-Leibler divergence works", {
   px <- c(0.36, 0.48, 0.16)
-  qx <- c(1/3, 1/3, 1/3)
+  qx <- c(1 / 3, 1 / 3, 1 / 3)
   # Example from wikipedia
   expect_equal(kullback_leibler_divergence(px, qx), 0.0852996)
   # KL divergence is not symmetric
@@ -100,19 +106,22 @@ test_that("Kullback-Leibler divergence works", {
   # Vectors should be scaled to probability distributions
   expect_equal(
     kullback_leibler_divergence(5 * px, 2 * qx),
-    kullback_leibler_divergence(px, qx))
+    kullback_leibler_divergence(px, qx)
+  )
 
   # Whenever P(x) is zero the contribution of the corresponding term is
   # interpreted as zero.
   expect_equal(
     kullback_leibler_divergence(c(0.5, 0.5, 0), c(0.25, 0.5, 0.25)),
-    0.3465736)
+    0.3465736
+  )
 
   # The Kullback–Leibler divergence is defined only if
   # for all Q(x)=0 implies P(x)=0 (absolute continuity).
   expect_equal(
     kullback_leibler_divergence(c(0, 0, 0.5, 0.5), c(0.25, 0.75, 0, 0)),
-    Inf)
+    Inf
+  )
 })
 
 test_that("Distance functions are consistent with scipy.spatial.distance", {
@@ -156,7 +165,8 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
     0.113785259040305, 0.388530307328445, 0.859909466007596,
     0.0521516787591828, 0.162090824857229, 0.185923609045766,
     0.624771651261048, 0.341512849552078, 0.703490336837803, 0.603756464001957,
-    0.233896943442331, 0.010021048856099, 0.786605840396904)
+    0.233896943442331, 0.010021048856099, 0.786605840396904
+  )
   d2 <- c(
     0.803369411603336, 0.865326454554403, 0.746834041075404, 0.63624309199106,
     0.0512000630662547, 0.950334837263359, 0.469773260962682, 0.422130528845943,
@@ -183,7 +193,8 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
     0.0816812218986355, 0.379313962274464, 0.149698699777684, 0.71290238783029,
     0.683097923743805, 0.763537594387651, 0.182400496325123, 0.576469584899234,
     0.88651132487316, 0.5784337085544, 0.970002662875512, 0.731820734790506,
-    0.385140139393671, 0.17742918511934, 0.97634232292423)
+    0.385140139393671, 0.17742918511934, 0.97634232292423
+  )
   expect_equal(chebyshev(d1, d2), 0.89084734)
   expect_equal(manhattan(d1, d2), 32.420590)
   expect_equal(correlation_distance(d1, d2), 0.92507465)
@@ -197,13 +208,15 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
     1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1,
     0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0,
     0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1,
-    0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1)
+    0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1
+  )
   b2 <- c(
     1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1,
     0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1,
     1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0,
     1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0,
-    1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1)
+    1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1
+  )
   expect_equal(jaccard(b1, b2), 6.5714286e-01)
   expect_equal(hamming(b1, b2), 0.46 * 100)
 
@@ -225,11 +238,13 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
   expect_equal(canberra(3.3, 3.4), 0.01492537)
   expect_equal(minkowski(c(1, 2, 3), c(1, 1, 5), 1), 3)
   expect_equal(
-    minkowski(c(1, 2, 3), c(1, 1, 5), 1.5), (2 ** 1.5 + 1) ** (2 / 3))
+    minkowski(c(1, 2, 3), c(1, 1, 5), 1.5), (2 ** 1.5 + 1) ** (2 / 3)
+  )
   expect_equal(minkowski(c(1, 2, 3), c(1, 1, 5), 2), sqrt(5))
   expect_equal(euclidean(c(1, 2, 3), c(1, 1, 5)), sqrt(5))
   expect_equal(
-    cosine_distance(c(1, 2, 3), c(1, 1, 5)), 1 - 18 / (sqrt(14) * sqrt(27)))
+    cosine_distance(c(1, 2, 3), c(1, 1, 5)), 1 - 18 / (sqrt(14) * sqrt(27))
+  )
   expect_equal(correlation_distance(c(1, 2, 3), c(1, 1, 5)), 0.1339746)
   expect_equal(canberra(c(1, 2, 3), c(2, 4, 6)), 1)
   expect_equal(canberra(c(1, 1, 0, 0), c(1, 0, 1, 0)), 2)
@@ -252,7 +267,8 @@ test_that("Distance functions are consistent with scipy.spatial.distance", {
   expect_equal(cosine_distance(c(1, 0, 0), c(0, 1, 0)), 1)
   expect_equal(cosine_distance(c(100, 0, 0), c(0, 1, 0)), 1)
   expect_equal(
-    cosine_distance(c(1, 0, 0), c(1, 1, 0)),  1 - 1 / (3 * sqrt(2 / 9)))
+    cosine_distance(c(1, 0, 0), c(1, 1, 0)),  1 - 1 / (3 * sqrt(2 / 9))
+  )
   expect_equal(euclidean(c(1, 0, 0), c(0, 1, 0)), sqrt(2))
   expect_equal(euclidean(c(1, 0, 0), c(1, 1, 0)), 1)
   # mahalanobis is not implemented
@@ -309,11 +325,13 @@ test_that("Distance functions are consistent with Mothur", {
   forest <- c(
     1, 1, 1, 1, 1, 1, 3, 3, 2, 2, 1, 1, 3, 2, 1, 1, 1, 1, 2, 1,
     1, 2, 5, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+  )
   pasture <- c(
     0, 0, 0, 1, 0, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3,
     0, 0, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 1, 7, 1,
-    1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1)
+    1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1
+  )
   # https://www.mothur.org/wiki/Anderberg
   expect_equal(sokal_sneath(forest, pasture), 1 - 9 / (2 * 33 + 2 * 31 - 3 * 9))
   # https://www.mothur.org/wiki/Hamming
@@ -349,19 +367,22 @@ test_that("Distance functions are consistent with Mothur", {
   #
   expect_equal(
     abundance_jaccard(forest, pasture),
-    1 - (16 / 49) * (18 / 49) / ((16 / 49) + (18 / 49) - (16 / 49) * (18 / 49)))
+    1 - (16 / 49) * (18 / 49) / ((16 / 49) + (18 / 49) - (16 / 49) * (18 / 49))
+  )
   # manhattan has no example
   # https://www.mothur.org/wiki/Morisitahorn
   expect_equal(
     horn_morisita(forest, pasture),
-    1 - 2 * (33 / (49 * 49)) / (99 / (49 ^ 2) + 131 / (49 ^ 2)))
+    1 - 2 * (33 / (49 * 49)) / (99 / (49 ^ 2) + 131 / (49 ^ 2))
+  )
   # odum has no example
   # soergel has no example
   # https://www.mothur.org/wiki/sorabund
   # See note for jabund
   expect_equal(
     abundance_sorenson(forest, pasture),
-    1 - 2 * (16 / 49) * (18 / 49) / ((16 / 49) + (18 / 49)))
+    1 - 2 * (16 / 49) * (18 / 49) / ((16 / 49) + (18 / 49))
+  )
   # spearman has no example
   # speciesprofile has no example
   # structchi2 has no example
@@ -381,6 +402,8 @@ test_that("Cao index matches Cao (1997) paper", {
   expect_equal(cy_dissimilarity(10, 2), 0.3606262540)
 })
 
+# nolint start: object_name_linter. Using variable names from papers
+
 test_that("Clark matches Clark 1952 paper", {
   Ai <- c(8.000, 10.059, 4.000, 4.206, 3.941)
   Bi <- c(7.969, 10.078, 1.016, 3.078, 2.250)
@@ -396,10 +419,12 @@ test_that("Clark matches Clark 1952 paper", {
 test_that("Mean character difference matches Cain 1958 paper", {
   # Table 1
   A <- c(100, 100,  75, 5,  90, 100, 90)
-  B <- c( 90,  85, 100, 5, 100,  50, 95)
+  B <- c( 90,  85, 100, 5, 100,  50, 95) # nolint: spaces_inside_linter
   # Table 2
   expect_equal(mean_character_difference(A, B), 115 / 7)
 })
+
+# nolint end
 
 test_that("Empty vectors give correct results", {
   mt <- c(0, 0, 0, 0)
@@ -438,6 +463,8 @@ test_that("Empty vectors give correct results", {
   expect_identical(abundance_jaccard(mt, mt), NaN)
   expect_identical(abundance_sorenson(mt, mt), NaN)
 })
+
+# nolint start: commented_code_linter. Equations explain results
 
 test_that("Single observation gives correct results", {
   x <- c(0, 0, 0, 0)
@@ -478,7 +505,9 @@ test_that("Single observation gives correct results", {
   expect_equal(abundance_sorenson(x, y), NaN) # should it be 1, like Sorenson?
 })
 
+# nolint end
+
 test_that("Minkowski distance does not allow invalid p", {
-  expect_error(minkowski(c(1,2,3), c(4,5,6), p = 0))
-  expect_error(minkowski(c(1,2,3), c(4,5,6), p = c(1,2,3)))
+  expect_error(minkowski(c(1, 2, 3), c(4, 5, 6), p = 0))
+  expect_error(minkowski(c(1, 2, 3), c(4, 5, 6), p = c(1, 2, 3)))
 })
