@@ -68,7 +68,7 @@ test_that("Alpha diversity values are consistent with vegan", {
 })
 
 test_that("Alpha diversity values are consistent with Mothur", {
-  mothur_cluster_cts <- function (x) {
+  mothur_cluster_cts <- function(x) {
     rep(seq_along(x), times=x)
   }
   # https://www.mothur.org/wiki/Sobs

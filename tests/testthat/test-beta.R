@@ -3,7 +3,7 @@ context("beta diversity")
 test_that("Distance functions are consistent with stats::dist()", {
   x1 <- c(0, 1, 2, 3, 4)
   x2 <- c(3, 0, 2, 1, 5)
-  from_dist <- function (x, y, method, ...) {
+  from_dist <- function(x, y, method, ...) {
     as.numeric(dist(rbind(x1, x2), method = method, ...))
   }
   expect_equal(euclidean(x1, x2), from_dist(x1, x2, "euclidean"))
@@ -19,7 +19,7 @@ test_that("Distance functions are consistent with vegan::vegdist()", {
   x2 <- c(0, 0, 3, 0, 2, 1, 1)
   x3 <- 1:5
   x4 <- 6:10
-  from_vegdist <- function (x, y, method, ...) {
+  from_vegdist <- function(x, y, method, ...) {
     as.numeric(vegan::vegdist(rbind(x, y), method = method, ...))
   }
   expect_equal(manhattan(x1, x2), from_vegdist(x1, x2, "manhattan"))
