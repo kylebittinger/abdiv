@@ -27,29 +27,35 @@ NULL
 
 #' @rdname diversity_measures
 #' @export
-alpha_diversities <- sort(c(
-  "berger_parker_d", "brillouin_d", "dominance", "heip_e", "invsimpson",
-  "kempton_taylor_q", "margalef", "mcintosh_d", "mcintosh_e", "menhinick",
-  "pielou_e", "richness", "shannon", "simpson", "simpson_e", "strong"))
+alpha_diversities <- sort(
+  c(
+    "berger_parker_d", "brillouin_d", "dominance", "heip_e", "invsimpson",
+    "kempton_taylor_q", "margalef", "mcintosh_d", "mcintosh_e", "menhinick",
+    "pielou_e", "richness", "shannon", "simpson", "simpson_e", "strong"
+  )
+)
 
 #' @rdname diversity_measures
 #' @export
-beta_diversities <- sort(c(
-  # From beta.R
-  "euclidean", "rms_distance", "chord", "hellinger", "geodesic_metric",
-  "kullback_leibler_divergence", "manhattan", "mean_character_difference",
-  "modified_mean_character_difference", "canberra",
-  "clark_coefficient_of_divergence", "chebyshev", "correlation_distance",
-  "cosine_distance", "bray_curtis", "weighted_kulczynski_second", "minkowski",
-  "morisita", "horn_morisita", "binomial_deviance", "cy_dissimilarity",
-  "ruzicka", "jaccard", "sorenson", "kulczynski_first", "kulczynski_second",
-  "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
-  "yule_dissimilarity", "hamming", "abundance_jaccard", "abundance_sorenson",
-  # From beta_components.R
-  "jaccard_turnover", "jaccard_nestedness",
-  "sorenson_turnover", "sorenson_nestedness",
-  "bray_curtis_balanced", "bray_curtis_gradient",
-  "ruzicka_balanced", "ruzicka_gradient"))
+beta_diversities <- sort(
+  c(
+    # From beta.R
+    "euclidean", "rms_distance", "chord", "hellinger", "geodesic_metric",
+    "kullback_leibler_divergence", "manhattan", "mean_character_difference",
+    "modified_mean_character_difference", "canberra",
+    "clark_coefficient_of_divergence", "chebyshev", "correlation_distance",
+    "cosine_distance", "bray_curtis", "weighted_kulczynski_second", "minkowski",
+    "morisita", "horn_morisita", "binomial_deviance", "cy_dissimilarity",
+    "ruzicka", "jaccard", "sorenson", "kulczynski_first", "kulczynski_second",
+    "rogers_tanimoto", "russel_rao", "sokal_michener", "sokal_sneath",
+    "yule_dissimilarity", "hamming", "abundance_jaccard", "abundance_sorenson",
+    # From beta_components.R
+    "jaccard_turnover", "jaccard_nestedness",
+    "sorenson_turnover", "sorenson_nestedness",
+    "bray_curtis_balanced", "bray_curtis_gradient",
+    "ruzicka_balanced", "ruzicka_gradient"
+  )
+)
 
 #' @rdname diversity_measures
 #' @export
@@ -57,10 +63,13 @@ phylogenetic_alpha_diversities <- c("faith_pd")
 
 #' @rdname diversity_measures
 #' @export
-phylogenetic_beta_diversities <- sort(c(
-  # From unifrac.R
-  "unweighted_unifrac", "weighted_unifrac", "weighted_normalized_unifrac",
-  "variance_adjusted_unifrac", "generalized_unifrac", "information_unifrac",
-  # From beta_components.R
-  "unweighted_unifrac_turnover", "unweighted_unifrac_nestedness",
-  "phylosor_turnover", "phylosor_nestedness"))
+phylogenetic_beta_diversities <- sort(
+  c(
+    # From unifrac.R
+    "unweighted_unifrac", "weighted_unifrac", "weighted_normalized_unifrac",
+    "variance_adjusted_unifrac", "generalized_unifrac", "information_unifrac",
+    # From beta_components.R
+    "unweighted_unifrac_turnover", "unweighted_unifrac_nestedness",
+    "phylosor_turnover", "phylosor_nestedness"
+  )
+)

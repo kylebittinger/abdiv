@@ -16,12 +16,12 @@ NULL
 #' @rdname jaccard_components
 #' @export
 jaccard_turnover <- function(x, y) {
-    x <- x > 0
-    y <- y > 0
-    a <- sum(x & y)
-    b <- sum((!x) & y)
-    c <- sum(x & (!y))
-    2 * min(b, c) / (a + 2 * min(b, c))
+  x <- x > 0
+  y <- y > 0
+  a <- sum(x & y)
+  b <- sum((!x) & y)
+  c <- sum(x & (!y))
+  2 * min(b, c) / (a + 2 * min(b, c))
 }
 
 #' @rdname jaccard_components
@@ -68,6 +68,8 @@ sorenson_nestedness <- function(x, y) {
 #' @name bray_curtis_components
 NULL
 
+# nolint start: object_name_linter. Use A, B, C from Baselga paper
+
 #' @rdname bray_curtis_components
 #' @export
 bray_curtis_balanced <- function(x, y) {
@@ -93,7 +95,7 @@ ruzicka_balanced <- function(x, y) {
   A <- sum(minxy)
   B <- sum(x - minxy)
   C <- sum(y - minxy)
-  2 * min(B, C) / (A +  2* min(B, C))
+  2 * min(B, C) / (A +  2 * min(B, C))
 }
 
 #' @rdname bray_curtis_components
@@ -101,6 +103,8 @@ ruzicka_balanced <- function(x, y) {
 ruzicka_gradient <- function(x, y) {
   ruzicka(x, y) - ruzicka_balanced(x, y)
 }
+
+# nolint end
 
 #' Nestedness and turnover components of unweighted UniFrac distance
 #'

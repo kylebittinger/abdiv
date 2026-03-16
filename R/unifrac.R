@@ -1,7 +1,7 @@
 # Matrix of branches (rows) vs. leaves (columns)
 # Can be used to find the nodes to add up for each branch.
 make_edge_matrix <- function(tree) {
-  edge_nodes <- tree$edge[,2]
+  edge_nodes <- tree$edge[, 2]
   np <- ape::nodepath(tree)
   do.call(cbind, lapply(np, function(x) as.integer(edge_nodes %in% x)))
 }
@@ -65,7 +65,7 @@ match_to_tree <- function(x, tree, x_labels = NULL) {
   if (length(x) != length(tree_labels)) {
     stop("Length of x does not match number of tips in tree.")
   }
-  return(x)
+  x
 }
 
 #' Faith's phylogenetic diversity
@@ -311,7 +311,8 @@ generalized_unifrac <- function(x, y, tree, alpha = 0.5, xy_labels = NULL) {
   p_sum <- px + py
   p_sum_defined_and_zero <- (p_sum == 0) %in% TRUE
   numerator <- ifelse(
-    p_sum_defined_and_zero, 0, b * (p_sum ^ (alpha - 1)) * abs(px - py))
+    p_sum_defined_and_zero, 0, b * (p_sum ^ (alpha - 1)) * abs(px - py)
+  )
   denominator <- ifelse(p_sum_defined_and_zero, 0, b * (p_sum ^ alpha))
   sum(numerator) / sum(denominator)
 }
@@ -343,10 +344,11 @@ phylosor <- function(x, y, tree, xy_labels = NULL) {
   b <- tree$edge.length
   px <- get_branch_abundances(em, x) > 0
   py <- get_branch_abundances(em, y) > 0
-  # Making this look like the formula in Bryant (2008).
+  # nolint start: object_name_linter. Match formula in Bryant (2008).
   BL_ij <- sum(b[px & py])
   BL_i <- sum(b[px])
   BL_j <- sum(b[py])
+  # nolint end
   1 - (BL_ij / (0.5 * (BL_i + BL_j)))
 }
 

@@ -214,7 +214,7 @@ mean_character_difference <- function(x, y) {
 
 #' @rdname manhattan
 #' @export
-modified_mean_character_difference <- function(x, y) {
+modified_mean_character_difference <- function(x, y) { # nolint
   pp <- sum((x > 0) | (y > 0))
   manhattan(x, y) / pp
 }
@@ -275,7 +275,7 @@ canberra <- function(x, y) {
 
 #' @rdname canberra
 #' @export
-clark_coefficient_of_divergence <- function(x, y) {
+clark_coefficient_of_divergence <- function(x, y) { # nolint
   xy_diff <- x - y
   xy_sum <- x + y
   keep <- xy_sum != 0
@@ -507,8 +507,10 @@ minkowski <- function(x, y, p = 1) {
 #' @export
 morisita <- function(x, y) {
   # Vegan docs not consistent with the paper, but implementation is correct
+  # nolint start: object_name_linter. Use Nx and Ny to match equations
   Nx <- sum(x)
   Ny <- sum(y)
+  # nolint end
   # Eqn 1
   lambda_x <- sum(x * (x - 1)) / (Nx * (Nx - 1))
   # Eqn 2
@@ -520,8 +522,10 @@ morisita <- function(x, y) {
 #' @rdname morisita
 #' @export
 horn_morisita <- function(x, y) {
+  # nolint start: object_name_linter. Use Nx and Ny to match equations
   Nx <- sum(x)
   Ny <- sum(y)
+  # nolint end
   # Horn defines new lambda estimates in middle of page 420
   lambda_x <- sum(x ^ 2) / (Nx ^ 2)
   lambda_y <- sum(y ^ 2) / (Ny ^ 2)
@@ -628,7 +632,7 @@ cy_dissimilarity <- function(x, y, base = 10, min_value = 0.1) {
   # Substitute individual zeros with 0.1, just like vegan
   x <- ifelse(x > min_value, x, min_value)
   y <- ifelse(y > min_value, y, min_value)
-  N <- length(x)
+  N <- length(x) # nolint: object_name_linter. Use N to match equation
   xy_sum <- x + y
   t1 <- xy_sum * log(xy_sum / 2, base = base)
   t2 <- x * log(y, base = base)
@@ -980,6 +984,8 @@ abundance_sorenson <- function(x, y) {
   1 - 2 * u * v / (u + v)
 }
 
+# nolint start: commented_code_linter.
+
 # Scipy notes:
 # # Distance functions for continuous vectors
 # braycurtis implemented as bray_curtis
@@ -1170,3 +1176,4 @@ abundance_sorenson <- function(x, y) {
 # S_27 (Raup-Crick p-value) not implemented
 # Skip rest of Q-mode similarity for now
 
+# nolint end

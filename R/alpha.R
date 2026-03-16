@@ -195,6 +195,7 @@ kempton_taylor_q <- function(x, lower_quantile = 0.25, upper_quantile = 0.75) {
 #' margalef(x)
 #' @export
 margalef <- function(x) {
+  # nolint start: commented_code_linter.
   # Margalef is based on the slope of the species-area curve as proposed by
   # Gleason (1922), where the number of species increases with the log of the
   # area. Here, the number of individuals, n, is a stand-in for the area. The
@@ -207,7 +208,7 @@ margalef <- function(x) {
   # When we only observe one individual, we don't know the slope. Numerically,
   # we encounter zero divided by zero, so we expect NaN as a result. This is
   # what R returns.
-  # When we observe no individuals, we also dont't know the slope. Numerically,
+  # When we observe no individuals, we also don't know the slope. Numerically,
   # we encounter negative one over negative infinity, which R interprets as
   # zero. However, if we return to the original equation, we see that z must be
   # a number that multiplies negative infinity to produce negative one. Zero
@@ -216,6 +217,7 @@ margalef <- function(x) {
   # The quantity z is undefined at n = 1, and we also consider it to be
   # undefined at n = 0. Therefore, we take special care to return NaN when
   # n = 0.
+  # nolint end
   s <- sum(x > 0)
   n <- sum(x)
   if (n == 0) {
@@ -227,9 +229,9 @@ margalef <- function(x) {
 
 #' McIntosh dominance index D
 #' @param x A numeric vector of species counts.
-#' @return The McIntosh dominance index, \eqn{0 \leq D < 1}. The index is undefined
-#'   when the total number of counts is 1 or 0, in which case we return
-#'   \code{NaN}.
+#' @return The McIntosh dominance index, \eqn{0 \leq D < 1}. The index is
+#'   undefined when the total number of counts is 1 or 0, in which case we
+#'   return \code{NaN}.
 #' @details
 #' For a vector \code{x} of raw species counts, the McIntosh dominance index is
 #' defined as \deqn{D = \frac{N - U}{N - \sqrt{N}},} where \eqn{N} is the total
@@ -397,11 +399,11 @@ richness <- function(x) {
 #' pielou_e(x)
 #' shannon(x) / log(richness(x))
 #' @export
-shannon <- function(x, base=exp(1)) {
+shannon <- function(x, base = exp(1)) {
   p <- x / sum(x)
   # By convention, 0 * log(0) = 0
   p_is_defined_and_zero <- (p == 0) %in% TRUE
-  p_logp <- ifelse(p_is_defined_and_zero, 0, p * log(p, base=base))
+  p_logp <- ifelse(p_is_defined_and_zero, 0, p * log(p, base = base))
   -sum(p_logp)
 }
 
