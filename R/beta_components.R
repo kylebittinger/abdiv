@@ -15,7 +15,7 @@ NULL
 
 #' @rdname jaccard_components
 #' @export
-jaccard_turnover <- function (x, y) {
+jaccard_turnover <- function(x, y) {
     x <- x > 0
     y <- y > 0
     a <- sum(x & y)
@@ -26,7 +26,7 @@ jaccard_turnover <- function (x, y) {
 
 #' @rdname jaccard_components
 #' @export
-jaccard_nestedness <- function (x, y) {
+jaccard_nestedness <- function(x, y) {
   x <- x > 0
   y <- y > 0
   jaccard(x, y) - jaccard_turnover(x, y)
@@ -34,7 +34,7 @@ jaccard_nestedness <- function (x, y) {
 
 #' @rdname jaccard_components
 #' @export
-sorenson_turnover <- function (x, y) {
+sorenson_turnover <- function(x, y) {
   x <- x > 0
   y <- y > 0
   a <- sum(x & y)
@@ -45,7 +45,7 @@ sorenson_turnover <- function (x, y) {
 
 #' @rdname jaccard_components
 #' @export
-sorenson_nestedness <- function (x, y) {
+sorenson_nestedness <- function(x, y) {
   x <- x > 0
   y <- y > 0
   sorenson(x, y) - sorenson_turnover(x, y)
@@ -70,7 +70,7 @@ NULL
 
 #' @rdname bray_curtis_components
 #' @export
-bray_curtis_balanced <- function (x, y) {
+bray_curtis_balanced <- function(x, y) {
   # Check implementation between papers
   minxy <- pmin(x, y)
   A <- sum(minxy)
@@ -81,13 +81,13 @@ bray_curtis_balanced <- function (x, y) {
 
 #' @rdname bray_curtis_components
 #' @export
-bray_curtis_gradient <- function (x, y) {
+bray_curtis_gradient <- function(x, y) {
   bray_curtis(x, y) - bray_curtis_balanced(x, y)
 }
 
 #' @rdname bray_curtis_components
 #' @export
-ruzicka_balanced <- function (x, y) {
+ruzicka_balanced <- function(x, y) {
   # Double check implementation between papers
   minxy <- pmin(x, y)
   A <- sum(minxy)
@@ -98,7 +98,7 @@ ruzicka_balanced <- function (x, y) {
 
 #' @rdname bray_curtis_components
 #' @export
-ruzicka_gradient <- function (x, y) {
+ruzicka_gradient <- function(x, y) {
   ruzicka(x, y) - ruzicka_balanced(x, y)
 }
 
@@ -152,7 +152,7 @@ NULL
 
 #' @rdname unifrac_components
 #' @export
-unweighted_unifrac_turnover <- function (x, y, tree, xy_labels = NULL) {
+unweighted_unifrac_turnover <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -169,7 +169,7 @@ unweighted_unifrac_turnover <- function (x, y, tree, xy_labels = NULL) {
 
 #' @rdname unifrac_components
 #' @export
-unweighted_unifrac_nestedness <- function (x, y, tree, xy_labels = NULL) {
+unweighted_unifrac_nestedness <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -187,7 +187,7 @@ unweighted_unifrac_nestedness <- function (x, y, tree, xy_labels = NULL) {
 
 #' @rdname unifrac_components
 #' @export
-phylosor_turnover <- function (x, y, tree, xy_labels = NULL) {
+phylosor_turnover <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -203,7 +203,7 @@ phylosor_turnover <- function (x, y, tree, xy_labels = NULL) {
 
 #' @rdname unifrac_components
 #' @export
-phylosor_nestedness <- function (x, y, tree, xy_labels = NULL) {
+phylosor_nestedness <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)

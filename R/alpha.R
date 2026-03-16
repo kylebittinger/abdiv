@@ -19,7 +19,7 @@
 #' x <- c(15, 6, 4, 0, 3, 0)
 #' berger_parker_d(x) # 15 / 28
 #' @export
-berger_parker_d <- function (x) {
+berger_parker_d <- function(x) {
   max(x) / sum(x)
 }
 
@@ -91,31 +91,31 @@ berger_parker_d <- function (x) {
 #' simpson_e(x)
 #' 1 / (dominance(x) * richness(x))
 #' @export
-simpson <- function (x) {
+simpson <- function(x) {
   p <- x / sum(x)
   1 - sum(p ** 2)
 }
 
 #' @rdname simpson
 #' @export
-dominance <- function (x) {
+dominance <- function(x) {
   p <- x / sum(x)
   sum(p ** 2)
 }
 
 #' @rdname simpson
 #' @export
-invsimpson <- function (x) {
+invsimpson <- function(x) {
   p <- x / sum(x)
   1 / sum(p ** 2)
 }
 
 #' @rdname simpson
 #' @export
-simpson_e <- function (x) {
+simpson_e <- function(x) {
   p <- x / sum(x)
-  D <- sum(p ** 2)
-  S <- sum(x > 0)
+  D <- sum(p ** 2) # nolint
+  S <- sum(x > 0) # nolint
   1 / (D * S)
 }
 
@@ -158,7 +158,7 @@ simpson_e <- function (x) {
 #' Kempton RA, Taylor LR. Models and statistics for species diversity. Nature.
 #' 1976;262:818-820.
 #' @export
-kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
+kempton_taylor_q <- function(x, lower_quantile = 0.25, upper_quantile = 0.75) {
   # I'm sure there is a better way to do this with R's quantile function,
   # but not sure how to guarantee that the result always replicates the one
   # obtained via this algorithm.
@@ -194,7 +194,7 @@ kempton_taylor_q <- function (x, lower_quantile=0.25, upper_quantile=0.75) {
 #' x <- c(15, 6, 4, 0, 3, 0)
 #' margalef(x)
 #' @export
-margalef <- function (x) {
+margalef <- function(x) {
   # Margalef is based on the slope of the species-area curve as proposed by
   # Gleason (1922), where the number of species increases with the log of the
   # area. Here, the number of individuals, n, is a stand-in for the area. The
@@ -246,7 +246,7 @@ margalef <- function (x) {
 #' x <- c(15, 6, 4, 0, 3, 0)
 #' mcintosh_d(x)
 #' @export
-mcintosh_d <- function (x) {
+mcintosh_d <- function(x) {
   # Equation 4
   n <- sum(x)
   u <- sqrt(sum(x ^ 2))
@@ -275,7 +275,7 @@ mcintosh_d <- function (x) {
 #' x <- c(15, 6, 4, 0, 3, 0)
 #' mcintosh_e(x)
 #' @export
-mcintosh_e <- function (x) {
+mcintosh_e <- function(x) {
   n <- sum(x)
   s <- sum(x > 0)
   numerator <- sqrt(sum(x ^ 2))
@@ -300,7 +300,7 @@ mcintosh_e <- function (x) {
 #' x <- c(15, 6, 4, 0, 3, 0)
 #' menhinick(x)
 #' @export
-menhinick <- function (x) {
+menhinick <- function(x) {
   n <- sum(x)
   s <- sum(x > 0)
   s / sqrt(n)
@@ -320,7 +320,7 @@ menhinick <- function (x) {
 #' x <- c(15, 6, 4, 0, 3, 0)
 #' richness(x) # 4
 #' @export
-richness <- function (x) {
+richness <- function(x) {
   sum(x > 0)
 }
 
@@ -397,7 +397,7 @@ richness <- function (x) {
 #' pielou_e(x)
 #' shannon(x) / log(richness(x))
 #' @export
-shannon <- function (x, base=exp(1)) {
+shannon <- function(x, base=exp(1)) {
   p <- x / sum(x)
   # By convention, 0 * log(0) = 0
   p_is_defined_and_zero <- (p == 0) %in% TRUE
@@ -407,7 +407,7 @@ shannon <- function (x, base=exp(1)) {
 
 #' @rdname shannon
 #' @export
-brillouin_d <- function (x) {
+brillouin_d <- function(x) {
   n <- sum(x)
   nz <- x[x > 0]
   (lfactorial(n) - sum(lfactorial(nz))) / n
@@ -415,7 +415,7 @@ brillouin_d <- function (x) {
 
 #' @rdname shannon
 #' @export
-heip_e <- function (x) {
+heip_e <- function(x) {
   s <- sum(x > 0)
   h <- shannon(x)
   (exp(h) - 1) / (s - 1)
@@ -423,7 +423,7 @@ heip_e <- function (x) {
 
 #' @rdname shannon
 #' @export
-pielou_e <- function (x) {
+pielou_e <- function(x) {
   h <- shannon(x)
   s <- sum(x > 0)
   h / log(s)
@@ -451,7 +451,7 @@ pielou_e <- function (x) {
 #' x <- c(9, 0, 1, 2, 5, 2, 1, 1, 0, 7, 2, 1, 0, 1, 1)
 #' strong(x)
 #' @export
-strong <- function (x) {
+strong <- function(x) {
   n <- sum(x)
   s <- sum(x > 0)
   sorted_sum <- cumsum(sort(x, decreasing = TRUE))

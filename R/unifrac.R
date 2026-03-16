@@ -1,16 +1,16 @@
 # Matrix of branches (rows) vs. leaves (columns)
 # Can be used to find the nodes to add up for each branch.
-make_edge_matrix <- function (tree) {
+make_edge_matrix <- function(tree) {
   edge_nodes <- tree$edge[,2]
   np <- ape::nodepath(tree)
-  do.call(cbind, lapply(np, function (x) as.integer(edge_nodes %in% x)))
+  do.call(cbind, lapply(np, function(x) as.integer(edge_nodes %in% x)))
 }
 
-get_branch_abundances <- function (edge_matrix, node_abundances) {
+get_branch_abundances <- function(edge_matrix, node_abundances) {
   as.numeric(edge_matrix %*% node_abundances)
 }
 
-check_tree <- function (tree) {
+check_tree <- function(tree) {
   if (is.null(tree$edge.length)) {
     stop("Tree has no branch lengths")
   }
@@ -35,7 +35,7 @@ check_tree <- function (tree) {
 #'       \code{x}.
 #'   }
 #' @export
-match_to_tree <- function (x, tree, x_labels = NULL) {
+match_to_tree <- function(x, tree, x_labels = NULL) {
   tree_labels <- tree$tip.label
   x_labels_are_provided <- !is.null(x_labels)
   if (x_labels_are_provided) {
@@ -100,7 +100,7 @@ match_to_tree <- function (x, tree, x_labels = NULL) {
 #' faith_pd(c(d=10, e=12), faith_tree)
 #' faith_pd(c(10, 12), faith_tree, c("d", "e"))
 #' @export
-faith_pd <- function (x, tree, x_labels = NULL) {
+faith_pd <- function(x, tree, x_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, x_labels)
   em <- make_edge_matrix(tree)
@@ -221,7 +221,7 @@ NULL
 
 #' @rdname unifrac
 #' @export
-unweighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
+unweighted_unifrac <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -240,7 +240,7 @@ unweighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
 
 #' @rdname unifrac
 #' @export
-weighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
+weighted_unifrac <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -255,7 +255,7 @@ weighted_unifrac <- function (x, y, tree, xy_labels = NULL) {
 
 #' @rdname unifrac
 #' @export
-weighted_normalized_unifrac <- function (x, y, tree, xy_labels = NULL) {
+weighted_normalized_unifrac <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -270,7 +270,7 @@ weighted_normalized_unifrac <- function (x, y, tree, xy_labels = NULL) {
 
 #' @rdname unifrac
 #' @export
-variance_adjusted_unifrac <- function (x, y, tree, xy_labels = NULL) {
+variance_adjusted_unifrac <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -297,7 +297,7 @@ variance_adjusted_unifrac <- function (x, y, tree, xy_labels = NULL) {
 
 #' @rdname unifrac
 #' @export
-generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
+generalized_unifrac <- function(x, y, tree, alpha = 0.5, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -318,7 +318,7 @@ generalized_unifrac <- function (x, y, tree, alpha = 0.5, xy_labels = NULL) {
 
 #' @rdname unifrac
 #' @export
-information_unifrac <- function (x, y, tree, xy_labels = NULL) {
+information_unifrac <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
@@ -329,13 +329,13 @@ information_unifrac <- function (x, y, tree, xy_labels = NULL) {
   px <- get_branch_abundances(em, x)
   py <- get_branch_abundances(em, y)
   # log(0) produces infinities; p * log(p) must be zero for formula to work
-  plogp <- function (p) ifelse((p == 0) %in% TRUE, 0, p * log(p))
+  plogp <- function(p) ifelse((p == 0) %in% TRUE, 0, p * log(p))
   sum(b * abs(plogp(px) - plogp(py))) / sum(b)
 }
 
 #' @rdname unifrac
 #' @export
-phylosor <- function (x, y, tree, xy_labels = NULL) {
+phylosor <- function(x, y, tree, xy_labels = NULL) {
   check_tree(tree)
   x <- match_to_tree(x, tree, xy_labels)
   y <- match_to_tree(y, tree, xy_labels)
