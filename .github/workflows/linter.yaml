@@ -15,12 +15,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Lint Code Base
-        uses: github/super-linter@v7
+      - name: Super-linter
+        uses: super-linter/super-linter@v8
         env:
-          VALIDATE_ALL_CODEBASE: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          VALIDATE_ALL_CODEBASE: true
           VALIDATE_R_LINTR: true
-
           FILTER_REGEX_INCLUDE: R/.*|tests/.*\.R
