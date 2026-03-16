@@ -2,30 +2,44 @@ context("unifrac")
 
 # Code for trees generated in tools/make-unifrac-trees.R
 
-t_no_branch_lengths <- structure(
-  list(edge = structure(c(6L, 7L, 8L, 9L, 9L, 8L, 6L,
-  10L, 10L, 7L, 8L, 9L, 1L, 2L, 3L, 10L, 4L, 5L), .Dim = c(9L,
-  2L)), Nnode = 5L, tip.label = c("OTU1", "OTU2", "OTU3", "OTU4",
-  "OTU5")), .Names = c("edge", "Nnode", "tip.label"), class = "phylo",
-  order = "cladewise")
+t_no_branch_lengths <- list(
+  edge = matrix(
+    c(6, 7, 8, 9, 9, 8, 6, 10, 10, 7, 8, 9, 1, 2, 3, 10, 4, 5),
+    ncol = 2
+  ),
+  Nnode = 5,
+  tip.label = c("OTU1", "OTU2", "OTU3", "OTU4", "OTU5")
+)
 
-skbio_t1 <- structure(list(edge = structure(c(6L, 7L, 8L, 9L, 10L, 10L, 9L,
-  7L, 11L, 11L, 7L, 8L, 9L, 10L, 1L, 2L, 3L, 11L, 4L, 5L), .Dim = c(10L,
-  2L)), edge.length = c(0, 0, 1, 0.5, 0.5, 0.5, 1, 1.25, 0.75,
-  0.75), Nnode = 6L, node.label = c("root", "", "", "", "", ""),
-  tip.label = c("OTU1", "OTU2", "OTU3", "OTU4", "OTU5")), .Names = c("edge",
-  "edge.length", "Nnode", "node.label", "tip.label"), class = "phylo",
-  order = "cladewise")
+skbio_t1 <- list(
+  edge = matrix(
+    c(6, 7, 8, 9, 10, 10, 9, 7, 11, 11, 7, 8, 9, 10, 1, 2, 3, 11, 4, 5),
+    ncol = 2
+  ),
+  edge.length = c(0, 0, 1, 0.5, 0.5, 0.5, 1, 1.25, 0.75, 0.75),
+  Nnode = 6L,
+  node.label = c("root", "", "", "", "", ""),
+  tip.label = c("OTU1", "OTU2", "OTU3", "OTU4", "OTU5")
+)
+class(skbio_t1) <- "phylo"
 
-skbio_minimal <- structure(list(edge = structure(c(3L, 3L, 1L, 2L), .Dim = c(2L,
-  2L)), edge.length = c(0.25, 0.25), Nnode = 1L, node.label = "root",
-  tip.label = c("OTU1", "OTU2")), class = "phylo", order = "cladewise")
+skbio_minimal <- list(
+  edge = matrix(c(3, 3, 1, 2), ncol = 2),
+  edge.length = c(0.25, 0.25),
+  Nnode = 1L,
+  node.label = "root",
+  tip.label = c("OTU1", "OTU2")
+)
+class(skbio_minimal) <- "phylo"
 
-skbio_unobs_root <- structure(list(edge = structure(c(5L, 6L, 6L, 5L, 7L, 7L,
-  6L, 1L, 2L, 7L, 3L, 4L), .Dim = c(6L, 2L)), edge.length = c(0.3,
-  0.1, 0.2, 1.1, 0.5, 0.7), Nnode = 3L, node.label = c("root",
-  "", ""), tip.label = c("OTU1", "OTU2", "OTU3", "OTU4")), class = "phylo",
-  order = "cladewise")
+skbio_unobs_root <- list(
+  edge = matrix(c(5L, 6L, 6L, 5L, 7L, 7L, 6L, 1L, 2L, 7L, 3L, 4L), ncol = 2),
+  edge.length = c(0.3, 0.1, 0.2, 1.1, 0.5, 0.7),
+  Nnode = 3L,
+  node.label = c("root", "", ""),
+  tip.label = c("OTU1", "OTU2", "OTU3", "OTU4")
+)
+class(skbio_unobs_root) <- "phylo"
 
 b0 <- c(1, 3, 0, 1, 0)
 b1 <- c(0, 2, 0, 4, 4)
@@ -36,28 +50,36 @@ b5 <- c(0, 0, 0, 3, 5)
 
 test_that("match_to_tree generates errors correctly", {
   expect_error(
-    match_to_tree(c(1,0,5), skbio_t1),
-    "Length of")
+    match_to_tree(c(1, 0, 5), skbio_t1),
+    "Length of"
+  )
   expect_error(
-    match_to_tree(c(1,0,5), skbio_t1, c("OTU1", "OTU2", "asdf")),
-    "not found in tree")
+    match_to_tree(c(1, 0, 5), skbio_t1, c("OTU1", "OTU2", "asdf")),
+    "not found in tree"
+  )
   expect_error(
     match_to_tree(c(OTU1 = 1, OTU2 = 0, asdf = 5), skbio_t1),
-    "not found in tree")
+    "not found in tree"
+  )
   expect_error(
     match_to_tree(c(1, 0, 5), skbio_t1, c("OTU1", "OTU2")),
-    "length of x_labels")
+    "length of x_labels"
+  )
 })
 
 test_that("match_to_tree re-arranges input vectors to match tree", {
   expect_equal(
-    match_to_tree(c(1,8,3), skbio_t1, c("OTU1", "OTU2", "OTU5")),
-    c(1, 8, 0, 0, 3))
+    match_to_tree(c(1, 8, 3), skbio_t1, c("OTU1", "OTU2", "OTU5")),
+    c(1, 8, 0, 0, 3)
+  )
   expect_equal(
     match_to_tree(c(OTU1 = 1, OTU2 = 8, OTU5 = 3), skbio_t1),
-    c(1, 8, 0, 0, 3))
+    c(1, 8, 0, 0, 3)
+  )
   expect_equal(
-    match_to_tree(c(1, 8, 0, 0, 3), skbio_t1), c(1, 8, 0, 0, 3))
+    match_to_tree(c(1, 8, 0, 0, 3), skbio_t1),
+    c(1, 8, 0, 0, 3)
+  )
 })
 
 test_that("Tree with no branch length generates errors", {
@@ -80,7 +102,9 @@ test_that("Input vectors are rearranged with keyword argument", {
   expect_equal(weighted_unifrac(rb0, rb1, skbio_t1, rlabel), 2.4)
   expect_equal(weighted_normalized_unifrac(rb0, rb1, skbio_t1, rlabel), 0.6)
   expect_equal(
-    generalized_unifrac(rb0, rb1, skbio_t1, 0, rlabel), 0.647619047619048)
+    generalized_unifrac(rb0, rb1, skbio_t1, 0, rlabel),
+    0.647619047619048
+  )
   expect_equal(information_unifrac(rb0, rb1, skbio_t1, rlabel), 0.1394037899)
 })
 

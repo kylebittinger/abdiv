@@ -1,5 +1,7 @@
 context("beta diversity components")
 
+# nolint start: object_name_linter. Using variable names from extrnal sources
+
 test_that("Components match examples from betapart", {
   # Examples run with betapart 1.5.1
   AL <- c(
@@ -42,7 +44,8 @@ test_that("Components match examples from betapart", {
     0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
     1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0)
+    0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0
+  )
   AT <- c(
     1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0,
     0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0,
@@ -83,7 +86,8 @@ test_that("Components match examples from betapart", {
     1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0,
     0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0)
+    0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0
+  )
   expect_equal(sorenson_nestedness(AL, AT), 0.1080251572)
   expect_equal(sorenson_turnover(AL, AT), 0.2893081761)
   expect_equal(sorenson(AL, AT), 0.3973333333)
@@ -107,7 +111,8 @@ test_that("Components match examples from betapart", {
     1, 11, 0, 3, 0, 0, 0, 0, 14, 3, 0, 1, 15, 0, 1,
     0, 1, 2, 1, 3, 1, 0, 1, 1, 9, 6, 0, 1, 1, 0, 5,
     0, 1, 0, 0, 3, 0, 0, 0, 18, 0, 0, 2, 1, 0, 1,
-    0, 17, 4, 0, 0, 1, 3, 0, 2, 0, 0)
+    0, 17, 4, 0, 0, 1, 3, 0, 2, 0, 0
+  )
   BCI2 <- c(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 26, 0, 0, 0, 0,
     12, 0, 0, 2, 0, 1, 0, 5, 2, 0, 2, 0, 1, 0, 0,
     1, 0, 0, 5, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0,
@@ -122,7 +127,8 @@ test_that("Components match examples from betapart", {
     0, 0, 12, 0, 2, 0, 0, 0, 0, 6, 2, 0, 0, 22, 0,
     1, 0, 1, 0, 2, 3, 4, 1, 0, 2, 5, 1, 0, 0, 0, 0,
     7, 0, 1, 0, 1, 1, 0, 0, 1, 27, 0, 0, 0, 1, 1,
-    5, 0, 12, 3, 0, 0, 0, 4, 0, 2, 0, 0)
+    5, 0, 12, 3, 0, 0, 0, 4, 0, 2, 0, 0
+  )
   expect_equal(bray_curtis_balanced(BCI1, BCI2), 0.2597701149)
   expect_equal(bray_curtis_gradient(BCI1, BCI2), 0.0108980617)
   expect_equal(bray_curtis(BCI1, BCI2), 0.2706681767)
@@ -360,3 +366,5 @@ test_that("Beta diversity components are correct for empty vectors", {
   expect_identical(phylosor_nestedness(x, y, faith_tree), NaN)
   expect_identical(phylosor_turnover(x, y, faith_tree), NaN)
 })
+
+# nolint end
